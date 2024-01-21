@@ -1,3 +1,4 @@
+import 'package:candela_maker/src/features/home/home_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'src/features/vip_payment/vip_payment_screen.dart';
@@ -13,6 +14,8 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: VIPPaymentScreen(),);
+      debugShowCheckedModeBanner: false,
+      home: HomeScreen(),
+    );
   }
 }
