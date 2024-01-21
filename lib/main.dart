@@ -1,3 +1,9 @@
+import 'package:candela_maker/src/features/membership_level/membership_level.dart';
+import 'package:candela_maker/src/features/register/register4.dart';
+import 'package:candela_maker/src/features/register/register5.dart';
+import 'package:candela_maker/src/features/spalsh_screen/splash_screen.dart';
+import 'package:candela_maker/src/features/vip_agreement/vip_agreement_agree.dart';
+import 'package:candela_maker/src/features/vip_agreement/vip_agreement_send_request.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -9,10 +15,11 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Scaffold(
         body: Center(
-          child: Text('Hello World!'),
+          child: VIPAgreementAgree(), 
+          // Text('Hello World!'),
         ),
       ),
     );
