@@ -1,3 +1,4 @@
+import 'package:candela_maker/src/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -5,8 +6,11 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      
+    return Scaffold(
+      backgroundColor: kBgColor,
+      body: Center(
+        child: Image.asset('assets/images/splash-img.png'),
+      ),
     );
   }
 }
