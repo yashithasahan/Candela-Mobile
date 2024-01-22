@@ -8,6 +8,7 @@ class SecondaryButton extends StatelessWidget {
     required this.press,
     required this.width,
   });
+  
   final VoidCallback? press;
   final String text;
   final double width;
