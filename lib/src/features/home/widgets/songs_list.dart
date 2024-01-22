@@ -7,23 +7,21 @@ class SongList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ListView(
-        children: const [
-          SongCard(
-            icon: s1,
-          ),
-          SongCard(
-            icon: s1,
-          ),
-          SongCard(
-            icon: s1,
-          ),
-          SongCard(
-            icon: s1,
-          ),
-        ],
-      ),
+    return ListView(
+      children: const [
+        SongCard(
+          icon: s1,
+        ),
+        SongCard(
+          icon: s1,
+        ),
+        SongCard(
+          icon: s1,
+        ),
+        SongCard(
+          icon: s1,
+        ),
+      ],
     );
   }
 }

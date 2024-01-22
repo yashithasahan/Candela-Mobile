@@ -60,7 +60,7 @@ class MembershipLevel extends StatelessWidget {
                 children: [
                   MembershipLevelDescription(
                       description:
-                          "\ VIP MANAGER - Full Functions & Multi User Vip Manager \$500 per month for every 25 users"),
+                          " VIP MANAGER - Full Functions & Multi User Vip Manager \$500 per month for every 25 users"),
                   MembershipLevelButton(level: "Level 4")
                 ],
               ),

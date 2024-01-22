@@ -1,6 +1,5 @@
-import 'package:candela_maker/src/features/home/home_screen.dart';
+import 'package:candela_maker/src/features/spalsh_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'src/features/vip_payment/vip_payment_screen.dart';
 
 
 void main() {
@@ -14,7 +13,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      home: SplashScreen(),
     );
   }
 }
