@@ -1,9 +1,25 @@
 import 'package:flutter/material.dart';
 
-const kPrimaryColor = Colors.amber;
-const kSecondaryColor = Color(0xFFB74D53);
+const kPrimaryColor = Color(0xFFE6A742);
+const kSecondaryColor = Color(0xFF141414);
 const kBgColor = Colors.black;
 const kTextColor = Colors.white;
-final kShadowColor = const Color(0xFFD3D3D3).withOpacity(.84);
+const kBlackColor = Colors.black;
+final kShadowColor = const Color.fromARGB(17, 211, 211, 211).withOpacity(.84);
 
-const kDefaultPadding = EdgeInsets.symmetric(horizontal: 30);
+const kDefaultPadding = EdgeInsets.symmetric(horizontal: 20);
+
+//Images
+const timerMainImage = 'assets/images/main-timer.png';
+const tapToStop = 'assets/images/svg/tap-2-stop.svg';
+const tapToStart = 'assets/images/svg/tap-2-start.svg';
+const notes = 'assets/images/svg/notes.svg';
+
+// dummy image for songs
+const s1 = 'assets/images/s1.png';
+const s2 = 'assets/images/s2.png';
+const s3 = 'assets/images/s3.png';
+
+// constrains
+const mainPadding = 25.0;
+const secondaryPadding = 18.0;

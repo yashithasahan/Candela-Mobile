@@ -12,9 +12,7 @@ class SplashScreen extends StatelessWidget {
       backgroundColor: kBgColor,
       body: Center(
           child: 
-          // SvgPicture.network('https://upload.wikimedia.org/wikipedia/commons/f/f1/Heart_coraz%C3%B3n.svg'),
           SvgPicture.asset('assets/splash_screen.svg'),
-          // Image.asset("assets/splash_screen/splash_screen.png"),
           ),
     );
   }
