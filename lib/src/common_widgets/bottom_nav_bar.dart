@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/route_manager.dart';
 
 import '../constants/constants.dart';
+import '../features/home/home_screen.dart';
+import '../features/vip_payment/vip_payment_screen.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key, required this.index});
@@ -18,7 +21,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
     setState(() {});
     _selectedIndex = index;
     if (_selectedIndex == 0) {
+      Get.to(() => const HomeScreen());
     } else if (_selectedIndex == 1) {
+      Get.to(() => const VIPPaymentScreen());
     } else if (_selectedIndex == 2) {
     } else if (_selectedIndex == 3) {}
   }
@@ -39,12 +44,18 @@ class _BottomNavBarState extends State<BottomNavBar> {
           ),
           label: 'Payment Record',
         ),
-        const BottomNavigationBarItem(
-          icon: Icon(Icons.library_music_outlined),
+        BottomNavigationBarItem(
+          icon: SvgPicture.asset(
+            'assets/icons/nav-icon-3.svg',
+            width: 35,
+          ),
           label: 'Library',
         ),
-        const BottomNavigationBarItem(
-          icon: Icon(Icons.notifications_outlined),
+        BottomNavigationBarItem(
+          icon: SvgPicture.asset(
+            'assets/icons/nav-icon-4.svg',
+            width: 30,
+          ),
           label: 'Notification',
         ),
       ],

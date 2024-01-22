@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String btnName;
+  final VoidCallback? press;
   const PrimaryButton({
     Key? key,
-    required this.btnName,
+    required this.btnName, this.press,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: press,
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Colors.transparent),
       ),

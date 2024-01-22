@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 import 'package:form_builder_phone_field/form_builder_phone_field.dart';
+import 'package:get/route_manager.dart';
+
+import '../vip_agreement/vip_agreement_send_request.dart';
 
 class Register5 extends StatefulWidget {
   const Register5({super.key});
@@ -113,7 +116,7 @@ class _Register5State extends State<Register5> {
                       FormBuilderImagePicker(
                         previewHeight: 29,
                         placeholderImage:
-                            const AssetImage("assets/upload_photo.png"),
+                            const AssetImage("assets/images/upload_photo.png"),
                         name: "Image",
                         decoration: const InputDecoration(
                           contentPadding: EdgeInsets.only(top: 0.0, left: 10.0),
@@ -156,7 +159,13 @@ class _Register5State extends State<Register5> {
                         ],
                       ),
                       const SizedBox(height: 25),
-                      const PrimaryButton(btnName: "Register")
+                      PrimaryButton(
+                        btnName: "Register",
+                        press: () {
+                          Get.to(() => const VIPAgreementSendRequest());
+                        },
+                      ),
+                      const SizedBox(height: 20),
                     ],
                   ),
                 )

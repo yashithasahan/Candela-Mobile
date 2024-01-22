@@ -1,4 +1,4 @@
-import 'package:candela_maker/src/common_widgets/secondary_button.dart';
+import 'package:candela_maker/src/common_widgets/outine_button.dart';
 import 'package:flutter/material.dart';
 
 class FourButtons extends StatelessWidget {
@@ -12,15 +12,15 @@ class FourButtons extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SecondaryButton(text: "text", press: () => {}, width: 0.3),
-            SecondaryButton(text: "text", press: () => {}, width: 0.3)
+            OutlineButton(text: "\$ 35", press: () => {}, width: 0.3),
+            OutlineButton(text: "Timer ", press: () => {}, width: 0.3)
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SecondaryButton(text: "text", press: () => {}, width: 0.3),
-            SecondaryButton(text: "text", press: () => {}, width: 0.3)
+            OutlineButton(text: "Songs", press: () => {}, width: 0.3),
+            OutlineButton(text: "Total", press: () => {}, width: 0.3)
           ],
         )
       ],

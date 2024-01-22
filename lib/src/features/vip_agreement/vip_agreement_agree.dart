@@ -1,6 +1,10 @@
 import 'package:candela_maker/src/constants/constants.dart';
 import 'package:candela_maker/src/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
+
+import '../../common_widgets/bottom_nav_bar.dart';
+import '../home/home_screen.dart';
 
 class VIPAgreementAgree extends StatefulWidget {
   const VIPAgreementAgree({super.key});
@@ -30,22 +34,22 @@ class _VIPAgreementAgreeState extends State<VIPAgreementAgree> {
                   ),
                 ),
                 const SizedBox(height: 25),
-                Image.asset("assets/vip_agreement4_image.png"),
+                Image.asset("assets/images/vip_agreement4_image.png"),
                 const SizedBox(height: 30),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 15),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 21, vertical: 15),
                   width: MediaQuery.of(context).size.width,
-                  decoration:  BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFFF39D1F),
-                        Color(0xFFFD8C67),
-                      ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),
-                    borderRadius: BorderRadius.circular(5)
-                  ),
+                  decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [
+                          Color(0xFFF39D1F),
+                          Color(0xFFFD8C67),
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                      borderRadius: BorderRadius.circular(5)),
                   child: const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -67,11 +71,17 @@ class _VIPAgreementAgreeState extends State<VIPAgreementAgree> {
                   ),
                 ),
                 const SizedBox(height: 65),
-                const PrimaryButton(btnName: "Agree"),
+                PrimaryButton(
+                  btnName: "Agree",
+                  press: () {
+                    Get.to(() => const HomeScreen());
+                  },
+                ),
               ],
             ),
           ),
         ),
+        bottomNavigationBar: const BottomNavBar(index: 0),
       ),
     );
   }

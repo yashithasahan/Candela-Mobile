@@ -1,6 +1,9 @@
 import 'package:candela_maker/src/constants/constants.dart';
 import 'package:flutter/material.dart';
 
+import 'widgets/report_box.dart';
+import 'widgets/report_row.dart';
+
 class VIPReportScreen extends StatefulWidget {
   const VIPReportScreen({super.key});
 
@@ -198,70 +201,5 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
   }
 }
 
-class ReportRow extends StatelessWidget {
-  final String text;
-  final String subText;
-  final Color textColor;
-  const ReportRow({
-    super.key,
-    required this.text,
-    required this.subText,
-    required this.textColor,
-  });
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          text,
-          style: TextStyle(color: textColor, fontSize: 20),
-        ),
-        Text(
-          subText,
-          style: TextStyle(color: textColor, fontSize: 20),
-        ),
-      ],
-    );
-  }
-}
 
-class ReportBox extends StatelessWidget {
-  final String text;
-  final String? subText;
-  const ReportBox({
-    super.key,
-    required this.text,
-    this.subText,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            border: Border.all(color: kTextColor),
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  text,
-                  style: const TextStyle(color: kTextColor),
-                ),
-                Text(
-                  subText ?? '',
-                  style: const TextStyle(color: kTextColor),
-                ),
-              ],
-            ),
-          )),
-    );
-  }
-}
