@@ -3,12 +3,17 @@ import 'package:candela_maker/src/widgets/input_field_title.dart';
 import 'package:candela_maker/src/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:get/route_manager.dart';
+
+import '../../common_widgets/bottom_nav_bar.dart';
+import 'vip_agreement_agree.dart';
 
 class VIPAgreementSendRequest extends StatefulWidget {
   const VIPAgreementSendRequest({super.key});
 
   @override
-  State<VIPAgreementSendRequest> createState() => _VIPAgreementSendRequestState();
+  State<VIPAgreementSendRequest> createState() =>
+      _VIPAgreementSendRequestState();
 }
 
 class _VIPAgreementSendRequestState extends State<VIPAgreementSendRequest> {
@@ -36,13 +41,10 @@ class _VIPAgreementSendRequestState extends State<VIPAgreementSendRequest> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const SizedBox(height: 25),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Image.asset("assets/vip_agreement3_image1.png"),
-                        Image.asset("assets/vip_agreement3_image2.png"),
-                        Image.asset("assets/vip_agreement3_image3.png"),
-                      ],
+                    Center(
+                      child: Image.asset(
+                        "assets/images/agreement-img.png",
+                      ),
                     ),
                     const InputTitle(title: "Performer"),
                     const SizedBox(height: 9),
@@ -65,13 +67,19 @@ class _VIPAgreementSendRequestState extends State<VIPAgreementSendRequest> {
                       ),
                     ),
                     const SizedBox(height: 45),
-                    const PrimaryButton(btnName: "Send Request"),
+                    PrimaryButton(
+                      btnName: "Send Request",
+                      press: () {
+                        Get.to(() => const VIPAgreementAgree());
+                      },
+                    ),
                   ],
                 )
               ],
             ),
           ),
         ),
+        bottomNavigationBar: const BottomNavBar(index: 0),
       ),
     );
   }

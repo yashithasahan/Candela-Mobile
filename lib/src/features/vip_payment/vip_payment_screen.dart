@@ -1,8 +1,11 @@
 import 'package:candela_maker/src/common_widgets/primary_button.dart';
 import 'package:candela_maker/src/constants/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 
 import '../../common_widgets/bottom_nav_bar.dart';
+import 'widgets/payment_box.dart';
+import 'widgets/total_box.dart';
 
 class VIPPaymentScreen extends StatelessWidget {
   const VIPPaymentScreen({super.key});
@@ -13,6 +16,7 @@ class VIPPaymentScreen extends StatelessWidget {
       backgroundColor: kBgColor,
       appBar: AppBar(
         forceMaterialTransparency: true,
+        automaticallyImplyLeading: false,
         centerTitle: true,
         foregroundColor: kTextColor,
         title: const Text(
@@ -81,8 +85,10 @@ class VIPPaymentScreen extends StatelessWidget {
                                 context: context,
                                 builder: (BuildContext context) => AlertDialog(
                                   backgroundColor: kBlackColor,
-                                  contentPadding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
-                                  actionsPadding: const EdgeInsets.only(bottom: 40),
+                                  contentPadding:
+                                      const EdgeInsets.fromLTRB(20, 50, 20, 20),
+                                  actionsPadding:
+                                      const EdgeInsets.only(bottom: 40),
                                   content: const Text(
                                     '\$10 amount added as tip. Are you sure?',
                                     textAlign: TextAlign.center,
@@ -93,7 +99,9 @@ class VIPPaymentScreen extends StatelessWidget {
                                     Center(
                                       child: PrimaryButton(
                                           text: 'YES',
-                                          press: () {},
+                                          press: () {
+                                            Get.back();
+                                          },
                                           width: 0.5),
                                     )
                                   ],
@@ -116,77 +124,6 @@ class VIPPaymentScreen extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: const BottomNavBar(index: 0),
-    );
-  }
-}
-
-class TotalBox extends StatelessWidget {
-  const TotalBox({
-    super.key,
-    required this.width,
-    required this.fontSize,
-  });
-
-  final double width;
-  final double fontSize;
-
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-      width: size.width * width,
-      decoration: BoxDecoration(
-          border: Border.all(color: kTextColor),
-          borderRadius: BorderRadius.circular(5)),
-      child: Center(
-        child: Text(
-          '\$ 89',
-          style: TextStyle(color: kTextColor, fontSize: fontSize),
-        ),
-      ),
-    );
-  }
-}
-
-class PaymentBox extends StatelessWidget {
-  final String text;
-  final String? subText;
-  const PaymentBox({
-    super.key,
-    required this.text,
-    this.subText,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: kSecondaryColor,
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(30, 15, 40, 15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                text,
-                style: const TextStyle(
-                    color: kTextColor, fontWeight: FontWeight.bold),
-              ),
-              Text(
-                subText ?? '',
-                style: const TextStyle(
-                    color: kTextColor, fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }

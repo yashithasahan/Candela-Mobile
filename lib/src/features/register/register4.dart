@@ -105,7 +105,7 @@ class _Register4State extends State<Register4> {
                       FormBuilderImagePicker(
                         previewHeight: 29,
                         placeholderImage:
-                            const AssetImage("assets/upload_photo.png"),
+                            const AssetImage("assets/images/upload_photo.png"),
                         name: "Image",
                         decoration: const InputDecoration(
                           contentPadding: EdgeInsets.only(top: 0.0, left: 10.0),
