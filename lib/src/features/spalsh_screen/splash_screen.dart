@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:candela_maker/src/constants/constants.dart';
-import 'package:candela_maker/src/features/register/register5.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+
+import '../membership_level/membership_level.dart';
+import '../register/register5.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -31,7 +33,14 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: kBgColor,
       body: Center(
-        child: Image.asset('assets/images/splash-img.png'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+        
+          children: [
+            Image.asset('assets/images/splash-img.png'),        
+         Image.asset('assets/images/splash-model.png',width: 250,),
+          ],
+        ),
       ),
     );
   }

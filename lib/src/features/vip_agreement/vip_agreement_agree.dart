@@ -34,7 +34,7 @@ class _VIPAgreementAgreeState extends State<VIPAgreementAgree> {
                   ),
                 ),
                 const SizedBox(height: 25),
-                Image.asset("assets/images/vip_agreement4_image.png"),
+                Image.asset("assets/images/vip-agree.png"),
                 const SizedBox(height: 30),
                 Container(
                   padding:

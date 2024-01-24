@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:candela_maker/src/constants/constants.dart';
 import 'package:candela_maker/src/widgets/primary_button.dart';
 import 'package:candela_maker/src/widgets/input_field_title.dart';
@@ -8,6 +10,7 @@ import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 import 'package:form_builder_phone_field/form_builder_phone_field.dart';
 import 'package:get/route_manager.dart';
 
+import '../membership_level/membership_level.dart';
 import '../vip_agreement/vip_agreement_send_request.dart';
 
 class Register5 extends StatefulWidget {
@@ -19,6 +22,21 @@ class Register5 extends StatefulWidget {
 
 class _Register5State extends State<Register5> {
   final _formKey = GlobalKey<FormBuilderState>();
+  Timer? _timer = Timer.periodic(const Duration(seconds: 5), (timer) {});
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(seconds: 30), (timer) {
+      Get.to(() => const MembershipLevel());
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
