@@ -6,9 +6,9 @@ import 'package:candela_maker/src/constants/constants.dart';
 class MembershipLevelDescription extends StatelessWidget {
   final String description;
   const MembershipLevelDescription({
-    Key? key,
+    super.key,
     required this.description,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

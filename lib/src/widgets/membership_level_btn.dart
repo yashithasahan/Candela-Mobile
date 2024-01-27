@@ -8,10 +8,10 @@ class MembershipLevelButton extends StatelessWidget {
   final int level;
   final VoidCallback press;
   const MembershipLevelButton({
-    Key? key,
+    super.key,
     required this.level,
     required this.press,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
