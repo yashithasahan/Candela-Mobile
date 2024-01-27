@@ -4,7 +4,6 @@ import 'package:candela_maker/src/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
-import '../membership_level/membership_level.dart';
 import '../register/register5.dart';
 
 class SplashScreen extends StatefulWidget {
