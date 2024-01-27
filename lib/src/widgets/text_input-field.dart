@@ -5,10 +5,12 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class TextInputField extends StatelessWidget {
   final String name;
+  final String? Function(String?)? validator;
   const TextInputField({
-    Key? key,
+    super.key,
     required this.name,
-  }) : super(key: key);
+    this.validator,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +21,12 @@ class TextInputField extends StatelessWidget {
       ),
       cursorColor: Colors.white,
       name: name,
+      validator: validator,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.only(top: 0.0, left: 10.0),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(5.0),
           borderSide: const BorderSide(
-        
             width: 5.0,
           ),
         ),

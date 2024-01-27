@@ -4,7 +4,9 @@ import 'package:candela_maker/src/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
-import '../register/register5.dart';
+import '../authentication/register/register.dart';
+import '../authentication/services/session_service.dart';
+import '../home/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,17 +16,25 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-    startTimer();
+  String? userId;
+
+  Future getValidationData() async {
+    SessionManagerService.getUserId().then((value) {
+      setState(() {
+        userId = value;
+      });
+    });
   }
 
-  void startTimer() {
-    var duration = const Duration(seconds: 5);
-    Timer(duration, () {
-      Get.to(() => const Register5());
+  @override
+  void initState() {
+    getValidationData().whenComplete(() async {
+      Timer(const Duration(seconds: 3), () {
+        Get.to(
+            () => userId == null ? const Register() : const HomeScreen());
+      });
     });
+    super.initState();
   }
 
   @override
@@ -34,10 +44,12 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-        
           children: [
-            Image.asset('assets/images/splash-img.png'),        
-         Image.asset('assets/images/splash-model.png',width: 250,),
+            Image.asset('assets/images/splash-img.png'),
+            Image.asset(
+              'assets/images/splash-model.png',
+              width: 250,
+            ),
           ],
         ),
       ),
