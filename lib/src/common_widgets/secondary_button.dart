@@ -25,8 +25,10 @@ class SecondaryButton extends StatelessWidget {
         onPressed: press,
         child: Text(
           text,
-          style: const TextStyle(
-              fontSize: 16, color: kBlackColor, fontWeight: FontWeight.w600),
+          style: TextStyle(
+              fontSize: size.width * 0.035,
+              color: kBlackColor,
+              fontWeight: FontWeight.w600),
         ),
       ),
     );

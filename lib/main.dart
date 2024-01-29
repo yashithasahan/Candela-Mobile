@@ -13,7 +13,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final  membershipController = Get.put(MembershipController());
+    Get.put(MembershipController());
     return const GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),

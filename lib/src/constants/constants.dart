@@ -14,6 +14,7 @@ const timerMainImage = 'assets/images/main-timer.png';
 const tapToStop = 'assets/images/svg/tap-2-stop.svg';
 const tapToStart = 'assets/images/svg/tap-2-start.svg';
 const notes = 'assets/images/svg/notes.svg';
+const mainNotes = 'assets/images/svg/main_notes.svg';
 
 // dummy image for songs
 const s1 = 'assets/images/s1.png';

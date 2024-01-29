@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:candela_maker/src/constants/constants.dart';
+import 'package:candela_maker/src/features/membership_level/controller/membership_controller.dart';
 import 'package:candela_maker/src/widgets/primary_button.dart';
 import 'package:candela_maker/src/widgets/input_field_title.dart';
 import 'package:candela_maker/src/widgets/text_input-field.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 import 'package:form_builder_phone_field/form_builder_phone_field.dart';
+import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 
 import '../membership_level/membership_level.dart';
@@ -20,15 +22,20 @@ class Register5 extends StatefulWidget {
   State<Register5> createState() => _Register5State();
 }
 
+
+
 class _Register5State extends State<Register5> {
   final _formKey = GlobalKey<FormBuilderState>();
   Timer? _timer = Timer.periodic(const Duration(seconds: 5), (timer) {});
-
+  final membershipController = Get.put(MembershipController());
   @override
   void initState() {
     super.initState();
     _timer = Timer.periodic(const Duration(seconds: 30), (timer) {
-      Get.to(() => const MembershipLevel());
+      if (membershipController.membershipLevel.value == 0) {
+        Get.to(() => const MembershipLevel());
+      }
+   
     });
   }
 

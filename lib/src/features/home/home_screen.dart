@@ -1,14 +1,18 @@
 import 'package:candela_maker/src/constants/constants.dart';
-import 'package:candela_maker/src/features/home/widgets/four_buttons.dart';
 import 'package:candela_maker/src/features/home/widgets/song_timer.dart';
 import 'package:candela_maker/src/features/home/widgets/songs_list.dart';
 import 'package:flutter/material.dart';
 
 import '../../common_widgets/bottom_nav_bar.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,18 +35,19 @@ class HomeScreen extends StatelessWidget {
           child: Column(
         children: [
           Flexible(
-              flex: 2,
+              flex: 3,
               child: Container(
                 padding: const EdgeInsets.all(mainPadding),
-                child: const Stack(
+                child: const Column(
                   children: [
-                    FourButtons(),
                     SongTimer(),
+              
+                  
                   ],
                 ),
               )),
           Flexible(
-              flex: 3,
+              flex: 2,
               child: Container(
                 padding: const EdgeInsets.all(secondaryPadding),
                 child: const SongList(),
