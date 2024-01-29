@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "575673142347",
+    "project_id": "candela-maker",
+    "storage_bucket": "candela-maker.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:575673142347:android:f3f091c8a290103b8691ce",
+        "android_client_info": {
+          "package_name": "com.example.candela_maker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArH0-HVzH9p1XIXaq8DpYySbSZM47zK3M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
