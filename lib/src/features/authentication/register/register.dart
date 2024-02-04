@@ -12,8 +12,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 import 'package:form_builder_phone_field/form_builder_phone_field.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:get/route_manager.dart';
-
+import 'package:get/get.dart';
 import '../../membership_level/membership_level.dart';
 import '../models/user_model.dart';
 import '../services/auth_service.dart';
@@ -32,6 +31,7 @@ class _RegisterState extends State<Register> {
   Timer? _timer = Timer.periodic(const Duration(seconds: 5), (timer) {});
   bool isLoading = false;
   List<String> membershipOptions = ['Level 1', 'Level 2', 'Level 3', 'Level 4'];
+  final membershipController = Get.put(MembershipController());
 
   @override
   void initState() {
