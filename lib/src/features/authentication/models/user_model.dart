@@ -11,6 +11,7 @@ class UserModel {
   final String? bankAccNumber;
   final String? photoUrl;
   final String? language;
+  final String? songPrice;
 
 
   UserModel({
@@ -26,6 +27,7 @@ class UserModel {
     this.bankAccNumber,
     this.photoUrl,
     this.language,
+    this.songPrice,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -42,6 +44,7 @@ class UserModel {
       bankAccNumber: json['bankAccNumber'],
       photoUrl: json['photoUrl'],
       language: json['language'],
+      songPrice: json['songPrice'],
     
     );
   }
@@ -60,6 +63,7 @@ class UserModel {
       'bankAccNumber': bankAccNumber,
       'photoUrl': photoUrl,
       'language': language,
+      'songPrice': songPrice,
     };
   }
 }

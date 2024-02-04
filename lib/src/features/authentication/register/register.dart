@@ -4,7 +4,8 @@ import 'package:candela_maker/src/constants/constants.dart';
 import 'package:candela_maker/src/features/membership_level/controller/membership_controller.dart';
 import 'package:candela_maker/src/widgets/primary_button.dart';
 import 'package:candela_maker/src/widgets/input_field_title.dart';
-import 'package:candela_maker/src/widgets/text_input-field.dart';
+
+import 'package:candela_maker/src/widgets/text_input_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -13,6 +14,9 @@ import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 import 'package:form_builder_phone_field/form_builder_phone_field.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
+import 'package:get/route_manager.dart';
+
+import '../../membership_level/controller/membership_controller.dart';
 import '../../membership_level/membership_level.dart';
 import '../models/user_model.dart';
 import '../services/auth_service.dart';
@@ -36,12 +40,15 @@ class _RegisterState extends State<Register> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 30), (timer) {
-      if (membershipController.membershipLevel.value == 0) {
+    final membershipController = Get.put(MembershipController());
+    print(membershipController.membershipLevel.value);
+    if (membershipController.membershipLevel.value > 0) {
+      _timer?.cancel();
+    } else {
+      _timer = Timer.periodic(const Duration(seconds: 30), (timer) {
         Get.to(() => const MembershipLevel());
-      }
-   
-    });
+      });
+    }
   }
 
   @override
@@ -55,21 +62,25 @@ class _RegisterState extends State<Register> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: kBgColor,
+        appBar: AppBar(
+          forceMaterialTransparency: true,
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          foregroundColor: kTextColor,
+          title: const Text(
+            "REGISTER",
+            style: TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.w700,
+              color: kPrimaryColor,
+            ),
+          ),
+        ),
         body: SingleChildScrollView(
           child: Padding(
             padding: kDefaultPadding,
             child: Column(
               children: [
-                const SizedBox(height: 25),
-                const Text(
-                  "REGISTER",
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.w700,
-                    color: kPrimaryColor,
-                  ),
-                ),
-                const SizedBox(height: 21),
                 FormBuilder(
                   key: _formKey,
                   child: Column(
@@ -189,6 +200,9 @@ class _RegisterState extends State<Register> {
                       const SizedBox(height: 9),
                       const TextInputField(name: "bankaccountnumber"),
                       const SizedBox(height: 21),
+                      const InputTitle(title: "Set Price per Song"),
+                      const SizedBox(height: 9),
+                      const TextInputField(name: "songprice"),
                       const SizedBox(height: 21),
                       FormBuilderImagePicker(
                         previewHeight: 29,
@@ -292,6 +306,7 @@ class _RegisterState extends State<Register> {
             .toString(),
         photoUrl: "",
         language: _formKey.currentState!.fields['language']!.value.toString(),
+        songPrice: _formKey.currentState!.fields['songprice']!.value.toString(),
       );
 
       await FireStoreService().createUser(usermodel, user);
