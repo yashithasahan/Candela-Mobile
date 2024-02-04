@@ -2,16 +2,39 @@ import 'package:candela_maker/src/common_widgets/primary_button.dart';
 import 'package:candela_maker/src/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
-
 import '../../common_widgets/bottom_nav_bar.dart';
+import '../home/home_screen.dart';
 import 'widgets/payment_box.dart';
 import 'widgets/total_box.dart';
 
-class VIPPaymentScreen extends StatelessWidget {
+class VIPPaymentScreen extends StatefulWidget {
   const VIPPaymentScreen({super.key});
 
   @override
+  State<VIPPaymentScreen> createState() => _VIPPaymentScreenState();
+}
+
+class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
+  final tipController = TextEditingController();
+  int totalPayment = 0;
+  int vipDances = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    tipController.text = '0';
+    totalPayment = vipDances;
+  }
+
+  @override
+  void dispose() {
+    tipController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: kBgColor,
       appBar: AppBar(
@@ -40,20 +63,17 @@ class VIPPaymentScreen extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          const TotalBox(
+          TotalBox(
             width: 0.6,
             fontSize: 26,
+            text: totalPayment.toString(),
           ),
           const SizedBox(
             height: 40,
           ),
-          const PaymentBox(
-            text: 'VIP',
-            subText: '\$ 10',
-          ),
-          const PaymentBox(
-            text: 'Dances',
-            subText: '\$ 79',
+          PaymentBox(
+            text: 'VIP Dances',
+            subText: '\$ ${vipDances.toString()}',
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -73,9 +93,24 @@ class VIPPaymentScreen extends StatelessWidget {
                       style: TextStyle(
                           color: kTextColor, fontWeight: FontWeight.bold),
                     ),
-                    const TotalBox(
-                      width: 0.3,
-                      fontSize: 16,
+                    Container(
+                      width: size.width * 0.25,
+                      height: size.height * 0.05,
+                      decoration: BoxDecoration(
+                          border: Border.all(color: kTextColor),
+                          borderRadius: BorderRadius.circular(5)),
+                      child: TextField(
+                        controller: tipController,
+                        cursorColor: kTextColor,
+                        textAlign: TextAlign.center,
+                        decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            prefixText: '\$ ',
+                            prefixStyle: TextStyle(color: kTextColor),
+                            contentPadding: EdgeInsets.all(10)),
+                        keyboardType: TextInputType.number,
+                        style: const TextStyle(color: kTextColor),
+                      ),
                     ),
                     SizedBox(
                       height: 25,
@@ -89,10 +124,10 @@ class VIPPaymentScreen extends StatelessWidget {
                                       const EdgeInsets.fromLTRB(20, 50, 20, 20),
                                   actionsPadding:
                                       const EdgeInsets.only(bottom: 40),
-                                  content: const Text(
-                                    '\$10 amount added as tip. Are you sure?',
+                                  content: Text(
+                                    '\$ ${tipController.text} amount added as tip. Are you sure?',
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: kTextColor, fontSize: 18),
                                   ),
                                   actions: <Widget>[
@@ -101,6 +136,10 @@ class VIPPaymentScreen extends StatelessWidget {
                                           text: 'YES',
                                           press: () {
                                             Get.back();
+                                            setState(() {
+                                              totalPayment = vipDances +
+                                                  int.parse(tipController.text);
+                                            });
                                           },
                                           width: 0.5),
                                     )
@@ -120,10 +159,36 @@ class VIPPaymentScreen extends StatelessWidget {
           const SizedBox(
             height: 40,
           ),
-          PrimaryButton(text: 'Pay Vip Now', press: () {}, width: 0.6)
+          PrimaryButton(
+              text: 'Pay Vip Now',
+              press: () => showDialog<String>(
+                    barrierColor: kSecondaryColor.withOpacity(0.7),
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      backgroundColor: kBlackColor,
+                      contentPadding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
+                      actionsPadding: const EdgeInsets.only(bottom: 40),
+                      content: const Text(
+                        'Payment Received Successfully',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: kTextColor, fontSize: 18),
+                      ),
+                      actions: <Widget>[
+                        Center(
+                          child: PrimaryButton(
+                              text: 'Home',
+                              press: () {
+                                Get.offAll(()=>const HomeScreen());
+                              },
+                              width: 0.5),
+                        )
+                      ],
+                    ),
+                  ),
+              width: 0.6)
         ],
       ),
-      bottomNavigationBar: const BottomNavBar(index: 0),
+      bottomNavigationBar: const BottomNavBar(index: 1),
     );
   }
 }

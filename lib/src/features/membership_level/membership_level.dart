@@ -7,29 +7,38 @@ import 'package:get/get.dart';
 
 import 'controller/membership_controller.dart';
 
-class MembershipLevel extends StatelessWidget {
+class MembershipLevel extends StatefulWidget {
   const MembershipLevel({super.key});
 
   @override
+  State<MembershipLevel> createState() => _MembershipLevelState();
+}
+
+class _MembershipLevelState extends State<MembershipLevel> {
+  int level = 0;
+
+  @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     final membershipController = Get.put(MembershipController());
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: kBgColor,
-        body: Padding(
-          padding: kDefaultPadding,
+    return Scaffold(
+      backgroundColor: kBgColor,
+      body: Padding(
+        padding: kDefaultPadding,
+        child: SizedBox(
+          width: size.width,
+          height: size.height,
           child: Column(
             children: [
               const SizedBox(height: 60),
               const Text(
-                  "MEMBERSHIP LEVEL ",
-                  style: TextStyle(
-                    color: kPrimaryColor,
-                    fontSize: 32,
-                    fontWeight: FontWeight.w700,
-                  ),
+                "MEMBERSHIP LEVEL ",
+                style: TextStyle(
+                  color: kPrimaryColor,
+                  fontSize: 32,
+                  fontWeight: FontWeight.w700,
                 ),
-           
+              ),
               const SizedBox(height: 51),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -40,7 +49,10 @@ class MembershipLevel extends StatelessWidget {
                   MembershipLevelButton(
                     level: 1,
                     press: () {
-                      membershipController.membershipLevel.value = 1;
+                      setState(() {
+                        level = 1;
+                        membershipController.membershipLevel.value = level;
+                      });
                     },
                   )
                 ],
@@ -55,7 +67,10 @@ class MembershipLevel extends StatelessWidget {
                   MembershipLevelButton(
                     level: 2,
                     press: () {
-                      membershipController.membershipLevel.value = 2;
+                      setState(() {
+                        level = 2;
+                        membershipController.membershipLevel.value = level;
+                      });
                     },
                   )
                 ],
@@ -70,7 +85,10 @@ class MembershipLevel extends StatelessWidget {
                   MembershipLevelButton(
                       level: 3,
                       press: () {
-                        membershipController.membershipLevel.value = 3;
+                        setState(() {
+                          level = 3;
+                          membershipController.membershipLevel.value = level;
+                        });
                       })
                 ],
               ),
@@ -84,7 +102,10 @@ class MembershipLevel extends StatelessWidget {
                   MembershipLevelButton(
                       level: 4,
                       press: () {
-                        membershipController.membershipLevel.value = 4;
+                        setState(() {
+                          level = 4;
+                          membershipController.membershipLevel.value = level;
+                        });
                       })
                 ],
               ),
@@ -95,6 +116,8 @@ class MembershipLevel extends StatelessWidget {
                     child: PrimaryButton(
                         text: 'SUBSCRIBE',
                         press: () {
+                          membershipController.membershipLevel.value = level;
+
                           Get.back();
                         },
                         width: 0.5)),

@@ -191,6 +191,9 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                     textColor: kPrimaryColor,
                     subText: '3',
                   ),
+                  SizedBox(
+                    height: 20,
+                  )
                 ],
               ),
             ],
@@ -200,6 +203,3 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
     );
   }
 }
-
-
-
