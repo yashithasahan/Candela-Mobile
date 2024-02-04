@@ -19,7 +19,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final membershipController = Get.put(MembershipController());
+    Get.put(MembershipController());
     return StreamProvider<UserModel?>.value(
       value: AuthService().user,
       initialData: UserModel(id: ""),

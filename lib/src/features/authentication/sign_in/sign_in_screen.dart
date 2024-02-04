@@ -5,7 +5,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 import '../../../widgets/input_field_title.dart';
-import '../../../widgets/text_input-field.dart';
+import '../../../widgets/text_input_field.dart';
 import '../services/auth_service.dart';
 
 class SignInScreen extends StatefulWidget {

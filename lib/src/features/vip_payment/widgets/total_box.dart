@@ -6,11 +6,12 @@ class TotalBox extends StatelessWidget {
   const TotalBox({
     super.key,
     required this.width,
-    required this.fontSize,
+    required this.fontSize, required this.text,
   });
 
   final double width;
   final double fontSize;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class TotalBox extends StatelessWidget {
           borderRadius: BorderRadius.circular(5)),
       child: Center(
         child: Text(
-          '\$ 89',
+          '\$ $text',
           style: TextStyle(color: kTextColor, fontSize: fontSize),
         ),
       ),
