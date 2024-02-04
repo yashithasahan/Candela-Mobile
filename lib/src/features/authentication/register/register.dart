@@ -15,8 +15,6 @@ import 'package:form_builder_phone_field/form_builder_phone_field.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
-
-import '../../membership_level/controller/membership_controller.dart';
 import '../../membership_level/membership_level.dart';
 import '../models/user_model.dart';
 import '../services/auth_service.dart';
@@ -96,7 +94,7 @@ class _RegisterState extends State<Register> {
                       const SizedBox(height: 21),
                       const InputTitle(title: "Address"),
                       const SizedBox(height: 9),
-                      const TextInputField(name: "address"),
+                      TextInputField(name: "address"),
                       const SizedBox(height: 21),
                       const InputTitle(title: "Email"),
                       const SizedBox(height: 9),
@@ -190,19 +188,19 @@ class _RegisterState extends State<Register> {
                       const SizedBox(height: 21),
                       const InputTitle(title: "Bank Name"),
                       const SizedBox(height: 9),
-                      const TextInputField(name: "bankname"),
+                      TextInputField(name: "bankname"),
                       const SizedBox(height: 21),
                       const InputTitle(title: "Bank Routing Number"),
                       const SizedBox(height: 9),
-                      const TextInputField(name: "bankroutingnumber"),
+                      TextInputField(name: "bankroutingnumber"),
                       const SizedBox(height: 21),
                       const InputTitle(title: "Bank Account Number"),
                       const SizedBox(height: 9),
-                      const TextInputField(name: "bankaccountnumber"),
+                      TextInputField(name: "bankaccountnumber"),
                       const SizedBox(height: 21),
                       const InputTitle(title: "Set Price per Song"),
                       const SizedBox(height: 9),
-                      const TextInputField(name: "songprice"),
+                      TextInputField(name: "songprice"),
                       const SizedBox(height: 21),
                       FormBuilderImagePicker(
                         previewHeight: 29,

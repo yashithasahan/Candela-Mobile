@@ -4,11 +4,17 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class TextInputField extends StatelessWidget {
   final String name;
+  final TextInputType keyboard;
+  var value;
+  
   final String? Function(String?)? validator;
-  const TextInputField({
+  TextInputField(
+      {
     super.key,
     required this.name,
+      this.keyboard = TextInputType.text,
     this.validator,
+      this.value
   });
 
   @override
@@ -18,6 +24,8 @@ class TextInputField extends StatelessWidget {
         color: Colors.white,
         fontSize: 14,
       ),
+      initialValue: value,
+      keyboardType: keyboard,
       cursorColor: Colors.white,
       name: name,
       validator: validator,

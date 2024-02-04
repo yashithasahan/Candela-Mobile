@@ -55,6 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       )),
       bottomNavigationBar: const BottomNavBar(index: 0),
+      resizeToAvoidBottomInset: false,
     );
   }
 }

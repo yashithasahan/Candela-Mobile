@@ -11,6 +11,8 @@ const kDefaultPadding = EdgeInsets.symmetric(horizontal: 20);
 
 //Images
 const timerMainImage = 'assets/images/main-timer.png';
+const timerSecondImage = 'assets/images/splash-model.png';
+
 const tapToStop = 'assets/images/svg/tap-2-stop.svg';
 const tapToStart = 'assets/images/svg/tap-2-start.svg';
 const notes = 'assets/images/svg/notes.svg';

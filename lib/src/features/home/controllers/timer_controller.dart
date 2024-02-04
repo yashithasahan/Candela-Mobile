@@ -5,5 +5,8 @@ class TimerController extends GetxController {
 
   RxString time = "00:00:00".obs;
   RxInt amout = 25.obs;
-  RxInt numberOfSongs = 5.obs;
+  RxInt numberOfSongs = 0.obs;
+  RxBool secondryBackgorund = false.obs;
+  RxInt totalAmout = 0.obs;
+
 }

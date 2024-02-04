@@ -1,6 +1,9 @@
+import 'package:candela_maker/src/common_widgets/primary_button.dart';
 import 'package:candela_maker/src/constants/constants.dart';
 import 'package:candela_maker/src/features/home/controllers/timer_controller.dart';
+import 'package:candela_maker/src/widgets/text_input_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
@@ -25,9 +28,65 @@ class _SongTimerState extends State<SongTimer> {
     setState(() {
       stopTime += _stopWatchTimer.rawTime.value;
     });
+    timerController.totalAmout.value += timerController.amout.value;
     timerController.numberOfSongs.value++;
     timerController.time.value =
         StopWatchTimer.getDisplayTime(stopTime, hours: false);
+  }
+  onPriceSave(int newPrice) {
+    timerController.amout.value = newPrice;
+  }
+
+  imageToggle() {
+    print(timerController.secondryBackgorund.value);
+    timerController.secondryBackgorund.value =
+        !timerController.secondryBackgorund.value;
+  }
+
+  onPriceEdit(BuildContext context, Size size) {
+    final formKey = GlobalKey<FormBuilderState>();
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.black, // Set the background color to black
+      builder: (BuildContext context) {
+        // Return the widget that will be displayed in the bottom sheet
+        return Container(
+          padding: const EdgeInsets.all(20),
+          child: FormBuilder(
+            key: formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize
+                  .min, // Make the column only as tall as its children
+              children: <Widget>[
+                const Text("Enter Price",
+                    style: TextStyle(color: Colors.white)),
+                TextInputField(
+                  value: timerController.amout.value.toString(),
+                  name: "price",
+                  keyboard: const TextInputType.numberWithOptions(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: PrimaryButton(
+                    text: "Save",
+                    press: () {
+                      onPriceSave(int.parse(
+                          formKey.currentState!.fields['price']!.value));
+                      Navigator.pop(context);
+                    },
+                    width: 0.5,
+                  ),
+                ),
+                const SizedBox(
+                  height: 200,
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -38,7 +97,7 @@ class _SongTimerState extends State<SongTimer> {
   @override
   void dispose() async {
     super.dispose();
-    await _stopWatchTimer.dispose(); // Need to call dispose function.
+    await _stopWatchTimer.dispose(); 
   }
 
   @override
@@ -51,11 +110,19 @@ class _SongTimerState extends State<SongTimer> {
       children: [
         Stack(
           children: [
-            // image is responsive and get the possible widht without overflow
-            Center(
-              child: Image.asset(
-                timerMainImage,
-                width: size.width * 0.8,
+            //1108 966
+            GestureDetector(
+              onTap: imageToggle,
+              child: Obx(
+                () => Center(
+                  child: Image.asset(
+                    timerController.secondryBackgorund.value
+                        ? timerSecondImage
+                        :
+                    timerMainImage,
+                    width: size.width * 0.6,
+                  ),
+                ),
               ),
             ),
             StreamBuilder<int>(
@@ -120,11 +187,12 @@ class _SongTimerState extends State<SongTimer> {
                     null,
                     size,
                     "\$ ${timerController.amout.value}",
+                      () => onPriceEdit(context, size)
                   ),
                   outlineBox(
                     null,
                     size,
-                    "Timer ${timerController.time.value}",
+                    "Timer ${timerController.time.value}", null
                   ),
                 ],
               ),
@@ -138,11 +206,12 @@ class _SongTimerState extends State<SongTimer> {
                     null,
                     size,
                     "Total Songs ${timerController.numberOfSongs.value}",
+                      null
                   ),
                   outlineBox(
                     null,
                     size,
-                    "Total \$ ${timerController.numberOfSongs.value * timerController.amout.value}",
+                      "Total \$ ${timerController.totalAmout.value}", null
                   ),
                 ],
               ),
@@ -153,27 +222,30 @@ class _SongTimerState extends State<SongTimer> {
     );
   }
 
-  Widget outlineBox(String? icon, Size size, String text) {
-    return Container(
-      width: size.width * 0.35,
-      height: 28,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          border: Border.all(
-            color: kPrimaryColor,
-          )),
-      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        icon != null
-            ? SvgPicture.asset(
-                icon,
-                width: size.width * 0.15,
-              )
-            : Container(),
-        Text(
-          text,
-          style: const TextStyle(color: kTextColor),
-        )
-      ]),
+  Widget outlineBox(String? icon, Size size, String text, VoidCallback? onTap) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        width: size.width * 0.35,
+        height: 28,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(
+              color: kPrimaryColor,
+            )),
+        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          icon != null
+              ? SvgPicture.asset(
+                  icon,
+                  width: size.width * 0.15,
+                )
+              : Container(),
+          Text(
+            text,
+            style: const TextStyle(color: kTextColor),
+          )
+        ]),
+      ),
     );
   }
 }
