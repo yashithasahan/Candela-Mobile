@@ -181,6 +181,9 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
                           child: PrimaryButton(
                               text: 'Home',
                               press: () {
+                                timerController.totalAmout.value = 0;
+                                timerController.numberOfSongs.value = 0;
+                                timerController.time.value = '00:00:00';
                                 Get.offAll(() => const HomeScreen());
                               },
                               width: 0.5),
