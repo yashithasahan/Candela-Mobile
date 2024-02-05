@@ -1,7 +1,5 @@
-import 'dart:async';
-
+import 'package:candela_maker/src/common_widgets/account_check.dart';
 import 'package:candela_maker/src/constants/constants.dart';
-import 'package:candela_maker/src/features/membership_level/controller/membership_controller.dart';
 import 'package:candela_maker/src/widgets/primary_button.dart';
 import 'package:candela_maker/src/widgets/input_field_title.dart';
 
@@ -14,7 +12,6 @@ import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 import 'package:form_builder_phone_field/form_builder_phone_field.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
 import '../../membership_level/membership_level.dart';
 import '../models/user_model.dart';
 import '../services/auth_service.dart';
@@ -30,30 +27,15 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormBuilderState>();
-  Timer? _timer = Timer.periodic(const Duration(seconds: 5), (timer) {});
+
   bool isLoading = false;
-  List<String> membershipOptions = ['Level 1', 'Level 2', 'Level 3', 'Level 4'];
-  final membershipController = Get.put(MembershipController());
-
-  @override
-  void initState() {
-    super.initState();
-    final membershipController = Get.put(MembershipController());
-    print(membershipController.membershipLevel.value);
-    if (membershipController.membershipLevel.value > 0) {
-      _timer?.cancel();
-    } else {
-      _timer = Timer.periodic(const Duration(seconds: 30), (timer) {
-        Get.to(() => const MembershipLevel());
-      });
-    }
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
+  List<String> membershipOptions = [
+    'Level 0',
+    'Level 1',
+    'Level 2',
+    'Level 3',
+    'Level 4'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +50,7 @@ class _RegisterState extends State<Register> {
           title: const Text(
             "REGISTER",
             style: TextStyle(
-              fontSize: 32,
+              fontSize: 26,
               fontWeight: FontWeight.w700,
               color: kPrimaryColor,
             ),
@@ -88,18 +70,24 @@ class _RegisterState extends State<Register> {
                       const SizedBox(height: 9),
                       TextInputField(
                         name: "fullname",
+                        keyboard: TextInputType.name,
                         validator: FormBuilderValidators.required(
                             errorText: "Full name can not be empty"),
                       ),
                       const SizedBox(height: 21),
                       const InputTitle(title: "Address"),
                       const SizedBox(height: 9),
-                      TextInputField(name: "address"),
+                      TextInputField(
+                          name: "address",
+                          keyboard: TextInputType.streetAddress,
+                          validator: FormBuilderValidators.required(
+                              errorText: "Address can not be empty")),
                       const SizedBox(height: 21),
                       const InputTitle(title: "Email"),
                       const SizedBox(height: 9),
                       TextInputField(
                           name: "email",
+                          keyboard: TextInputType.emailAddress,
                           validator: FormBuilderValidators.compose([
                             FormBuilderValidators.required(
                                 errorText: "email can not be empty"),
@@ -111,6 +99,7 @@ class _RegisterState extends State<Register> {
                       const SizedBox(height: 9),
                       TextInputField(
                         name: "username",
+                        keyboard: TextInputType.text,
                         validator: FormBuilderValidators.required(
                             errorText: "username can not be empty"),
                       ),
@@ -119,6 +108,7 @@ class _RegisterState extends State<Register> {
                       const SizedBox(height: 9),
                       TextInputField(
                         name: "password",
+                        keyboard: TextInputType.visiblePassword,
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(
                               errorText: "Password can not be empty"),
@@ -154,7 +144,21 @@ class _RegisterState extends State<Register> {
                         ),
                       ),
                       const SizedBox(height: 21),
-                      const InputTitle(title: "Membership Level"),
+                      Row(
+                        children: [
+                          const InputTitle(title: "Membership Level"),
+                          const SizedBox(width: 9),
+                          InkWell(
+                            onTap: () {
+                              Get.to(() => const MembershipLevel());
+                            },
+                            child: const Icon(
+                              Icons.info_outlined,
+                              color: kTextColor,
+                            ),
+                          )
+                        ],
+                      ),
                       const SizedBox(height: 9),
                       FormBuilderDropdown(
                         name: "membershiplevel",
@@ -188,19 +192,37 @@ class _RegisterState extends State<Register> {
                       const SizedBox(height: 21),
                       const InputTitle(title: "Bank Name"),
                       const SizedBox(height: 9),
-                      TextInputField(name: "bankname"),
+                      TextInputField(
+                          name: "bankname",
+                          validator: FormBuilderValidators.required(
+                              errorText: "Bank name can not be empty"),
+                          keyboard: TextInputType.text),
                       const SizedBox(height: 21),
                       const InputTitle(title: "Bank Routing Number"),
                       const SizedBox(height: 9),
-                      TextInputField(name: "bankroutingnumber"),
+                      TextInputField(
+                          name: "bankroutingnumber",
+                          validator: FormBuilderValidators.required(
+                              errorText:
+                                  "Bank routing number can not be empty"),
+                          keyboard: TextInputType.number),
                       const SizedBox(height: 21),
                       const InputTitle(title: "Bank Account Number"),
                       const SizedBox(height: 9),
-                      TextInputField(name: "bankaccountnumber"),
+                      TextInputField(
+                          name: "bankaccountnumber",
+                          validator: FormBuilderValidators.required(
+                              errorText:
+                                  "Bank account number can not be empty"),
+                          keyboard: TextInputType.number),
                       const SizedBox(height: 21),
                       const InputTitle(title: "Set Price per Song"),
                       const SizedBox(height: 9),
-                      TextInputField(name: "songprice"),
+                      TextInputField(
+                          name: "songprice",
+                          validator: FormBuilderValidators.required(
+                              errorText: "Song price can not be empty"),
+                          keyboard: TextInputType.number),
                       const SizedBox(height: 21),
                       FormBuilderImagePicker(
                         previewHeight: 29,
@@ -247,7 +269,7 @@ class _RegisterState extends State<Register> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 25),
+                      const SizedBox(height: 20),
                       isLoading
                           ? const Center(
                               child: CircularProgressIndicator(
@@ -267,6 +289,8 @@ class _RegisterState extends State<Register> {
                                 }
                               },
                             ),
+                      const SizedBox(height: 10),
+                      const AccountCheck(login: false),
                       const SizedBox(height: 20),
                     ],
                   ),

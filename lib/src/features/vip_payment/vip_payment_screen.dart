@@ -1,8 +1,9 @@
 import 'package:candela_maker/src/common_widgets/primary_button.dart';
 import 'package:candela_maker/src/constants/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 import '../../common_widgets/bottom_nav_bar.dart';
+import '../home/controllers/timer_controller.dart';
 import '../home/home_screen.dart';
 import 'widgets/payment_box.dart';
 import 'widgets/total_box.dart';
@@ -16,6 +17,7 @@ class VIPPaymentScreen extends StatefulWidget {
 
 class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
   final tipController = TextEditingController();
+  final timerController = Get.put(TimerController());
   int totalPayment = 0;
   int vipDances = 0;
 
@@ -23,6 +25,7 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
   void initState() {
     super.initState();
     tipController.text = '0';
+    vipDances = timerController.totalAmout.value;
     totalPayment = vipDances;
   }
 
@@ -48,7 +51,7 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
               fontFamily: "Roboto",
               color: kPrimaryColor,
               fontWeight: FontWeight.w700,
-              fontSize: 28),
+              fontSize: 26),
         ),
       ),
       body: Column(
@@ -178,7 +181,7 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
                           child: PrimaryButton(
                               text: 'Home',
                               press: () {
-                                Get.offAll(()=>const HomeScreen());
+                                Get.offAll(() => const HomeScreen());
                               },
                               width: 0.5),
                         )

@@ -1,9 +1,14 @@
+import 'dart:async';
+
 import 'package:candela_maker/src/constants/constants.dart';
 import 'package:candela_maker/src/features/home/widgets/song_timer.dart';
 import 'package:candela_maker/src/features/home/widgets/songs_list.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../common_widgets/bottom_nav_bar.dart';
+import '../membership_level/controller/membership_controller.dart';
+import '../membership_level/membership_level.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,6 +18,30 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  Timer? _timer = Timer.periodic(const Duration(seconds: 5), (timer) {});
+  final membershipController = Get.put(MembershipController());
+
+  @override
+  void initState() {
+    super.initState();
+    final membershipController = Get.put(MembershipController());
+    if (membershipController.membershipLevel.value == 0) {
+      _timer = Timer.periodic(const Duration(seconds: 90), (timer) {
+        Get.to(() => const MembershipLevel());
+      });
+    } else {
+      _timer?.cancel();
+    }
+  }
+
+
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,8 +70,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: const Column(
                   children: [
                     SongTimer(),
-              
-                  
                   ],
                 ),
               )),

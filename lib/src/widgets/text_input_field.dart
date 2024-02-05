@@ -5,16 +5,15 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 class TextInputField extends StatelessWidget {
   final String name;
   final TextInputType keyboard;
-  var value;
-  
+  final String? value;
   final String? Function(String?)? validator;
-  TextInputField(
-      {
+
+  const TextInputField({
     super.key,
     required this.name,
-      this.keyboard = TextInputType.text,
+    required this.keyboard,
+    this.value,
     this.validator,
-      this.value
   });
 
   @override
