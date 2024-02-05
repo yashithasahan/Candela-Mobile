@@ -26,7 +26,7 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
               fontFamily: "Roboto",
               color: kPrimaryColor,
               fontWeight: FontWeight.w700,
-              fontSize: 28),
+              fontSize: 26),
         ),
       ),
       body: Padding(

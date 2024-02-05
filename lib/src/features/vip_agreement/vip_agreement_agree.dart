@@ -28,7 +28,7 @@ class _VIPAgreementAgreeState extends State<VIPAgreementAgree> {
                 const Text(
                   "VIP AGREEMENT",
                   style: TextStyle(
-                    fontSize: 32,
+                    fontSize: 26,
                     fontWeight: FontWeight.w700,
                     color: kPrimaryColor,
                   ),

@@ -1,6 +1,7 @@
 import 'package:candela_maker/src/features/authentication/services/session_service.dart';
 import 'package:candela_maker/src/features/home/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -54,7 +55,9 @@ class AuthService {
       }
       Fluttertoast.showToast(msg: errorMessage!);
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
     return null;
   }
@@ -94,7 +97,9 @@ class AuthService {
       }
       Fluttertoast.showToast(msg: errorMessage!);
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
     return null;
   }
@@ -106,7 +111,9 @@ class AuthService {
           .signOut()
           .then((value) => SessionManagerService.clearSession());
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 }

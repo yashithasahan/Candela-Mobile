@@ -2,6 +2,7 @@ import 'package:candela_maker/src/common_widgets/primary_button.dart';
 import 'package:candela_maker/src/constants/constants.dart';
 import 'package:candela_maker/src/features/home/controllers/timer_controller.dart';
 import 'package:candela_maker/src/widgets/text_input_field.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -33,12 +34,15 @@ class _SongTimerState extends State<SongTimer> {
     timerController.time.value =
         StopWatchTimer.getDisplayTime(stopTime, hours: false);
   }
+
   onPriceSave(int newPrice) {
     timerController.amout.value = newPrice;
   }
 
   imageToggle() {
-    print(timerController.secondryBackgorund.value);
+    if (kDebugMode) {
+      print(timerController.secondryBackgorund.value);
+    }
     timerController.secondryBackgorund.value =
         !timerController.secondryBackgorund.value;
   }
@@ -97,13 +101,11 @@ class _SongTimerState extends State<SongTimer> {
   @override
   void dispose() async {
     super.dispose();
-    await _stopWatchTimer.dispose(); 
+    await _stopWatchTimer.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-   
-    
     Size size = MediaQuery.of(context).size;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -118,8 +120,7 @@ class _SongTimerState extends State<SongTimer> {
                   child: Image.asset(
                     timerController.secondryBackgorund.value
                         ? timerSecondImage
-                        :
-                    timerMainImage,
+                        : timerMainImage,
                     width: size.width * 0.6,
                   ),
                 ),
@@ -183,17 +184,10 @@ class _SongTimerState extends State<SongTimer> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  outlineBox(null, size, "\$ ${timerController.amout.value}",
+                      () => onPriceEdit(context, size)),
                   outlineBox(
-                    null,
-                    size,
-                    "\$ ${timerController.amout.value}",
-                      () => onPriceEdit(context, size)
-                  ),
-                  outlineBox(
-                    null,
-                    size,
-                    "Timer ${timerController.time.value}", null
-                  ),
+                      null, size, "Timer ${timerController.time.value}", null),
                 ],
               ),
               SizedBox(
@@ -203,16 +197,12 @@ class _SongTimerState extends State<SongTimer> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   outlineBox(
-                    null,
-                    size,
-                    "Total Songs ${timerController.numberOfSongs.value}",
-                      null
-                  ),
-                  outlineBox(
-                    null,
-                    size,
-                      "Total \$ ${timerController.totalAmout.value}", null
-                  ),
+                      null,
+                      size,
+                      "Total Songs ${timerController.numberOfSongs.value}",
+                      null),
+                  outlineBox(null, size,
+                      "Total \$ ${timerController.totalAmout.value}", null),
                 ],
               ),
             ],

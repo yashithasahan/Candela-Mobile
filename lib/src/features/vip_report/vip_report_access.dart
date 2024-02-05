@@ -1,9 +1,11 @@
 import 'package:candela_maker/src/constants/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 
 import '../../common_widgets/bottom_nav_bar.dart';
 import '../../common_widgets/primary_button.dart';
+import '../membership_level/controller/membership_controller.dart';
 import 'vip_report_screen.dart';
 
 class VIPReportAccess extends StatefulWidget {
@@ -14,6 +16,7 @@ class VIPReportAccess extends StatefulWidget {
 }
 
 class _VIPReportAccessState extends State<VIPReportAccess> {
+  final membershipController = Get.put(MembershipController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +32,7 @@ class _VIPReportAccessState extends State<VIPReportAccess> {
                 fontFamily: "Roboto",
                 color: kPrimaryColor,
                 fontWeight: FontWeight.w700,
-                fontSize: 28),
+                fontSize: 26),
           ),
         ),
         body: Center(
@@ -43,7 +46,13 @@ class _VIPReportAccessState extends State<VIPReportAccess> {
               PrimaryButton(
                   text: 'Access Reports',
                   press: () {
-                    Get.to(() => const VIPReportScreen());
+                    if (membershipController.membershipLevel.value >= 2) {
+                      Get.to(() => const VIPReportScreen());
+                    } else {
+                      Fluttertoast.showToast(
+                          msg: "You don't have access to this feature",
+                          backgroundColor: Colors.red);
+                    }
                   },
                   width: 0.6)
             ],

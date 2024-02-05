@@ -25,7 +25,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     _selectedIndex = index;
 
     if (_selectedIndex == 0) {
-      Get.offAll(() => const HomeScreen());
+      Get.to(() => const HomeScreen());
     } else if (_selectedIndex == 1) {
       Get.to(() => const VIPPaymentScreen());
     } else if (_selectedIndex == 2) {
