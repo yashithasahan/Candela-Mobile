@@ -14,6 +14,7 @@ class VIPReportScreen extends StatefulWidget {
 class _VIPReportScreenState extends State<VIPReportScreen> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: kBgColor,
       appBar: AppBar(
@@ -47,13 +48,17 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                 height: 15,
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Onscreen',
-                    style: TextStyle(color: kTextColor),
+                  SizedBox(
+                    width: size.width*0.2,
+                    child: const Text(
+                      'Onscreen',
+                      style: TextStyle(color: kTextColor),
+                    ),
                   ),
-                  const SizedBox(
-                    width: 50,
+               SizedBox(
+                    width: size.width *0.25 ,
                   ),
                   SizedBox(
                     height: 25,
@@ -85,13 +90,17 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                 height: 15,
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Onscreen',
-                    style: TextStyle(color: kTextColor),
+                  SizedBox(
+                    width: size.width*0.2,
+                    child: const Text(
+                      'Email',
+                      style: TextStyle(color: kTextColor),
+                    ),
                   ),
-                  const SizedBox(
-                    width: 50,
+                 SizedBox(
+                    width: size.width * 0.25,
                   ),
                   SizedBox(
                     height: 25,

@@ -24,17 +24,15 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    final membershipController = Get.put(MembershipController());
-    if (membershipController.membershipLevel.value == 0) {
-      _timer = Timer.periodic(const Duration(seconds: 90), (timer) {
+
+    _timer = Timer.periodic(const Duration(seconds: 20), (timer) {
+      if (membershipController.membershipLevel.value == 0) {
         Get.to(() => const MembershipLevel());
-      });
-    } else {
-      _timer?.cancel();
-    }
+      } else {
+        _timer?.cancel();
+      }
+    });
   }
-
-
 
   @override
   void dispose() {
