@@ -51,7 +51,6 @@ class UserModel {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'fullName': fullName,
       'address': address,
       'email': email,

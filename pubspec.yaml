@@ -12,7 +12,8 @@ dependencies:
   flutter_form_builder: ^9.1.1
   form_builder_validators: ^9.1.0
   form_builder_phone_field: ^2.0.1
-  form_builder_image_picker: ^4.0.0
+  image_picker: ^1.0.7
+  permission_handler: ^11.2.0
   flutter_svg: ^2.0.9
   get: ^4.6.6
   firebase_auth: ^4.7.2
