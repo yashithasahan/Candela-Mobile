@@ -3,6 +3,7 @@ import 'package:candela_maker/src/constants/constants.dart';
 import 'package:candela_maker/src/features/home/controllers/timer_controller.dart';
 import 'package:candela_maker/src/features/home/models/song_model.dart';
 import 'package:candela_maker/src/widgets/text_input_field.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -26,7 +27,6 @@ class _SongTimerState extends State<SongTimer> {
   final timerController = Get.put(TimerController());
   final StopWatchTimer _stopWatchTimer = StopWatchTimer();
   int stopTime = 0;
-  late UserModel user;
   DateTime today = DateTime.now();
 
   onTapStart() {
@@ -46,7 +46,7 @@ class _SongTimerState extends State<SongTimer> {
     addSongDetails();
   }
 
-  onPriceSave(int newPrice) {
+  onPriceSave(double newPrice) {
     timerController.amout.value = newPrice;
   }
 
@@ -86,7 +86,7 @@ class _SongTimerState extends State<SongTimer> {
                   child: PrimaryButton(
                     text: "Save",
                     press: () {
-                      onPriceSave(int.parse(
+                      onPriceSave(double.parse(
                           formKey.currentState!.fields['price']!.value));
                       Navigator.pop(context);
                     },
@@ -117,7 +117,6 @@ class _SongTimerState extends State<SongTimer> {
 
   @override
   Widget build(BuildContext context) {
-    user = Provider.of<UserModel?>(context) ?? UserModel(id: '');
     Size size = MediaQuery.of(context).size;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -196,7 +195,10 @@ class _SongTimerState extends State<SongTimer> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  outlineBox(null, size, "\$ ${timerController.amout.value}",
+                  outlineBox(
+                      null,
+                      size,
+                      "\$ ${timerController.amout.value.toInt()}",
                       () => onPriceEdit(context, size)),
                   outlineBox(
                       null, size, "Timer ${timerController.time.value}", null),
@@ -213,8 +215,11 @@ class _SongTimerState extends State<SongTimer> {
                       size,
                       "Total Songs ${timerController.numberOfSongs.value}",
                       null),
-                  outlineBox(null, size,
-                      "Total \$ ${timerController.totalAmout.value}", null),
+                  outlineBox(
+                      null,
+                      size,
+                      "Total \$ ${timerController.totalAmout.value.toInt()}",
+                      null),
                 ],
               ),
             ],
@@ -225,21 +230,21 @@ class _SongTimerState extends State<SongTimer> {
   }
 
   Future<void> addSongDetails() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
     try {
-      if (user.id != null) {
-        final songs = SongModel(
-          userId: user.id,
-          songName: 'Lovely',
-          songArtist: 'Bille Ellish & Khalid',
-          songPrice: '  ${timerController.amout.value}',
-          duration: ' ${timerController.time.value}',
-          songdate: '${today.month}-${today.day}-${today.year}',
-          totalSongs: ' ${timerController.numberOfSongs.value}',
-        );
+      final songs = SongModel(
+        userId: user!.uid,
+        songName: 'Lovely',
+        songArtist: 'Bille Ellish & Khalid',
+        songPrice: timerController.amout.value,
+        duration: ' ${timerController.time.value}',
+        songdate: today,
+        totalSongs: ' ${timerController.numberOfSongs.value}',
+      );
 
-        await FireStoreService().addSongs(songs);
-        Fluttertoast.showToast(msg: "Song Data Saved");
-      }
+      await FireStoreService().addSongs(songs, user);
+      Fluttertoast.showToast(msg: "Song Data Saved");
     } catch (e) {
       if (kDebugMode) {
         print(e);

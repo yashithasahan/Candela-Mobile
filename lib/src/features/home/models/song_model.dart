@@ -3,9 +3,9 @@ class SongModel {
   final String? userId;
   final String? songName;
   final String? songArtist;
-  final String? songPrice;
+  final double? songPrice;
   final String? duration;
-  final String? songdate;
+  final DateTime? songdate;
   final String? totalSongs;
 
   SongModel({
@@ -38,7 +38,7 @@ class SongModel {
       songArtist: json['songArtist'],
       songPrice: json['songPrice'],
       duration: json['duration'],
-      songdate: json['songdate'],
+      songdate: (json['songdate']).toDate(),
       totalSongs: json['totalSongs'],
     );
     
