@@ -1,10 +1,10 @@
 class PaymentModel {
   final String? id;
   final String? userId;
-  final String? vipPayment;
-  final String? tipPayment;
-  final String? totalPayment;
-  final String? paymentDate;
+  final double? vipPayment;
+  final double? tipPayment;
+  final double? totalPayment;
+  final DateTime? paymentDate;
 
   PaymentModel(
       {this.id,
@@ -30,7 +30,7 @@ class PaymentModel {
       vipPayment: json['vipPayment'],
       tipPayment: json['tipPayment'],
       totalPayment: json['totalPayment'],
-      paymentDate: json['paymentDate'],
+      paymentDate: (json['paymentDate']).toDate(),
     );
   }
 }

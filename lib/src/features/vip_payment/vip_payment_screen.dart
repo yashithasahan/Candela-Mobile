@@ -24,8 +24,8 @@ class VIPPaymentScreen extends StatefulWidget {
 class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
   final tipController = TextEditingController();
   final timerController = Get.put(TimerController());
-  int totalPayment = 0;
-  int vipDances = 0;
+  double totalPayment = 0;
+  double vipDances = 0;
   late UserModel user;
   DateTime today = DateTime.now();
 
@@ -215,10 +215,10 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
       if (user.id != null) {
         final payments = PaymentModel(
           userId: user.id,
-          vipPayment: ' \$ ${vipDances.toString()}',
-          tipPayment: ' \$ ${tipController.text}',
-          totalPayment: ' \$ ${totalPayment.toString()}',
-          paymentDate: '${today.month}-${today.day}-${today.year}',
+          vipPayment: vipDances,
+          tipPayment: double.parse(tipController.text),
+          totalPayment: totalPayment,
+          paymentDate: today,
         );
 
         await FireStoreService().addPayments(payments);
