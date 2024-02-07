@@ -1,13 +1,19 @@
 import 'package:candela_maker/src/common_widgets/primary_button.dart';
 import 'package:candela_maker/src/constants/constants.dart';
 import 'package:candela_maker/src/features/home/controllers/timer_controller.dart';
+import 'package:candela_maker/src/features/home/models/song_model.dart';
 import 'package:candela_maker/src/widgets/text_input_field.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
+
+import '../../authentication/models/user_model.dart';
+import '../../authentication/services/firestore_service.dart';
 
 class SongTimer extends StatefulWidget {
   const SongTimer({super.key});
@@ -20,12 +26,16 @@ class _SongTimerState extends State<SongTimer> {
   final timerController = Get.put(TimerController());
   final StopWatchTimer _stopWatchTimer = StopWatchTimer();
   int stopTime = 0;
+  late UserModel user;
+  DateTime today = DateTime.now();
+
   onTapStart() {
     _stopWatchTimer.onStartTimer();
   }
 
   onTapStop() {
     _stopWatchTimer.onResetTimer();
+
     setState(() {
       stopTime += _stopWatchTimer.rawTime.value;
     });
@@ -33,6 +43,7 @@ class _SongTimerState extends State<SongTimer> {
     timerController.numberOfSongs.value++;
     timerController.time.value =
         StopWatchTimer.getDisplayTime(stopTime, hours: false);
+    addSongDetails();
   }
 
   onPriceSave(int newPrice) {
@@ -106,6 +117,7 @@ class _SongTimerState extends State<SongTimer> {
 
   @override
   Widget build(BuildContext context) {
+    user = Provider.of<UserModel?>(context) ?? UserModel(id: '');
     Size size = MediaQuery.of(context).size;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -210,6 +222,29 @@ class _SongTimerState extends State<SongTimer> {
         ),
       ],
     );
+  }
+
+  Future<void> addSongDetails() async {
+    try {
+      if (user.id != null) {
+        final songs = SongModel(
+          userId: user.id,
+          songName: 'Lovely',
+          songArtist: 'Bille Ellish & Khalid',
+          songPrice: '  ${timerController.amout.value}',
+          duration: ' ${timerController.time.value}',
+          songdate: '${today.month}-${today.day}-${today.year}',
+          totalSongs: ' ${timerController.numberOfSongs.value}',
+        );
+
+        await FireStoreService().addSongs(songs);
+        Fluttertoast.showToast(msg: "Song Data Saved");
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
   }
 
   Widget outlineBox(String? icon, Size size, String text, VoidCallback? onTap) {

@@ -1,17 +1,18 @@
+import 'dart:io';
 import 'package:candela_maker/src/common_widgets/account_check.dart';
 import 'package:candela_maker/src/constants/constants.dart';
 import 'package:candela_maker/src/widgets/primary_button.dart';
 import 'package:candela_maker/src/widgets/input_field_title.dart';
-
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:candela_maker/src/widgets/text_input_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 import 'package:form_builder_phone_field/form_builder_phone_field.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../membership_level/membership_level.dart';
 import '../models/user_model.dart';
 import '../services/auth_service.dart';
@@ -27,7 +28,9 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormBuilderState>();
-
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  String? imageUrl;
+  late File file;
   bool isLoading = false;
   List<String> membershipOptions = [
     'Level 0',
@@ -126,6 +129,8 @@ class _RegisterState extends State<Register> {
                             fontWeight: FontWeight.w500),
                         cursorColor: Colors.white,
                         name: 'phonenumber',
+                        validator: FormBuilderValidators.required(
+                            errorText: "Phone number can not be empty"),
                         backgroundColor: Colors.white,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
@@ -163,6 +168,8 @@ class _RegisterState extends State<Register> {
                       FormBuilderDropdown(
                         name: "membershiplevel",
                         initialValue: membershipOptions[0],
+                        validator: FormBuilderValidators.required(
+                            errorText: "Membership level can not be empty"),
                         dropdownColor: kBlackColor,
                         items: membershipOptions
                             .map((level) => DropdownMenuItem(
@@ -224,15 +231,30 @@ class _RegisterState extends State<Register> {
                               errorText: "Song price can not be empty"),
                           keyboard: TextInputType.number),
                       const SizedBox(height: 21),
-                      FormBuilderImagePicker(
-                        previewHeight: 29,
-                        placeholderImage:
-                            const AssetImage("assets/images/upload_photo.png"),
-                        name: "image",
-                        decoration: const InputDecoration(
-                          contentPadding: EdgeInsets.only(top: 0.0, left: 10.0),
-                          border: InputBorder.none,
-                        ),
+                      Row(
+                        children: [
+                          Image.asset(
+                            "assets/images/upload_photo.png",
+                            height: 50,
+                            width: 50,
+                          ),
+                          const SizedBox(width: 10),
+                          InkWell(
+                            onTap: () async {
+                              final picker = ImagePicker();
+                              XFile? image = await picker.pickImage(
+                                  source: ImageSource.camera);
+                              file = File(image!.path);
+                            },
+                            child: const Text(
+                              "Upload Photo",
+                              style: TextStyle(
+                                  color: kTextColor,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          )
+                        ],
                       ),
                       const SizedBox(height: 21),
                       FormBuilderRadioGroup(
@@ -303,38 +325,60 @@ class _RegisterState extends State<Register> {
     );
   }
 
+  uploadImage(userId) async {
+    final firebaseStorage = FirebaseStorage.instance;
+
+    var snapshot = await firebaseStorage
+        .ref()
+        .child('image/$userId')
+        .putFile(file)
+        .whenComplete(() => print('Image Uploaded'));
+
+    String downloadUrl = await snapshot.ref.getDownloadURL();
+    setState(() {
+      imageUrl = downloadUrl;
+    });
+  }
+
   void createAccount() async {
     final FirebaseAuth auth = FirebaseAuth.instance;
     final email = _formKey.currentState!.fields['email']!.value.toString();
     final password =
         _formKey.currentState!.fields['password']!.value.toString();
     await AuthService().register(email, password).then((uid) async {
-      User? user = auth.currentUser;
-      final usermodel = UserModel(
-        id: user!.uid,
-        email: user.email,
-        fullName: _formKey.currentState!.fields['fullname']!.value.toString(),
-        address: _formKey.currentState!.fields['address']!.value.toString(),
-        userName: _formKey.currentState!.fields['username']!.value.toString(),
-        phoneNumber:
-            _formKey.currentState!.fields['phonenumber']!.value.toString(),
-        membershipLevel:
-            _formKey.currentState!.fields['membershiplevel']!.value.toString(),
-        bankName: _formKey.currentState!.fields['bankname']!.value.toString(),
-        bankRoutingNumber: _formKey
-            .currentState!.fields['bankroutingnumber']!.value
-            .toString(),
-        bankAccNumber: _formKey.currentState!.fields['bankaccountnumber']!.value
-            .toString(),
-        photoUrl: "",
-        language: _formKey.currentState!.fields['language']!.value.toString(),
-        songPrice: _formKey.currentState!.fields['songprice']!.value.toString(),
-      );
+      if (uid != null) {
+        User? user = auth.currentUser;
+        uploadImage(user!.uid);
+        final usermodel = UserModel(
+          id: user.uid,
+          email: user.email,
+          fullName: _formKey.currentState!.fields['fullname']!.value.toString(),
+          address: _formKey.currentState!.fields['address']!.value.toString(),
+          userName: _formKey.currentState!.fields['username']!.value.toString(),
+          phoneNumber:
+              _formKey.currentState!.fields['phonenumber']!.value.toString(),
+          membershipLevel: _formKey
+              .currentState!.fields['membershiplevel']!.value
+              .toString(),
+          bankName: _formKey.currentState!.fields['bankname']!.value.toString(),
+          bankRoutingNumber: _formKey
+              .currentState!.fields['bankroutingnumber']!.value
+              .toString(),
+          bankAccNumber: _formKey
+              .currentState!.fields['bankaccountnumber']!.value
+              .toString(),
+          photoUrl: imageUrl ?? '',
+          language: _formKey.currentState!.fields['language']!.value.toString(),
+          songPrice:
+              _formKey.currentState!.fields['songprice']!.value.toString(),
+        );
+        await FireStoreService().createUser(usermodel, user);
 
-      await FireStoreService().createUser(usermodel, user);
-      Fluttertoast.showToast(msg: "Account was created successfully!");
+        Fluttertoast.showToast(msg: "Account was created successfully!");
+        Get.off(() => const SignInScreen());
+      } else {
+        Fluttertoast.showToast(msg: "Account creation failed!");
+      }
     });
-
-    Get.off(() => const SignInScreen());
   }
 }
