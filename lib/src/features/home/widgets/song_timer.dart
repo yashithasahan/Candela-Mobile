@@ -10,10 +10,8 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
-import '../../authentication/models/user_model.dart';
 import '../../authentication/services/firestore_service.dart';
 
 class SongTimer extends StatefulWidget {
@@ -46,7 +44,7 @@ class _SongTimerState extends State<SongTimer> {
     addSongDetails();
   }
 
-  onPriceSave(double newPrice) {
+  onPriceSave(int newPrice) {
     timerController.amout.value = newPrice;
   }
 
@@ -86,7 +84,7 @@ class _SongTimerState extends State<SongTimer> {
                   child: PrimaryButton(
                     text: "Save",
                     press: () {
-                      onPriceSave(double.parse(
+                      onPriceSave(int.parse(
                           formKey.currentState!.fields['price']!.value));
                       Navigator.pop(context);
                     },
@@ -130,8 +128,8 @@ class _SongTimerState extends State<SongTimer> {
                 () => Center(
                   child: Image.asset(
                     timerController.secondryBackgorund.value
-                        ? timerSecondImage
-                        : timerMainImage,
+                        ? timerMainImage
+                        : timerSecondImage,
                     width: size.width * 0.6,
                   ),
                 ),
@@ -218,7 +216,7 @@ class _SongTimerState extends State<SongTimer> {
                   outlineBox(
                       null,
                       size,
-                      "Total \$ ${timerController.totalAmout.value.toInt()}",
+                      "Total \$ ${timerController.totalAmout.value}",
                       null),
                 ],
               ),

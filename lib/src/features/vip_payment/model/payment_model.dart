@@ -1,9 +1,9 @@
 class PaymentModel {
   final String? id;
   final String? userId;
-  final double? vipPayment;
-  final double? tipPayment;
-  final double? totalPayment;
+  final int? vipPayment;
+  final int? tipPayment;
+  final int? totalPayment;
   final DateTime? paymentDate;
 
   PaymentModel(

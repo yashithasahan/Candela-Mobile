@@ -3,7 +3,7 @@ class SongModel {
   final String? userId;
   final String? songName;
   final String? songArtist;
-  final double? songPrice;
+  final int? songPrice;
   final String? duration;
   final DateTime? songdate;
   final String? totalSongs;
