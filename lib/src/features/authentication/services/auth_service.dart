@@ -31,6 +31,7 @@ class AuthService {
       User? user = userCredential.user;
       return _userWithFirebaseUserUid(user);
     } on FirebaseAuthException catch (error) {
+      print(error.code);
       switch (error.code) {
         case "invalid-email":
           errorMessage = "Your email address appears to be malformed.";
@@ -49,6 +50,9 @@ class AuthService {
           break;
         case "operation-not-allowed":
           errorMessage = "Signing in with Email and Password is not enabled.";
+          break;
+        case "email-already-in-use":
+          errorMessage = "Email already in use.";
           break;
         default:
           errorMessage = "An undefined Error happened.";
@@ -73,6 +77,7 @@ class AuthService {
       Get.to(() => const HomeScreen());
       return _userWithFirebaseUserUid(user);
     } on FirebaseAuthException catch (error) {
+      print(error.code);
       switch (error.code) {
         case "invalid-email":
           errorMessage = "Your email address appears to be malformed.";
@@ -91,6 +96,9 @@ class AuthService {
           break;
         case "operation-not-allowed":
           errorMessage = "Signing in with Email and Password is not enabled.";
+          break;
+        case "invalid-credential":
+          errorMessage = "The password is invalid or the email is invalid.";
           break;
         default:
           errorMessage = "An undefined Error happened.";

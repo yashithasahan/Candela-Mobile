@@ -1,6 +1,9 @@
 import 'package:candela_maker/src/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+
+import '../controllers/timer_controller.dart';
 
 class SongCard extends StatelessWidget {
   const SongCard({super.key, required this.icon});
@@ -8,6 +11,7 @@ class SongCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final timerController = Get.put(TimerController());
     return Container(
       padding: const EdgeInsets.all(8),
       margin: const EdgeInsets.only(bottom: mainPadding),
@@ -52,12 +56,14 @@ class SongCard extends StatelessWidget {
               Row(
                 children: [
                   SvgPicture.asset(notes),
-                  const Text(
-                    "\$ 45",
-                    style: TextStyle(
-                        fontSize: 14,
-                        color: kTextColor,
-                        fontWeight: FontWeight.w900),
+                  Obx(
+                    () => Text(
+                      "\$ ${timerController.amout.value}",
+                      style: const TextStyle(
+                          fontSize: 14,
+                          color: kTextColor,
+                          fontWeight: FontWeight.w900),
+                    ),
                   ),
                 ],
               ),

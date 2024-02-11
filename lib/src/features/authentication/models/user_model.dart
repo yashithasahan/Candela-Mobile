@@ -6,10 +6,10 @@ class UserModel {
   final String? userName;
   final String? phoneNumber;
   final String? membershipLevel;
-  final String? bankName;
-  final String? bankRoutingNumber;
-  final String? bankAccNumber;
-  final String? photoUrl;
+  // final String? bankName;
+  // final String? bankRoutingNumber;
+  // final String? bankAccNumber;
+  // final String? photoUrl;
   final String? language;
   final String? songPrice;
 
@@ -22,10 +22,10 @@ class UserModel {
     this.userName,
     this.phoneNumber,
     this.membershipLevel,
-    this.bankName,
-    this.bankRoutingNumber,
-    this.bankAccNumber,
-    this.photoUrl,
+    // this.bankName,
+    // this.bankRoutingNumber,
+    // this.bankAccNumber,
+    // this.photoUrl,
     this.language,
     this.songPrice,
   });
@@ -39,10 +39,10 @@ class UserModel {
       userName: json['userName'],
       phoneNumber: json['phoneNumber'],
       membershipLevel: json['membershipLevel'],
-      bankName: json['bankName'],
-      bankRoutingNumber: json['bankRoutingNumber'],
-      bankAccNumber: json['bankAccNumber'],
-      photoUrl: json['photoUrl'],
+      // bankName: json['bankName'],
+      // bankRoutingNumber: json['bankRoutingNumber'],
+      // bankAccNumber: json['bankAccNumber'],
+      // photoUrl: json['photoUrl'],
       language: json['language'],
       songPrice: json['songPrice'],
     
@@ -51,17 +51,16 @@ class UserModel {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'fullName': fullName,
       'address': address,
       'email': email,
       'userName': userName,
       'phoneNumber': phoneNumber,
       'membershipLevel': membershipLevel,
-      'bankName': bankName,
-      'bankRoutingNumber': bankRoutingNumber,
-      'bankAccNumber': bankAccNumber,
-      'photoUrl': photoUrl,
+      // 'bankName': bankName,
+      // 'bankRoutingNumber': bankRoutingNumber,
+      // 'bankAccNumber': bankAccNumber,
+      // 'photoUrl': photoUrl,
       'language': language,
       'songPrice': songPrice,
     };

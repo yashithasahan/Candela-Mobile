@@ -1,12 +1,21 @@
+import 'dart:convert';
+
 import 'package:candela_maker/src/common_widgets/primary_button.dart';
 import 'package:candela_maker/src/constants/constants.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import '../../common_widgets/bottom_nav_bar.dart';
+import '../authentication/models/user_model.dart';
+import '../authentication/services/firestore_service.dart';
 import '../home/controllers/timer_controller.dart';
-import '../home/home_screen.dart';
+import 'model/payment_model.dart';
 import 'widgets/payment_box.dart';
 import 'widgets/total_box.dart';
+import 'package:http/http.dart' as http;
 
 class VIPPaymentScreen extends StatefulWidget {
   const VIPPaymentScreen({super.key});
@@ -20,6 +29,47 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
   final timerController = Get.put(TimerController());
   int totalPayment = 0;
   int vipDances = 0;
+  late UserModel user;
+  DateTime today = DateTime.now();
+
+  Future<void> initPaymentSheet(context,
+      {required String email, required int amount}) async {
+    try {
+      final response = await http.post(
+          Uri.parse(
+              'https://us-central1-candela-maker.cloudfunctions.net/stripePaymentIntentRequest'),
+          body: {'email': email, 'amount': amount.toString()});
+
+      final jsonResponse = jsonDecode(response.body);
+
+      await Stripe.instance.initPaymentSheet(
+          paymentSheetParameters: SetupPaymentSheetParameters(
+        paymentIntentClientSecret: jsonResponse['paymentIntent'],
+        customerId: jsonResponse['customer'],
+        customerEphemeralKeySecret: jsonResponse['ephemeralKey'],
+        merchantDisplayName: 'Flutter Stripe',
+        appearance: const PaymentSheetAppearance(
+            primaryButton: PaymentSheetPrimaryButtonAppearance(
+                shapes: PaymentSheetPrimaryButtonShape(blurRadius: 8),
+                colors: PaymentSheetPrimaryButtonTheme(
+                    light: PaymentSheetPrimaryButtonThemeColors(
+                  background: kPrimaryColor,
+                  text: Colors.black,
+                )))),
+      ));
+      await Stripe.instance.presentPaymentSheet();
+      savePaymentData();
+      Fluttertoast.showToast(msg: 'Payment Successful');
+    } catch (e) {
+      if (e is StripeException) {
+        Fluttertoast.showToast(
+            msg: 'Error from Stripe: ${e.error.localizedMessage}');
+      } else {
+        Fluttertoast.showToast(msg: 'Error: ${e.toString()}');
+        print(e.toString());
+      }
+    }
+  }
 
   @override
   void initState() {
@@ -37,6 +87,7 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    user = Provider.of<UserModel?>(context) ?? UserModel(id: '');
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: kBgColor,
@@ -164,37 +215,39 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
           ),
           PrimaryButton(
               text: 'Pay Vip Now',
-              press: () => showDialog<String>(
-                    barrierColor: kSecondaryColor.withOpacity(0.7),
-                    context: context,
-                    builder: (BuildContext context) => AlertDialog(
-                      backgroundColor: kBlackColor,
-                      contentPadding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
-                      actionsPadding: const EdgeInsets.only(bottom: 40),
-                      content: const Text(
-                        'Payment Received Successfully',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: kTextColor, fontSize: 18),
-                      ),
-                      actions: <Widget>[
-                        Center(
-                          child: PrimaryButton(
-                              text: 'Home',
-                              press: () {
-                                timerController.totalAmout.value = 0;
-                                timerController.numberOfSongs.value = 0;
-                                timerController.time.value = '00:00:00';
-                                Get.offAll(() => const HomeScreen());
-                              },
-                              width: 0.5),
-                        )
-                      ],
-                    ),
-                  ),
+              press: () async {
+                if (totalPayment == 0) {
+                  Fluttertoast.showToast(msg: 'Please add payment to proceed');
+                } else {
+                  await initPaymentSheet(context,
+                      email: '${user.email}', amount: totalPayment * 100);
+                }
+              },
               width: 0.6)
         ],
       ),
       bottomNavigationBar: const BottomNavBar(index: 1),
     );
+  }
+
+  Future<void> savePaymentData() async {
+    try {
+      if (user.id != null) {
+        final payments = PaymentModel(
+          userId: user.id,
+          vipPayment: vipDances,
+          tipPayment: int.parse(tipController.text),
+          totalPayment: totalPayment,
+          paymentDate: today,
+        );
+
+        await FireStoreService().addPayments(payments);
+        Fluttertoast.showToast(msg: "Payment Data Saved");
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
   }
 }

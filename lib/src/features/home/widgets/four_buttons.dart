@@ -9,11 +9,9 @@ class FourButtons extends StatelessWidget {
   const FourButtons({super.key});
 
   @override
-
   Widget build(BuildContext context) {
     final timecontroller = Get.put(TimerController());
     return Column(
-    
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

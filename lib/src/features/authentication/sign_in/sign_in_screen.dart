@@ -16,88 +16,87 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-
-
   final _formKey = GlobalKey<FormBuilderState>();
   bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: kBgColor,
-        appBar: AppBar(
-            forceMaterialTransparency: true,
-            automaticallyImplyLeading: false,
-            centerTitle: true,
-            foregroundColor: kTextColor,
-            title: const Text(
-              'SIGN IN',
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.w700,
-                color: kPrimaryColor,
-              ),
-            )),
-        body: Padding(
-            padding: kDefaultPadding,
-            child: FormBuilder(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const InputTitle(title: "Email"),
-                  const SizedBox(height: 9),
-                  TextInputField(
-                    name: "email",
-                    keyboard: TextInputType.emailAddress,
-                    validator: FormBuilderValidators.required(
-                        errorText: "Email can not be empty"),
+    return PopScope(
+        canPop: false,
+        child: SafeArea(
+          child: Scaffold(
+            backgroundColor: kBgColor,
+            appBar: AppBar(
+                forceMaterialTransparency: true,
+                automaticallyImplyLeading: false,
+                centerTitle: true,
+                foregroundColor: kTextColor,
+                title: const Text(
+                  'SIGN IN',
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.w700,
+                    color: kPrimaryColor,
                   ),
-                  const SizedBox(height: 21),
-                  const InputTitle(title: "Password"),
-                  const SizedBox(height: 9),
-                  TextInputField(
-                    name: "password",
-                    keyboard: TextInputType.visiblePassword,
-                 
-                    validator: FormBuilderValidators.required(
-                        errorText: "Password can not be empty"),
-                  ),
-                  const SizedBox(height: 25),
-                  isLoading
-                      ? const Center(
-                          child: CircularProgressIndicator(
-                          color: kPrimaryColor,
-                        ))
-                      : PrimaryButton(
-                          btnName: "Sign In",
-                          press: () async {
-                            if (_formKey.currentState!.validate()) {
-                              setState(() {
-                                isLoading = true;
-                              });
-                              final email = _formKey
-                                  .currentState!.fields['email']!.value
-                                  .toString();
-                              final password = _formKey
-                                  .currentState!.fields['password']!.value
-                                  .toString();
-                              await AuthService()
-                                  .login(email, password, context);
+                )),
+            body: Padding(
+                padding: kDefaultPadding,
+                child: FormBuilder(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const InputTitle(title: "Email"),
+                      const SizedBox(height: 9),
+                      TextInputField(
+                        name: "email",
+                        keyboard: TextInputType.emailAddress,
+                        validator: FormBuilderValidators.required(
+                            errorText: "Email can not be empty"),
+                      ),
+                      const SizedBox(height: 21),
+                      const InputTitle(title: "Password"),
+                      const SizedBox(height: 9),
+                      TextInputField(
+                        name: "password",
+                        keyboard: TextInputType.visiblePassword,
+                        validator: FormBuilderValidators.required(
+                            errorText: "Password can not be empty"),
+                      ),
+                      const SizedBox(height: 25),
+                      isLoading
+                          ? const Center(
+                              child: CircularProgressIndicator(
+                              color: kPrimaryColor,
+                            ))
+                          : PrimaryButton(
+                              btnName: "Sign In",
+                              press: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  final email = _formKey
+                                      .currentState!.fields['email']!.value
+                                      .toString();
+                                  final password = _formKey
+                                      .currentState!.fields['password']!.value
+                                      .toString();
+                                  await AuthService()
+                                      .login(email, password, context);
 
-                              setState(() {
-                                isLoading = false;
-                              });
-                            }
-                          },
-                        ),
-                  const SizedBox(height: 20),
-                ],
-              ),
-            )),
-      ),
-    );
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                }
+                              },
+                            ),
+                      const SizedBox(height: 20),
+                    ],
+                  ),
+                )),
+          ),
+        ));
   }
 }
