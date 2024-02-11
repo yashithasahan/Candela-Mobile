@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
 
-    _timer = Timer.periodic(const Duration(seconds: 20), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 90), (timer) {
       if (membershipController.membershipLevel.value == 0) {
         Get.to(() => const MembershipLevel());
       } else {
