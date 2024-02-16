@@ -219,8 +219,9 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
                 if (totalPayment == 0) {
                   Fluttertoast.showToast(msg: 'Please add payment to proceed');
                 } else {
-                  await initPaymentSheet(context,
-                      email: '${user.email}', amount: totalPayment * 100);
+                  savePaymentData();
+                  // await initPaymentSheet(context,
+                  //     email: '${user.email}', amount: totalPayment * 100);
                 }
               },
               width: 0.6)
@@ -243,6 +244,10 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
 
         await FireStoreService().addPayments(payments);
         Fluttertoast.showToast(msg: "Payment Data Saved");
+        timerController.numberOfSongs.value = 0;
+        timerController.totalAmout.value = 0;
+        timerController.time.value = '00:00';
+        Get.back();
       }
     } catch (e) {
       if (kDebugMode) {

@@ -26,22 +26,69 @@ class _SongTimerState extends State<SongTimer> {
   final StopWatchTimer _stopWatchTimer = StopWatchTimer();
   int stopTime = 0;
   DateTime today = DateTime.now();
+  bool isTap = false;
 
   onTapStart() {
-    _stopWatchTimer.onStartTimer();
+    if (isTap == false) {
+      _stopWatchTimer.onStartTimer();
+      setState(() {
+        isTap = true;
+      });
+    } else {
+      _stopWatchTimer.onStopTimer();
+    }
   }
 
   onTapStop() {
-    _stopWatchTimer.onResetTimer();
+    if (isTap == true) {
+      showDialog<String>(
+        barrierColor: kSecondaryColor.withOpacity(0.7),
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          backgroundColor: kBlackColor,
+          contentPadding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
+          actionsPadding: const EdgeInsets.only(bottom: 40),
+          content: const Text(
+            'Are you sure you want to stop the timer?',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: kTextColor, fontSize: 14),
+          ),
+          actions: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                PrimaryButton(
+                    text: 'YES',
+                    press: () {
+                      _stopWatchTimer.onResetTimer();
 
-    setState(() {
-      stopTime += _stopWatchTimer.rawTime.value;
-    });
-    timerController.totalAmout.value += timerController.amout.value;
-    timerController.numberOfSongs.value++;
-    timerController.time.value =
-        StopWatchTimer.getDisplayTime(stopTime, hours: false);
-    addSongDetails();
+                      setState(() {
+                        stopTime += _stopWatchTimer.rawTime.value;
+                        isTap = false;
+                      });
+                      timerController.totalAmout.value +=
+                          timerController.amout.value;
+                      timerController.numberOfSongs.value++;
+                      timerController.time.value =
+                          StopWatchTimer.getDisplayTime(stopTime, hours: false);
+                      addSongDetails();
+                      Get.back();
+                    },
+                    width: 0.3),
+                PrimaryButton(
+                    text: 'NO',
+                    press: () {
+                      Get.back();
+                    },
+                    width: 0.3),
+              ],
+            )
+          ],
+        ),
+      );
+    } else {
+      Fluttertoast.showToast(msg: "Please start the timer first");
+    }
   }
 
   onPriceSave(int newPrice) {
@@ -213,11 +260,8 @@ class _SongTimerState extends State<SongTimer> {
                       size,
                       "Total Songs ${timerController.numberOfSongs.value}",
                       null),
-                  outlineBox(
-                      null,
-                      size,
-                      "Total \$ ${timerController.totalAmout.value}",
-                      null),
+                  outlineBox(null, size,
+                      "Total \$ ${timerController.totalAmout.value}", null),
                 ],
               ),
             ],
