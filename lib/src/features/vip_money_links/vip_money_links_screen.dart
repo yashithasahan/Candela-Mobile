@@ -187,7 +187,7 @@ class VIPMoneyLinks extends StatelessWidget {
           ),
         ]),
       ),
-      bottomNavigationBar: const BottomNavBar(index: 0),
+    
     );
   }
 }

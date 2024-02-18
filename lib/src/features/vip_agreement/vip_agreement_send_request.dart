@@ -79,7 +79,7 @@ class _VIPAgreementSendRequestState extends State<VIPAgreementSendRequest> {
             ),
           ),
         ),
-        bottomNavigationBar: const BottomNavBar(index: 0),
+      
       ),
     );
   }

@@ -81,7 +81,7 @@ class _VIPAgreementAgreeState extends State<VIPAgreementAgree> {
             ),
           ),
         ),
-        bottomNavigationBar: const BottomNavBar(index: 0),
+      
       ),
     );
   }

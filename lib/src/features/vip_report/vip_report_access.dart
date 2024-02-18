@@ -58,6 +58,6 @@ class _VIPReportAccessState extends State<VIPReportAccess> {
             ],
           ),
         ),
-        bottomNavigationBar: const BottomNavBar(index: 3));
+    );
   }
 }

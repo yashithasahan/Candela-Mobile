@@ -109,7 +109,7 @@ class InsuranceScreen extends StatelessWidget {
           ),
         ]),
       ),
-      bottomNavigationBar: const BottomNavBar(index: 0),
+      
     );
   }
 }

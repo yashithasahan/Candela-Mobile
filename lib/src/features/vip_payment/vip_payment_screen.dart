@@ -226,7 +226,7 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
               width: 0.6)
         ],
       ),
-      bottomNavigationBar: const BottomNavBar(index: 1),
+
     );
   }
 

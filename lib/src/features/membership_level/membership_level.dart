@@ -150,7 +150,7 @@ class _MembershipLevelState extends State<MembershipLevel> {
             ),
           ),
         ),
-        bottomNavigationBar: const BottomNavBar(index: 0),
+     
       ),
     );
   }
