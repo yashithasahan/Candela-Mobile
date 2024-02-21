@@ -35,7 +35,7 @@ class _SongTimerState extends State<SongTimer> {
         isTap = true;
       });
     } else {
-      _stopWatchTimer.onStopTimer();
+      Fluttertoast.showToast(msg: "Timer is already running");
     }
   }
 
