@@ -1,12 +1,20 @@
+import 'dart:convert';
 import 'package:candela_maker/src/common_widgets/primary_button.dart';
 import 'package:candela_maker/src/constants/constants.dart';
 import 'package:candela_maker/src/widgets/membership_level_btn.dart';
 import 'package:candela_maker/src/widgets/membership_level_description.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import '../../common_widgets/bottom_nav_bar.dart';
+import '../authentication/models/user_model.dart';
+import '../authentication/services/firestore_service.dart';
 import 'controller/membership_controller.dart';
+import 'model/membership_model.dart';
 
 class MembershipLevel extends StatefulWidget {
   const MembershipLevel({super.key});
@@ -17,9 +25,69 @@ class MembershipLevel extends StatefulWidget {
 
 class _MembershipLevelState extends State<MembershipLevel> {
   int level = 0;
+  int membershipCost = 0;
+  late UserModel user;
+  bool isLoading = false;
+  DateTime now = DateTime.now();
+
+  int calculateMembershipCost(int level) {
+    switch (level) {
+      case 0:
+        return 0;
+      case 1:
+        return 15;
+      case 2:
+        return 25;
+      case 3:
+        return 35;
+      case 4:
+        return 500;
+      default:
+        return 0;
+    }
+  }
+
+  Future<void> initPaymentSheet(context,
+      {required String email, required int amount}) async {
+    try {
+      final response = await http.post(
+          Uri.parse(
+              'https://us-central1-candela-maker.cloudfunctions.net/stripePaymentIntentRequest'),
+          body: {'email': email, 'amount': amount.toString()});
+
+      final jsonResponse = jsonDecode(response.body);
+
+      await Stripe.instance.initPaymentSheet(
+          paymentSheetParameters: SetupPaymentSheetParameters(
+        paymentIntentClientSecret: jsonResponse['paymentIntent'],
+        customerId: jsonResponse['customer'],
+        customerEphemeralKeySecret: jsonResponse['ephemeralKey'],
+        merchantDisplayName: 'Flutter Stripe',
+        appearance: const PaymentSheetAppearance(
+            primaryButton: PaymentSheetPrimaryButtonAppearance(
+                shapes: PaymentSheetPrimaryButtonShape(blurRadius: 8),
+                colors: PaymentSheetPrimaryButtonTheme(
+                    light: PaymentSheetPrimaryButtonThemeColors(
+                  background: kPrimaryColor,
+                  text: Colors.black,
+                )))),
+      ));
+      await Stripe.instance.presentPaymentSheet();
+      Fluttertoast.showToast(msg: 'Payment Successful');
+      saveMembershipPayment();
+    } catch (e) {
+      if (e is StripeException) {
+        Fluttertoast.showToast(msg: 'Payment failed');
+      } else {
+        Fluttertoast.showToast(msg: 'Error: ${e.toString()}');
+        print(e.toString());
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    user = Provider.of<UserModel?>(context) ?? UserModel(id: '');
     final membershipController = Get.put(MembershipController());
     return SafeArea(
       child: Scaffold(
@@ -41,7 +109,6 @@ class _MembershipLevelState extends State<MembershipLevel> {
         body: Padding(
           padding: kDefaultPadding,
           child: SingleChildScrollView(
-
             child: Column(
               children: [
                 const SizedBox(height: 20),
@@ -133,18 +200,31 @@ class _MembershipLevelState extends State<MembershipLevel> {
                   ],
                 ),
                 const SizedBox(height: 20),
-                Obx(
-                  () => Visibility(
-                      visible: membershipController.membershipLevel.value > 0,
-                      child: PrimaryButton(
-                          text: 'SUBSCRIBE',
-                          press: () {
-                            membershipController.membershipLevel.value = level;
+                isLoading
+                    ? const CircularProgressIndicator(
+                        color: kPrimaryColor,
+                      )
+                    : PrimaryButton(
+                        text: 'SUBSCRIBE',
+                        press: () async {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          if (level == 0) {
+                            saveMembershipPayment();
+                          } else {
+                            membershipCost = calculateMembershipCost(level);
+                            await initPaymentSheet(context,
+                                email: '${user.email}',
+                                amount: membershipCost * 100);
+                          }
+                          setState(() {
+                            isLoading = false;
+                          });
 
-                            Get.back();
-                          },
-                          width: 0.5)),
-                ),
+                          Get.back();
+                        },
+                        width: 0.5),
                 const SizedBox(height: 20)
               ],
             ),
@@ -153,5 +233,26 @@ class _MembershipLevelState extends State<MembershipLevel> {
      
       ),
     );
+  }
+
+  Future<void> saveMembershipPayment() async {
+    try {
+      if (user.id != null) {
+        final membershipPayment = MembershipModel(
+          membershipLevel: level,
+          membershipCost: membershipCost,
+          paymentDate: now,
+          expiryDate: now.add(const Duration(days: 30)),
+        );
+
+        await FireStoreService().addMembershipPayments(membershipPayment, user);
+        Fluttertoast.showToast(msg: "Membership saved");
+        Get.back();
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
   }
 }

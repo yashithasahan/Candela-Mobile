@@ -28,7 +28,6 @@ class _SongTimerState extends State<SongTimer> {
   DateTime today = DateTime.now();
   bool isTimerRunning = false;
 
-
   Future<void> _showMyDialog() async {
     return showDialog<void>(
       context: context,
@@ -85,8 +84,6 @@ class _SongTimerState extends State<SongTimer> {
     if (isTimerRunning) {
       _showMyDialog();
     }
-
-
   }
 
   onPriceSave(int newPrice) {
@@ -258,11 +255,8 @@ class _SongTimerState extends State<SongTimer> {
                       size,
                       "Total Songs ${timerController.numberOfSongs.value}",
                       null),
-                  outlineBox(
-                      null,
-                      size,
-                      "Total \$ ${timerController.totalAmout.value}",
-                      null),
+                  outlineBox(null, size,
+                      "Total \$ ${timerController.totalAmout.value}", null),
                 ],
               ),
             ],
