@@ -25,7 +25,7 @@ class MainApp extends StatelessWidget {
     Get.put(MembershipController());
     return StreamProvider<UserModel?>.value(
       value: AuthService().user,
-      initialData: UserModel(id: ""),
+      initialData: UserModel(id: null),
       child: const GetMaterialApp(
         debugShowCheckedModeBanner: false,
         home: WelcomeScreen(),
