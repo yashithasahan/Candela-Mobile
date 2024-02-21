@@ -1,11 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore_for_file: deprecated_member_use
 
+import 'package:candela_maker/src/features/authentication/register/register.dart';
+import 'package:candela_maker/src/features/membership_level/membership_level.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
 import '../constants/constants.dart';
-import '../features/home/home_screen.dart';
 import '../features/vip_payment/vip_payment_screen.dart';
 import '../features/vip_report/vip_report_access.dart';
 
@@ -18,7 +19,7 @@ class BottomNavBar extends StatefulWidget {
   });
 
   final int index;
-final int currentIndex;
+  final int currentIndex;
   final Function(int) onTap;
   @override
   State<BottomNavBar> createState() => _BottomNavBarState();
@@ -31,14 +32,16 @@ class _BottomNavBarState extends State<BottomNavBar> {
     _selectedIndex = index;
 
     if (_selectedIndex == 0) {
-      Get.to(() => const HomeScreen());
+      Get.to(() => const Register());
     } else if (_selectedIndex == 1) {
-      Get.to(() => const VIPPaymentScreen());
+      Get.to(() => const MembershipLevel());
     } else if (_selectedIndex == 2) {
-      Get.back();
+      Get.to(() => const VIPPaymentScreen());
     } else if (_selectedIndex == 3) {
       Get.to(() => const VIPReportAccess());
-    }
+    } else if (_selectedIndex == 4) {
+      Get.back();
+    } else if (_selectedIndex == 5) {}
   }
 
   @override
@@ -85,7 +88,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
             'assets/icons/arrowFront.png',
             width: imageWidth,
           ),
-        
           label: 'Back',
         ),
         BottomNavigationBarItem(
@@ -94,13 +96,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
             'assets/icons/arrowBack.png',
             width: imageWidth,
           ),
-        
           label: 'Forward',
         ),
       ],
       currentIndex: widget.currentIndex,
       unselectedItemColor: kTextColor,
-      selectedItemColor: kPrimaryColor,
       showUnselectedLabels: true,
       onTap: widget.onTap,
     );

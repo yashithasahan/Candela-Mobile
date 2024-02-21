@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../home/models/song_model.dart';
+import '../../membership_level/model/membership_model.dart';
 import '../../vip_payment/model/payment_model.dart';
 import '../models/user_model.dart';
 
@@ -33,5 +34,16 @@ class FireStoreService {
         .add(paymentModel.toJson())
         .then((value) => print("Payment details added"))
         .catchError((error) => print("Failed to add payment details: $error"));
+  }
+
+  Future<void> addMembershipPayments(
+      MembershipModel membershipModel, UserModel user) async {
+    return await _db
+        .collection('membership')
+        .doc(user.id)
+        .set(membershipModel.toJson())
+        .then((value) => print("Membership Payment details added"))
+        .catchError((error) =>
+            print("Failed to add membership payment details: $error"));
   }
 }
