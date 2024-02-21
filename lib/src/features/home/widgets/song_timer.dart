@@ -26,22 +26,67 @@ class _SongTimerState extends State<SongTimer> {
   final StopWatchTimer _stopWatchTimer = StopWatchTimer();
   int stopTime = 0;
   DateTime today = DateTime.now();
+  bool isTimerRunning = false;
+
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Are you sure?'),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Do you want to stop the timer?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Yes'),
+              onPressed: () {
+                _stopWatchTimer.onResetTimer();
+                setState(() {
+                  isTimerRunning = false;
+                });
+                setState(() {
+                  stopTime += _stopWatchTimer.rawTime.value;
+                });
+                timerController.totalAmout.value += timerController.amout.value;
+                timerController.numberOfSongs.value++;
+                timerController.time.value =
+                    StopWatchTimer.getDisplayTime(stopTime, hours: false);
+                addSongDetails();
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   onTapStart() {
+    setState(() {
+      isTimerRunning = true;
+    });
     _stopWatchTimer.onStartTimer();
   }
 
   onTapStop() {
-    _stopWatchTimer.onResetTimer();
+    if (isTimerRunning) {
+      _showMyDialog();
+    }
 
-    setState(() {
-      stopTime += _stopWatchTimer.rawTime.value;
-    });
-    timerController.totalAmout.value += timerController.amout.value;
-    timerController.numberOfSongs.value++;
-    timerController.time.value =
-        StopWatchTimer.getDisplayTime(stopTime, hours: false);
-    addSongDetails();
+
   }
 
   onPriceSave(int newPrice) {
