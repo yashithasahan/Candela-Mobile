@@ -3,6 +3,7 @@ import 'package:candela_maker/src/common_widgets/primary_button.dart';
 import 'package:candela_maker/src/constants/constants.dart';
 import 'package:candela_maker/src/widgets/membership_level_btn.dart';
 import 'package:candela_maker/src/widgets/membership_level_description.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -10,7 +11,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import '../../common_widgets/bottom_nav_bar.dart';
 import '../authentication/models/user_model.dart';
 import '../authentication/services/firestore_service.dart';
 import 'controller/membership_controller.dart';
@@ -24,10 +24,12 @@ class MembershipLevel extends StatefulWidget {
 }
 
 class _MembershipLevelState extends State<MembershipLevel> {
+  MembershipController membershipController = Get.put(MembershipController());
   int level = 0;
   int membershipCost = 0;
   late UserModel user;
   bool isLoading = false;
+
   DateTime now = DateTime.now();
 
   int calculateMembershipCost(int level) {
@@ -80,7 +82,9 @@ class _MembershipLevelState extends State<MembershipLevel> {
         Fluttertoast.showToast(msg: 'Payment failed');
       } else {
         Fluttertoast.showToast(msg: 'Error: ${e.toString()}');
-        print(e.toString());
+        if (kDebugMode) {
+          print(e.toString());
+        }
       }
     }
   }
@@ -88,7 +92,6 @@ class _MembershipLevelState extends State<MembershipLevel> {
   @override
   Widget build(BuildContext context) {
     user = Provider.of<UserModel?>(context) ?? UserModel(id: '');
-    final membershipController = Get.put(MembershipController());
     return SafeArea(
       child: Scaffold(
         backgroundColor: kBgColor,
@@ -126,6 +129,12 @@ class _MembershipLevelState extends State<MembershipLevel> {
                           membershipController.membershipLevel.value = level;
                         });
                       },
+                      textColor: membershipController.membershipLevel.value == 0
+                          ? kBgColor
+                          : Colors.white,
+                      btnColor: membershipController.membershipLevel.value == 0
+                          ? [const Color(0xFFDEA72C), const Color(0xFFF59C0D)]
+                          : [Colors.grey, Colors.grey],
                     )
                   ],
                 ),
@@ -144,6 +153,12 @@ class _MembershipLevelState extends State<MembershipLevel> {
                           membershipController.membershipLevel.value = level;
                         });
                       },
+                      textColor: membershipController.membershipLevel.value == 1
+                          ? kBgColor
+                          : Colors.white,
+                      btnColor: membershipController.membershipLevel.value == 1
+                          ? [const Color(0xFFDEA72C), const Color(0xFFF59C0D)]
+                          : [Colors.grey, Colors.grey],
                     )
                   ],
                 ),
@@ -162,6 +177,12 @@ class _MembershipLevelState extends State<MembershipLevel> {
                           membershipController.membershipLevel.value = level;
                         });
                       },
+                      textColor: membershipController.membershipLevel.value == 2
+                          ? kBgColor
+                          : Colors.white,
+                      btnColor: membershipController.membershipLevel.value == 2
+                          ? [const Color(0xFFDEA72C), const Color(0xFFF59C0D)]
+                          : [Colors.grey, Colors.grey],
                     )
                   ],
                 ),
@@ -173,13 +194,20 @@ class _MembershipLevelState extends State<MembershipLevel> {
                         description:
                             "\$35 per month-Timer, Song Count, Realtime Onscreen / Email Report. You process your payments, we record on app transaction for you."),
                     MembershipLevelButton(
-                        level: 3,
-                        press: () {
-                          setState(() {
-                            level = 3;
-                            membershipController.membershipLevel.value = level;
-                          });
-                        })
+                      level: 3,
+                      press: () {
+                        setState(() {
+                          level = 3;
+                          membershipController.membershipLevel.value = level;
+                        });
+                      },
+                      textColor: membershipController.membershipLevel.value == 3
+                          ? kBgColor
+                          : Colors.white,
+                      btnColor: membershipController.membershipLevel.value == 3
+                          ? [const Color(0xFFDEA72C), const Color(0xFFF59C0D)]
+                          : [Colors.grey, Colors.grey],
+                    )
                   ],
                 ),
                 const SizedBox(height: 15),
@@ -190,54 +218,70 @@ class _MembershipLevelState extends State<MembershipLevel> {
                         description:
                             "VIP MANAGER - Full Functions & Multi User Vip Manager \$500 per month for every 25 users"),
                     MembershipLevelButton(
-                        level: 4,
-                        press: () {
-                          setState(() {
-                            level = 4;
-                            membershipController.membershipLevel.value = level;
-                          });
-                        })
+                      level: 4,
+                      press: () {
+                        setState(() {
+                          level = 4;
+                          membershipController.membershipLevel.value = level;
+                        });
+                      },
+                      textColor: membershipController.membershipLevel.value == 4
+                          ? kBgColor
+                          : Colors.white,
+                      btnColor: membershipController.membershipLevel.value == 4
+                          ? [const Color(0xFFDEA72C), const Color(0xFFF59C0D)]
+                          : [Colors.grey, Colors.grey],
+                    )
                   ],
                 ),
                 const SizedBox(height: 20),
-                isLoading
-                    ? const CircularProgressIndicator(
-                        color: kPrimaryColor,
-                      )
-                    : PrimaryButton(
-                        text: 'SUBSCRIBE',
-                        press: () async {
-                          setState(() {
-                            isLoading = true;
-                          });
-                          if (level == 0) {
-                            saveMembershipPayment();
-                          } else {
-                            membershipCost = calculateMembershipCost(level);
-                            await initPaymentSheet(context,
-                                email: '${user.email}',
-                                amount: membershipCost * 100);
-                          }
-                          setState(() {
-                            isLoading = false;
-                          });
+                Obx(() => Visibility(
+                      visible:
+                          membershipController.membershipLevel.value == level,
+                      child: isLoading
+                          ? const Center(
+                              child: CircularProgressIndicator(
+                              color: kPrimaryColor,
+                            ))
+                          : PrimaryButton(
+                              text: 'SUBSCRIBE',
+                              press: () async {
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                if (level == 0) {
+                                  saveMembershipPayment();
+                                } else {
+                                  membershipCost =
+                                      calculateMembershipCost(level);
+                                  await initPaymentSheet(context,
+                                      email: '${user.email}',
+                                      amount: membershipCost * 100);
+                                }
+                                setState(() {
+                                  isLoading = false;
+                                  membershipController.membershipLevel.value =
+                                      level;
+                                });
 
-                          Get.back();
-                        },
-                        width: 0.5),
+                                Get.back();
+                              },
+                              width: 0.5),
+                    )),
                 const SizedBox(height: 20)
               ],
             ),
           ),
         ),
-     
       ),
     );
   }
 
   Future<void> saveMembershipPayment() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
     try {
-      if (user.id != null) {
+      if (user != null) {
         final membershipPayment = MembershipModel(
           membershipLevel: level,
           membershipCost: membershipCost,

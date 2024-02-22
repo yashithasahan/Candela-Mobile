@@ -1,4 +1,3 @@
-import 'package:candela_maker/src/common_widgets/bottom_nav_bar.dart';
 import 'package:candela_maker/src/constants/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +12,7 @@ class VIPMoneyLinks extends StatelessWidget {
       backgroundColor: kBgColor,
       appBar: AppBar(
         forceMaterialTransparency: true,
+        automaticallyImplyLeading: false,
         centerTitle: true,
         foregroundColor: kTextColor,
         title: const Text(
@@ -187,8 +187,6 @@ class VIPMoneyLinks extends StatelessWidget {
           ),
         ]),
       ),
-    
     );
   }
 }
-

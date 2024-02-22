@@ -28,19 +28,21 @@ class FireStoreService {
         .catchError((error) => print("Failed to add song details: $error"));
   }
 
-  Future<void> addPayments(PaymentModel paymentModel) async {
+  Future<void> addPayments(PaymentModel paymentModel, User? user) async {
     return await _db
         .collection('payments')
+        .doc(user!.uid)
+        .collection('user_payments')
         .add(paymentModel.toJson())
         .then((value) => print("Payment details added"))
         .catchError((error) => print("Failed to add payment details: $error"));
   }
 
   Future<void> addMembershipPayments(
-      MembershipModel membershipModel, UserModel user) async {
+      MembershipModel membershipModel, User? user) async {
     return await _db
         .collection('membership')
-        .doc(user.id)
+        .doc(user!.uid)
         .set(membershipModel.toJson())
         .then((value) => print("Membership Payment details added"))
         .catchError((error) =>

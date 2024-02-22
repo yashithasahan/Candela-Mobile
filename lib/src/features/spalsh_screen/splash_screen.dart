@@ -30,8 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     getValidationData().whenComplete(() async {
       Timer(const Duration(seconds: 3), () {
-        Get.to(
-            () => userId == null ? const Register() : const HomeScreen());
+        Get.to(() => userId == null ? const Register() : const HomeScreen());
       });
     });
     super.initState();
@@ -42,15 +41,9 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: kBgColor,
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset('assets/images/splash-img.jpg',width: 250,),
-            Image.asset(
-              'assets/images/splash-model.png',
-              width: 250,
-            ),
-          ],
+        child: Image.asset(
+          'assets/images/candela-vip-splash.jpg',
+          fit: BoxFit.fill,
         ),
       ),
     );
