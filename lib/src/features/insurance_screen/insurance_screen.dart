@@ -1,4 +1,3 @@
-import 'package:candela_maker/src/common_widgets/bottom_nav_bar.dart';
 import 'package:candela_maker/src/common_widgets/secondary_button.dart';
 import 'package:candela_maker/src/constants/constants.dart';
 import 'package:flutter/material.dart';

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/route_manager.dart';
 
-import '../../common_widgets/bottom_nav_bar.dart';
 import 'vip_agreement_agree.dart';
 
 class VIPAgreementSendRequest extends StatefulWidget {

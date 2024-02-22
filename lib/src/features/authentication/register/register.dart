@@ -12,7 +12,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_builder_phone_field/form_builder_phone_field.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
-import '../../membership_level/membership_level.dart';
+import '../../membership_level/model/membership_model.dart';
 import '../models/user_model.dart';
 import '../services/auth_service.dart';
 import '../services/firestore_service.dart';
@@ -147,54 +147,54 @@ class _RegisterState extends State<Register> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 21),
-                      Row(
-                        children: [
-                          const InputTitle(title: "Membership Level"),
-                          const SizedBox(width: 9),
-                          InkWell(
-                            onTap: () {
-                              Get.to(() => const MembershipLevel());
-                            },
-                            child: const Icon(
-                              Icons.info_outlined,
-                              color: kTextColor,
-                            ),
-                          )
-                        ],
-                      ),
-                      const SizedBox(height: 9),
-                      FormBuilderDropdown(
-                        name: "membershiplevel",
-                        initialValue: membershipOptions[0],
-                        validator: FormBuilderValidators.required(
-                            errorText: "Membership level can not be empty"),
-                        dropdownColor: kBlackColor,
-                        items: membershipOptions
-                            .map((level) => DropdownMenuItem(
-                                  alignment: AlignmentDirectional.centerStart,
-                                  value: level,
-                                  child: Text(
-                                    level,
-                                    style: const TextStyle(color: Colors.white),
-                                  ),
-                                ))
-                            .toList(),
-                        decoration: InputDecoration(
-                          contentPadding:
-                              const EdgeInsets.only(top: 0.0, left: 10.0),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                            borderSide: const BorderSide(
-                              color: Colors.white,
-                              width: 1.0,
-                            ),
-                          ),
-                        ),
-                      ),
+                      // const SizedBox(height: 21),
+                      // Row(
+                      //   children: [
+                      //     const InputTitle(title: "Membership Level"),
+                      //     const SizedBox(width: 9),
+                      //     InkWell(
+                      //       onTap: () {
+                      //         Get.to(() => const MembershipLevel());
+                      //       },
+                      //       child: const Icon(
+                      //         Icons.info_outlined,
+                      //         color: kTextColor,
+                      //       ),
+                      //     )
+                      //   ],
+                      // ),
+                      // const SizedBox(height: 9),
+                      // FormBuilderDropdown(
+                      //   name: "membershiplevel",
+                      //   initialValue: membershipOptions[0],
+                      //   validator: FormBuilderValidators.required(
+                      //       errorText: "Membership level can not be empty"),
+                      //   dropdownColor: kBlackColor,
+                      //   items: membershipOptions
+                      //       .map((level) => DropdownMenuItem(
+                      //             alignment: AlignmentDirectional.centerStart,
+                      //             value: level,
+                      //             child: Text(
+                      //               level,
+                      //               style: const TextStyle(color: Colors.white),
+                      //             ),
+                      //           ))
+                      //       .toList(),
+                      //   decoration: InputDecoration(
+                      //     contentPadding:
+                      //         const EdgeInsets.only(top: 0.0, left: 10.0),
+                      //     border: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.circular(5.0),
+                      //     ),
+                      //     focusedBorder: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.circular(5.0),
+                      //       borderSide: const BorderSide(
+                      //         color: Colors.white,
+                      //         width: 1.0,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       const SizedBox(height: 21),
                       // const InputTitle(title: "Bank Name"),
                       // const SizedBox(height: 9),
@@ -354,9 +354,9 @@ class _RegisterState extends State<Register> {
           userName: _formKey.currentState!.fields['username']!.value.toString(),
           phoneNumber:
               _formKey.currentState!.fields['phonenumber']!.value.toString(),
-          membershipLevel: _formKey
-              .currentState!.fields['membershiplevel']!.value
-              .toString(),
+          // membershipLevel: _formKey
+          //     .currentState!.fields['membershiplevel']!.value
+          //     .toString(),
           // bankName: _formKey.currentState!.fields['bankname']!.value.toString(),
           // bankRoutingNumber: _formKey
           //     .currentState!.fields['bankroutingnumber']!.value
@@ -370,14 +370,19 @@ class _RegisterState extends State<Register> {
               _formKey.currentState!.fields['songprice']!.value.toString(),
         );
         await FireStoreService().createUser(usermodel, user);
+        final membershipPayment = MembershipModel(
+          membershipLevel: 0,
+          membershipCost: 0,
+        );
 
+        await FireStoreService().addMembershipPayments(membershipPayment, user);
         Fluttertoast.showToast(msg: "Account was created successfully!");
         Get.off(() => const SignInScreen());
       } else {
         Fluttertoast.showToast(msg: "Account creation failed!");
       }
     });
-    
+
     setState(() {
       isLoading = false;
     });

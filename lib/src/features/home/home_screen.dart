@@ -2,11 +2,7 @@ import 'dart:async';
 
 import 'package:candela_maker/src/constants/constants.dart';
 import 'package:candela_maker/src/features/authentication/register/register.dart';
-import 'package:candela_maker/src/features/authentication/sign_in/sign_in_screen.dart';
 import 'package:candela_maker/src/features/home/timer_screen.dart';
-import 'package:candela_maker/src/features/home/widgets/song_timer.dart';
-import 'package:candela_maker/src/features/home/widgets/songs_list.dart';
-import 'package:candela_maker/src/features/insurance_screen/insurance_screen.dart';
 import 'package:candela_maker/src/features/vip_payment/vip_payment_screen.dart';
 import 'package:candela_maker/src/features/vip_report/vip_report_access.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,6 +13,7 @@ import 'package:get/get.dart';
 import '../../common_widgets/bottom_nav_bar.dart';
 import '../membership_level/controller/membership_controller.dart';
 import '../membership_level/membership_level.dart';
+import '../vip_money_links/vip_money_links_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -53,12 +50,11 @@ class _HomeScreenState extends State<HomeScreen> {
     const VIPPaymentScreen(),
     const VIPReportAccess(),
     const MembershipLevel(),
-    const InsuranceScreen()
+    const VIPMoneyLinks(),
   ];
 
   final _auth = FirebaseAuth.instance;
   bool isLoading = true;
-  DateTime? date;
   DateTime? subscriptionExpiryDate;
 
   @override
@@ -80,7 +76,6 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         membershipController.membershipLevel.value =
             userData['membershipLevel'] ?? 0;
-        date = userData['paymentDate']?.toDate();
         subscriptionExpiryDate = userData['expiryDate']?.toDate();
         isLoading = false;
       });

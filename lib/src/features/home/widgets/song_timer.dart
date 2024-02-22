@@ -26,63 +26,68 @@ class _SongTimerState extends State<SongTimer> {
   final StopWatchTimer _stopWatchTimer = StopWatchTimer();
   int stopTime = 0;
   DateTime today = DateTime.now();
-  bool isTimerRunning = false;
-
-  Future<void> _showMyDialog() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Are you sure?'),
-          content: const SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('Do you want to stop the timer?'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Yes'),
-              onPressed: () {
-                _stopWatchTimer.onResetTimer();
-                setState(() {
-                  isTimerRunning = false;
-                });
-                setState(() {
-                  stopTime += _stopWatchTimer.rawTime.value;
-                });
-                timerController.totalAmout.value += timerController.amout.value;
-                timerController.numberOfSongs.value++;
-                timerController.time.value =
-                    StopWatchTimer.getDisplayTime(stopTime, hours: false);
-                addSongDetails();
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text('No'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  bool isTap = false;
 
   onTapStart() {
-    setState(() {
-      isTimerRunning = true;
-    });
-    _stopWatchTimer.onStartTimer();
+    if (isTap == false) {
+      _stopWatchTimer.onStartTimer();
+      setState(() {
+        isTap = true;
+      });
+    } else {
+      Fluttertoast.showToast(msg: "Timer is already running");
+    }
   }
 
   onTapStop() {
-    if (isTimerRunning) {
-      _showMyDialog();
+    if (isTap == true) {
+      showDialog<String>(
+        barrierColor: kSecondaryColor.withOpacity(0.7),
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          backgroundColor: kBlackColor,
+          contentPadding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
+          actionsPadding: const EdgeInsets.only(bottom: 40),
+          content: const Text(
+            'Are you sure you want to stop the timer?',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: kTextColor, fontSize: 14),
+          ),
+          actions: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                PrimaryButton(
+                    text: 'YES',
+                    press: () {
+                      _stopWatchTimer.onResetTimer();
+
+                      setState(() {
+                        stopTime += _stopWatchTimer.rawTime.value;
+                        isTap = false;
+                      });
+                      timerController.totalAmout.value +=
+                          timerController.amout.value;
+                      timerController.numberOfSongs.value++;
+                      timerController.time.value =
+                          StopWatchTimer.getDisplayTime(stopTime, hours: false);
+                      addSongDetails();
+                      Get.back();
+                    },
+                    width: 0.3),
+                PrimaryButton(
+                    text: 'NO',
+                    press: () {
+                      Get.back();
+                    },
+                    width: 0.3),
+              ],
+            )
+          ],
+        ),
+      );
+    } else {
+      Fluttertoast.showToast(msg: "Please start the timer first");
     }
   }
 
