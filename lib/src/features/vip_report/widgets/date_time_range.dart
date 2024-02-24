@@ -1,8 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:candela_maker/src/constants/constants.dart';
+import 'package:candela_maker/src/common_widgets/primary_button.dart';
 import 'package:candela_maker/src/features/vip_report/widgets/vip_payment_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -14,7 +15,7 @@ class DateAndTimeRangePickerForm extends StatefulWidget {
   });
 
   @override
-  _DateAndTimeRangePickerFormState createState() =>
+  State<DateAndTimeRangePickerForm> createState() =>
       _DateAndTimeRangePickerFormState();
 }
 
@@ -44,54 +45,48 @@ class _DateAndTimeRangePickerFormState
           child: Column(
             children: <Widget>[
               FormBuilderDateTimePicker(
-                name: 'date_start',
-                initialEntryMode: DatePickerEntryMode.calendar,
-                format: DateFormat('yyyy-MM-dd HH:mm'),
-                decoration: const InputDecoration(
-                  labelText: 'Start Date and Time',
-                ),
-              ),
+                  name: 'date_start',
+                  initialEntryMode: DatePickerEntryMode.calendar,
+                  format: DateFormat('yyyy-MM-dd HH:mm'),
+                  decoration: const InputDecoration(
+                    labelText: 'Start Date and Time',
+                  ),
+                  validator: FormBuilderValidators.required(
+                    errorText: 'Start date and time is required',
+                  )),
               FormBuilderDateTimePicker(
-                name: 'date_end',
-                initialEntryMode: DatePickerEntryMode.calendar,
-                format: DateFormat('yyyy-MM-dd HH:mm'),
-                decoration: const InputDecoration(
-                  labelText: 'End Date and Time',
-                ),
-              ),
+                  name: 'date_end',
+                  initialEntryMode: DatePickerEntryMode.calendar,
+                  format: DateFormat('yyyy-MM-dd HH:mm'),
+                  decoration: const InputDecoration(
+                    labelText: 'End Date and Time',
+                  ),
+                  validator: FormBuilderValidators.required(
+                    errorText: 'End date and time is required',
+                  )),
               const SizedBox(height: 20),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      kPrimaryColor, // Make sure kPrimaryColor is defined somewhere
-                  textStyle: const TextStyle(
-                      color: Colors
-                          .white), // This may not be necessary if your button text is already styled
-                ),
-                child: const Text(
-                  'Generate',
-                  style: TextStyle(color: Colors.white),
-                ),
-                onPressed: () {
-                  if (_formKey.currentState!.saveAndValidate()) {
-                    // Extracting the form values
-                    var formValue = _formKey.currentState!.value;
-                    DateTime startDate = formValue['date_start'];
-                    DateTime endDate = formValue['date_end'];
+              PrimaryButton(
+                  text: 'Generate',
+                  press: () {
+                    if (_formKey.currentState!.saveAndValidate()) {
+                      // Extracting the form values
+                      var formValue = _formKey.currentState!.value;
+                      DateTime startDate = formValue['date_start'];
+                      DateTime endDate = formValue['date_end'];
 
-                    // Using the VipReportController to set the start and end dates
-                    vipPaymentController.setStartDate(startDate);
-                    vipPaymentController.setEndDate(endDate);
+                      // Using the VipReportController to set the start and end dates
+                      vipPaymentController.setStartDate(startDate);
+                      vipPaymentController.setEndDate(endDate);
 
-                    // Optionally, navigate to another page or show a confirmation message
-                    // Get.snackbar('Success', 'Date range updated successfully!',
-                    //     snackPosition: SnackPosition.BOTTOM);
-                    vipPaymentController.isCustomSearch.value = true;
-                    widget.fetchDataCallback();
-                    print(_formKey.currentState!.value);
-                  }
-                },
-              ),
+                      // Optionally, navigate to another page or show a confirmation message
+                      // Get.snackbar('Success', 'Date range updated successfully!',
+                      //     snackPosition: SnackPosition.BOTTOM);
+                      vipPaymentController.isCustomSearch.value = true;
+                      widget.fetchDataCallback();
+                      print(_formKey.currentState!.value);
+                    }
+                  },
+                  width: 0.4),
             ],
           ),
         ),

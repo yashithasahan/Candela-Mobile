@@ -28,6 +28,8 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
   int totalPayment = 0;
   int vipDances = 0;
   DateTime today = DateTime.now();
+  bool isLoading = false;
+  bool ispaymentDone = false;
 
   Future<void> initPaymentSheet(context,
       {required String email, required int amount}) async {
@@ -213,19 +215,30 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
             const SizedBox(
               height: 40,
             ),
-            PrimaryButton(
-                text: 'Pay Vip Now',
-                press: () async {
-                  if (totalPayment == 0) {
-                    Fluttertoast.showToast(
-                        msg: 'Please add payment to proceed');
-                  } else {
-                    savePaymentData();
-                    // await initPaymentSheet(context,
-                    //     email: '${user.email}', amount: totalPayment * 100);
-                  }
-                },
-                width: 0.6)
+            isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(
+                    color: kPrimaryColor,
+                  ))
+                : PrimaryButton(
+                    text: 'Pay Vip Now',
+                    press: () async {
+                      if (totalPayment == 0) {
+                        Fluttertoast.showToast(
+                            msg: 'Please add payment to proceed');
+                      } else {
+                        if (!ispaymentDone) {
+                          savePaymentData();
+                          // await initPaymentSheet(context,
+                          //     email: '${user.email}', amount: totalPayment * 100);
+                        } else {
+                          Fluttertoast.showToast(
+                            msg: 'Payment was already done. Thank you!',
+                          );
+                        }
+                      }
+                    },
+                    width: 0.6)
           ],
         ),
       ),
@@ -234,6 +247,9 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
 
   Future<void> savePaymentData() async {
     try {
+      setState(() {
+        isLoading = true;
+      });
       final FirebaseAuth auth = FirebaseAuth.instance;
       User? user = auth.currentUser;
 
@@ -251,8 +267,11 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
         timerController.numberOfSongs.value = 0;
         timerController.totalAmout.value = 0;
         timerController.time.value = '00:00';
-        Get.back();
       }
+      setState(() {
+        isLoading = false;
+        ispaymentDone = true;
+      });
     } catch (e) {
       if (kDebugMode) {
         print(e);

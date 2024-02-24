@@ -1,3 +1,4 @@
+import 'package:candela_maker/src/common_widgets/primary_button.dart';
 import 'package:candela_maker/src/constants/constants.dart';
 import 'package:candela_maker/src/features/vip_report/widgets/date_time_range.dart';
 import 'package:candela_maker/src/features/vip_report/widgets/vip_payment_controller.dart';
@@ -5,7 +6,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import 'widgets/report_box.dart';
 import 'widgets/report_row.dart';
@@ -46,13 +46,12 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
     return formattedTime;
   }
 
-
   Future<void> fetchUserData() async {
     setState(() {
       isLoading = true;
     });
     String? uid = _auth.currentUser!.uid;
-final DateTime startDate = vipPaymentController.getStartDate;
+    final DateTime startDate = vipPaymentController.getStartDate;
     final DateTime endDate = vipPaymentController.getEndDate;
     try {
       QuerySnapshot songSnapshot = await FirebaseFirestore.instance
@@ -98,7 +97,6 @@ final DateTime startDate = vipPaymentController.getStartDate;
               totalSongDurationSeconds; // Store the total duration in seconds
         });
       }
-
 
       DocumentSnapshot userSnapshot =
           await FirebaseFirestore.instance.collection('users').doc(uid).get();
@@ -187,9 +185,6 @@ final DateTime startDate = vipPaymentController.getStartDate;
     } catch (e) {
       print(e);
     }
-    
-
-
   }
 
   @override
@@ -197,6 +192,7 @@ final DateTime startDate = vipPaymentController.getStartDate;
     super.initState();
     fetchUserData();
   }
+
   final vipPaymentController = Get.put(VipReportController());
   @override
   Widget build(BuildContext context) {
@@ -356,8 +352,6 @@ final DateTime startDate = vipPaymentController.getStartDate;
                       text: 'Email : $email',
                       subText: 'Bcc : ',
                     ),
-              
-
                     ReportBox(
                       text: 'Total Transactions : $totalTransactions ',
                     ),
@@ -400,7 +394,6 @@ final DateTime startDate = vipPaymentController.getStartDate;
                               ),
                             ],
                           ),
-                    
                           ReportRow(
                             text: 'From',
                             subText: vipPaymentController.isCustomSearch.value
@@ -449,24 +442,17 @@ final DateTime startDate = vipPaymentController.getStartDate;
                           ),
                           Visibility(
                             visible: !isCustomSearchActive,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    kPrimaryColor, // Make sure kPrimaryColor is defined somewhere
-                                textStyle: const TextStyle(
-                                    color: Colors
-                                        .white), // This may not be necessary if your button text is already styled
-                              ),
-                              child: const Text(
-                                'Generate',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              onPressed: () {
-                                fetchUserData();
-                                vipPaymentController.isCustomSearch.value =
-                                    false;
-                              },
-                            ),
+                            child: PrimaryButton(
+                                text: 'Generate',
+                                press: () {
+                                  fetchUserData();
+                                  vipPaymentController.isCustomSearch.value =
+                                      false;
+                                },
+                                width: 0.4),
+                          ),
+                          const SizedBox(
+                            height: 20,
                           ),
                         ],
                       ),
