@@ -31,7 +31,6 @@ class _MembershipLevelState extends State<MembershipLevel> {
   int membershipCost = 0;
   late UserModel user;
   bool isLoading = false;
-  bool isLoaded = true;
   final _auth = FirebaseAuth.instance;
   DateTime now = DateTime.now();
 
@@ -80,6 +79,8 @@ class _MembershipLevelState extends State<MembershipLevel> {
       await Stripe.instance.presentPaymentSheet();
       Fluttertoast.showToast(msg: 'Payment Successful');
       saveMembershipPayment();
+
+      membershipController.membershipLevel.value = level;
     } catch (e) {
       if (e is StripeException) {
         Fluttertoast.showToast(msg: 'Payment failed');
@@ -105,7 +106,6 @@ class _MembershipLevelState extends State<MembershipLevel> {
       setState(() {
         membershipLevel = userData['membershipLevel'] ?? 0;
         level = membershipLevel;
-        isLoaded = false;
       });
     }
   }
@@ -136,174 +136,154 @@ class _MembershipLevelState extends State<MembershipLevel> {
             ),
           ),
         ),
-        body: isLoaded
-            ? const Center(
-                child: CircularProgressIndicator(
-                color: kPrimaryColor,
-              ))
-            : Padding(
-                padding: kDefaultPadding,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 20),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      //   children: [
-                      //     const MembershipLevelDescription(
-                      //         description:
-                      //             "\$0 per month-Timer, Song Count, Realtime Onscreen / Email Report. We process payment for additional \$5 per dance.  \$5 additional fee for every song automatically added to total.  We receive payment in crypto, credit/debit card or zelle for you and send you payment minus \$5 per song."),
-                      //     MembershipLevelButton(
-                      //       level: 0,
-                      //       press: () {
-                      //         setState(() {
-                      //           level = 0;
-                      //           membershipController.membershipLevel.value = level;
-                      //         });
-                      //       },
-                      //       textColor: membershipController.membershipLevel.value == 0
-                      //           ? kBgColor
-                      //           : Colors.white,
-                      //       btnColor: membershipController.membershipLevel.value == 0
-                      //           ? [const Color(0xFFDEA72C), const Color(0xFFF59C0D)]
-                      //           : [Colors.grey, Colors.grey],
-                      //     )
-                      //   ],
-                      // ),
-                      const SizedBox(height: 15),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          const MembershipLevelDescription(
-                              description:
-                                  "\$15 per month- Timer & Song Count. You process your own payments."),
-                          MembershipLevelButton(
-                            level: 1,
-                            press: () {
-                              setState(() {
-                                level = 1;
-                              });
-                            },
-                            textColor: level == 1 ? kBgColor : Colors.white,
-                            btnColor: level == 1
-                                ? [
-                                    const Color(0xFFDEA72C),
-                                    const Color(0xFFF59C0D)
-                                  ]
-                                : [Colors.grey, Colors.grey],
-                          )
-                        ],
-                      ),
-                      const SizedBox(height: 15),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          const MembershipLevelDescription(
-                              description:
-                                  "\$25 per month-Timer, Song Count, Realtime Onscreen / Email Report. You process your payments, we record on app transaction for you."),
-                          MembershipLevelButton(
-                            level: 2,
-                            press: () {
-                              setState(() {
-                                level = 2;
-                              });
-                            },
-                            textColor: level == 2 ? kBgColor : Colors.white,
-                            btnColor: level == 2
-                                ? [
-                                    const Color(0xFFDEA72C),
-                                    const Color(0xFFF59C0D)
-                                  ]
-                                : [Colors.grey, Colors.grey],
-                          )
-                        ],
-                      ),
-                      const SizedBox(height: 15),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          const MembershipLevelDescription(
-                              description:
-                                  "\$35 per month-Timer, Song Count, Realtime Onscreen / Email Report. You process your payments, we record on app transaction for you."),
-                          MembershipLevelButton(
-                            level: 3,
-                            press: () {
-                              setState(() {
-                                level = 3;
-                              });
-                            },
-                            textColor: level == 3 ? kBgColor : Colors.white,
-                            btnColor: level == 3
-                                ? [
-                                    const Color(0xFFDEA72C),
-                                    const Color(0xFFF59C0D)
-                                  ]
-                                : [Colors.grey, Colors.grey],
-                          )
-                        ],
-                      ),
-                      const SizedBox(height: 15),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          const MembershipLevelDescription(
-                              description:
-                                  "VIP MANAGER - Full Functions & Multi User Vip Manager \$500 per month for every 25 users"),
-                          MembershipLevelButton(
-                            level: 4,
-                            press: () {
-                              setState(() {
-                                level = 4;
-                              });
-                            },
-                            textColor: level == 4 ? kBgColor : Colors.white,
-                            btnColor: level == 4
-                                ? [
-                                    const Color(0xFFDEA72C),
-                                    const Color(0xFFF59C0D)
-                                  ]
-                                : [Colors.grey, Colors.grey],
-                          )
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      Visibility(
-                        visible: membershipLevel != level,
-                        child: isLoading
-                            ? const Center(
-                                child: CircularProgressIndicator(
-                                color: kPrimaryColor,
-                              ))
-                            : PrimaryButton(
-                                text: 'SUBSCRIBE',
-                                press: () async {
-                                  setState(() {
-                                    isLoading = true;
-                                  });
-                                  if (level == 0) {
-                                    saveMembershipPayment();
-                                  } else {
-                                    membershipCost =
-                                        calculateMembershipCost(level);
-                                    await initPaymentSheet(context,
-                                        email: '${user.email}',
-                                        amount: membershipCost * 100);
-                                  }
-                                  setState(() {
-                                    isLoading = false;
-                                    membershipController.membershipLevel.value =
-                                        level;
-                                  });
-
-                                  Get.back();
-                                },
-                                width: 0.5),
-                      ),
-                      const SizedBox(height: 20)
-                    ],
-                  ),
+        body: Padding(
+          padding: kDefaultPadding,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                //   children: [
+                //     const MembershipLevelDescription(
+                //         description:
+                //             "\$0 per month-Timer, Song Count, Realtime Onscreen / Email Report. We process payment for additional \$5 per dance.  \$5 additional fee for every song automatically added to total.  We receive payment in crypto, credit/debit card or zelle for you and send you payment minus \$5 per song."),
+                //     MembershipLevelButton(
+                //       level: 0,
+                //       press: () {
+                //         setState(() {
+                //           level = 0;
+                //           membershipController.membershipLevel.value = level;
+                //         });
+                //       },
+                //       textColor: membershipController.membershipLevel.value == 0
+                //           ? kBgColor
+                //           : Colors.white,
+                //       btnColor: membershipController.membershipLevel.value == 0
+                //           ? [const Color(0xFFDEA72C), const Color(0xFFF59C0D)]
+                //           : [Colors.grey, Colors.grey],
+                //     )
+                //   ],
+                // ),
+                const SizedBox(height: 15),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const MembershipLevelDescription(
+                        description:
+                            "\$15 per month- Timer & Song Count. You process your own payments."),
+                    MembershipLevelButton(
+                      level: 1,
+                      press: () {
+                        setState(() {
+                          level = 1;
+                        });
+                      },
+                      textColor: level == 1 ? kBgColor : Colors.white,
+                      btnColor: level == 1
+                          ? [const Color(0xFFDEA72C), const Color(0xFFF59C0D)]
+                          : [Colors.grey, Colors.grey],
+                    )
+                  ],
                 ),
-              ),
+                const SizedBox(height: 15),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const MembershipLevelDescription(
+                        description:
+                            "\$25 per month-Timer, Song Count, Realtime Onscreen / Email Report. You process your payments, we record on app transaction for you."),
+                    MembershipLevelButton(
+                      level: 2,
+                      press: () {
+                        setState(() {
+                          level = 2;
+                        });
+                      },
+                      textColor: level == 2 ? kBgColor : Colors.white,
+                      btnColor: level == 2
+                          ? [const Color(0xFFDEA72C), const Color(0xFFF59C0D)]
+                          : [Colors.grey, Colors.grey],
+                    )
+                  ],
+                ),
+                const SizedBox(height: 15),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const MembershipLevelDescription(
+                        description:
+                            "\$35 per month-Timer, Song Count, Realtime Onscreen / Email Report. You process your payments, we record on app transaction for you."),
+                    MembershipLevelButton(
+                      level: 3,
+                      press: () {
+                        setState(() {
+                          level = 3;
+                        });
+                      },
+                      textColor: level == 3 ? kBgColor : Colors.white,
+                      btnColor: level == 3
+                          ? [const Color(0xFFDEA72C), const Color(0xFFF59C0D)]
+                          : [Colors.grey, Colors.grey],
+                    )
+                  ],
+                ),
+                const SizedBox(height: 15),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const MembershipLevelDescription(
+                        description:
+                            "VIP MANAGER - Full Functions & Multi User Vip Manager \$500 per month for every 25 users"),
+                    MembershipLevelButton(
+                      level: 4,
+                      press: () {
+                        setState(() {
+                          level = 4;
+                        });
+                      },
+                      textColor: level == 4 ? kBgColor : Colors.white,
+                      btnColor: level == 4
+                          ? [const Color(0xFFDEA72C), const Color(0xFFF59C0D)]
+                          : [Colors.grey, Colors.grey],
+                    )
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Visibility(
+                  visible: membershipLevel != level,
+                  child: isLoading
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                          color: kPrimaryColor,
+                        ))
+                      : PrimaryButton(
+                          text: 'SUBSCRIBE',
+                          press: () async {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            if (level == 0) {
+                              saveMembershipPayment();
+                            } else {
+                              membershipCost = calculateMembershipCost(level);
+                              await initPaymentSheet(context,
+                                  email: '${user.email}',
+                                  amount: membershipCost * 100);
+                            }
+                            setState(() {
+                              isLoading = false;
+                            });
+
+                            Get.back();
+                          },
+                          width: 0.5),
+                ),
+                const SizedBox(height: 20)
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

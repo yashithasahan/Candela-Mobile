@@ -242,6 +242,7 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
           ],
         ),
       ),
+
     );
   }
 

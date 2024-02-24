@@ -2,6 +2,7 @@ import 'package:candela_maker/src/common_widgets/primary_button.dart';
 import 'package:candela_maker/src/constants/constants.dart';
 import 'package:candela_maker/src/features/home/controllers/timer_controller.dart';
 import 'package:candela_maker/src/features/home/models/song_model.dart';
+import 'package:candela_maker/src/features/vip_payment/vip_payment_screen.dart';
 import 'package:candela_maker/src/widgets/text_input_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -44,51 +45,91 @@ class _SongTimerState extends State<SongTimer> {
       showDialog<String>(
         barrierColor: kSecondaryColor.withOpacity(0.7),
         context: context,
+        barrierDismissible: false,
         builder: (BuildContext context) => AlertDialog(
           backgroundColor: kBlackColor,
-          contentPadding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
-          actionsPadding: const EdgeInsets.only(bottom: 40),
+          contentPadding: const EdgeInsets.all(20),
+          actionsPadding: const EdgeInsets.only(bottom: 20, right: 20),
           content: const Text(
             'Are you sure you want to stop the timer?',
             textAlign: TextAlign.center,
-            style: TextStyle(color: kTextColor, fontSize: 14),
+            style: TextStyle(
+                color: kTextColor, fontWeight: FontWeight.bold, fontSize: 16),
           ),
           actions: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                PrimaryButton(
-                    text: 'YES',
-                    press: () {
-                      _stopWatchTimer.onResetTimer();
+            TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(kPrimaryColor),
+              ),
+              child: const Text('No', style: TextStyle(color: kBlackColor)),
+            ),
+            TextButton(
+              onPressed: () {
+                _stopWatchTimer.onResetTimer();
 
-                      setState(() {
-                        stopTime += _stopWatchTimer.rawTime.value;
-                        isTap = false;
-                      });
-                      timerController.totalAmout.value +=
-                          timerController.amout.value;
-                      timerController.numberOfSongs.value++;
-                      timerController.time.value =
-                          StopWatchTimer.getDisplayTime(stopTime, hours: false);
-                      addSongDetails();
-                      Get.back();
-                    },
-                    width: 0.3),
-                PrimaryButton(
-                    text: 'NO',
-                    press: () {
-                      Get.back();
-                    },
-                    width: 0.3),
-              ],
-            )
+                setState(() {
+                  stopTime += _stopWatchTimer.rawTime.value;
+                  isTap = false;
+                });
+                timerController.totalAmout.value += timerController.amout.value;
+                timerController.numberOfSongs.value++;
+                timerController.time.value =
+                    StopWatchTimer.getDisplayTime(stopTime, hours: false);
+                addSongDetails();
+                Get.back();
+                _showCheckout();
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(kPrimaryColor),
+              ),
+              child: const Text('Yes', style: TextStyle(color: kBlackColor)),
+            ),
           ],
         ),
       );
     } else {
       Fluttertoast.showToast(msg: "Please start the timer first");
     }
+  }
+
+  Future<void> _showCheckout() async {
+    return showDialog<void>(
+      barrierColor: kSecondaryColor.withOpacity(0.7),
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: kBlackColor,
+          contentPadding: const EdgeInsets.all(20),
+          actionsPadding: const EdgeInsets.only(bottom: 20, right: 20),
+          content: const Text('Would you like to checkout?',
+              style: TextStyle(color: kTextColor, fontSize: 16)),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(kPrimaryColor),
+              ),
+              child: const Text('No', style: TextStyle(color: kBlackColor)),
+            ),
+            TextButton(
+              onPressed: () {   Get.back();
+                Get.to(() => const VIPPaymentScreen());
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(kPrimaryColor),
+              ),
+              child: const Text('Yes', style: TextStyle(color: kBlackColor)),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   onPriceSave(int newPrice) {
