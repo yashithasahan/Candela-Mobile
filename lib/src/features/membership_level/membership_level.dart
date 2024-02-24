@@ -115,29 +115,29 @@ class _MembershipLevelState extends State<MembershipLevel> {
             child: Column(
               children: [
                 const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    const MembershipLevelDescription(
-                        description:
-                            "\$0 per month-Timer, Song Count, Realtime Onscreen / Email Report. We process payment for additional \$5 per dance.  \$5 additional fee for every song automatically added to total.  We receive payment in crypto, credit/debit card or zelle for you and send you payment minus \$5 per song."),
-                    MembershipLevelButton(
-                      level: 0,
-                      press: () {
-                        setState(() {
-                          level = 0;
-                          membershipController.membershipLevel.value = level;
-                        });
-                      },
-                      textColor: membershipController.membershipLevel.value == 0
-                          ? kBgColor
-                          : Colors.white,
-                      btnColor: membershipController.membershipLevel.value == 0
-                          ? [const Color(0xFFDEA72C), const Color(0xFFF59C0D)]
-                          : [Colors.grey, Colors.grey],
-                    )
-                  ],
-                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                //   children: [
+                //     const MembershipLevelDescription(
+                //         description:
+                //             "\$0 per month-Timer, Song Count, Realtime Onscreen / Email Report. We process payment for additional \$5 per dance.  \$5 additional fee for every song automatically added to total.  We receive payment in crypto, credit/debit card or zelle for you and send you payment minus \$5 per song."),
+                //     MembershipLevelButton(
+                //       level: 0,
+                //       press: () {
+                //         setState(() {
+                //           level = 0;
+                //           membershipController.membershipLevel.value = level;
+                //         });
+                //       },
+                //       textColor: membershipController.membershipLevel.value == 0
+                //           ? kBgColor
+                //           : Colors.white,
+                //       btnColor: membershipController.membershipLevel.value == 0
+                //           ? [const Color(0xFFDEA72C), const Color(0xFFF59C0D)]
+                //           : [Colors.grey, Colors.grey],
+                //     )
+                //   ],
+                // ),
                 const SizedBox(height: 15),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,

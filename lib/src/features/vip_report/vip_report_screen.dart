@@ -1,7 +1,11 @@
 import 'package:candela_maker/src/constants/constants.dart';
+import 'package:candela_maker/src/features/vip_report/widgets/date_time_range.dart';
+import 'package:candela_maker/src/features/vip_report/widgets/vip_payment_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import 'widgets/report_box.dart';
 import 'widgets/report_row.dart';
@@ -17,25 +21,175 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   DateTime today = DateTime.now();
   bool isOnScreenSelected = true;
-  bool isEmailSelected = true;
+  bool isEmailSelected = false;
   bool isLoading = true;
+  bool isCustomSearchActive = false;
   String? userName;
   String? email;
+  int? membershipLevel;
+  int totalTransactions = 0;
+  int vipPaymentTotal = 0;
+  int tipPaymentTotal = 0;
+  int totalSongs = 0;
+  double totalDurationSeconds = 0;
+
+  String formatDuration(double totalSeconds) {
+    final int hours = totalSeconds ~/ 3600;
+    final int minutes = (totalSeconds % 3600) ~/ 60;
+    final int seconds =
+        (totalSeconds % 60).round(); // Round to nearest whole number
+    final String formattedTime = [
+      if (hours > 0) hours.toString().padLeft(2, '0'),
+      minutes.toString().padLeft(2, '0'),
+      seconds.toString().padLeft(2, '0'),
+    ].join(':');
+    return formattedTime;
+  }
+
 
   Future<void> fetchUserData() async {
+    setState(() {
+      isLoading = true;
+    });
     String? uid = _auth.currentUser!.uid;
-    DocumentSnapshot userSnapshot =
-        await FirebaseFirestore.instance.collection('users').doc(uid).get();
-    if (userSnapshot.exists) {
-      Map<String, dynamic> userData =
-          userSnapshot.data() as Map<String, dynamic>;
+final DateTime startDate = vipPaymentController.getStartDate;
+    final DateTime endDate = vipPaymentController.getEndDate;
+    try {
+      QuerySnapshot songSnapshot = await FirebaseFirestore.instance
+          .collection("songs")
+          .doc(uid)
+          .collection("user_songs")
+          .get();
+      if (songSnapshot.docs.isNotEmpty) {
+        int songCounter = 0;
+        final totalSongDurationSeconds = songSnapshot.docs.map((doc) {
+          final Timestamp timestamp =
+              (doc.data() as Map<String, dynamic>)['songdate'];
+          final DateTime songDate = timestamp.toDate();
 
-      setState(() {
-        userName = userData['userName'] ?? '';
-        email = userData['email'] ?? '';
-        isLoading = false;
-      });
+          if (vipPaymentController.isCustomSearch.value) {
+            if (songDate.isAfter(startDate) && songDate.isBefore(endDate)) {
+              songCounter++;
+              final durationStr =
+                  (doc.data() as Map<String, dynamic>)['duration'] as String? ??
+                      "00:00.00";
+              final parts = durationStr.split(':');
+              final minutes = int.parse(parts[0]);
+              final seconds = double.parse(parts[1]);
+              return minutes * 60 + seconds; // Convert to total seconds
+            } else {
+              return 0.0; // Skip this song by contributing 0 to the sum
+            }
+          } else {
+            songCounter++;
+            final durationStr =
+                (doc.data() as Map<String, dynamic>)['duration'] as String? ??
+                    "00:00.00";
+            final parts = durationStr.split(':');
+            final minutes = int.parse(parts[0]);
+            final seconds = double.parse(parts[1]);
+            return minutes * 60 + seconds;
+          }
+        }).reduce((a, b) => a + b); // Sum up all durations in seconds
+
+        setState(() {
+          totalSongs = songCounter;
+          totalDurationSeconds =
+              totalSongDurationSeconds; // Store the total duration in seconds
+        });
+      }
+
+
+      DocumentSnapshot userSnapshot =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      if (userSnapshot.exists) {
+        Map<String, dynamic> userData =
+            userSnapshot.data() as Map<String, dynamic>;
+
+        setState(() {
+          userName = userData['userName'] ?? '';
+          email = userData['email'] ?? '';
+
+          isLoading = false;
+        });
+      }
+
+      QuerySnapshot paymentSnapshot = await FirebaseFirestore.instance
+          .collection("payments")
+          .doc(uid)
+          .collection("user_payments")
+          .get();
+
+      if (paymentSnapshot.docs.isNotEmpty) {
+        int validPaymentsCount = 0; // Initialize a counter for valid payments
+        final vipTotal = paymentSnapshot.docs.map((doc) {
+          final Timestamp timestamp =
+              (doc.data() as Map<String, dynamic>)['paymentDate'];
+          final DateTime paymentDate = timestamp.toDate();
+
+          if (vipPaymentController.isCustomSearch.value) {
+            if (paymentDate.isAfter(startDate) &&
+                paymentDate.isBefore(endDate)) {
+              validPaymentsCount++; // Increment for each valid payment within the date range
+              return (doc.data() as Map<String, dynamic>)['vipPayment']
+                      as num? ??
+                  0;
+            } else {
+              return 0; // Skip this payment by contributing 0 to the sum
+            }
+          } else {
+            validPaymentsCount++;
+            return (doc.data() as Map<String, dynamic>)['vipPayment'] as num? ??
+                0;
+          }
+        }).reduce((a, b) => a + b);
+
+        final tipTotal = paymentSnapshot.docs.map((doc) {
+          final Timestamp timestamp =
+              (doc.data() as Map<String, dynamic>)['paymentDate'];
+          final DateTime paymentDate = timestamp.toDate();
+
+          if (vipPaymentController.isCustomSearch.value) {
+            if (paymentDate.isAfter(startDate) &&
+                paymentDate.isBefore(endDate)) {
+              return (doc.data() as Map<String, dynamic>)['tipPayment']
+                      as num? ??
+                  0;
+            } else {
+              return 0;
+            }
+          } else {
+            return (doc.data() as Map<String, dynamic>)['tipPayment'] as num? ??
+                0;
+          }
+        }).reduce((a, b) => a + b);
+
+        setState(() {
+          totalTransactions =
+              validPaymentsCount; // Use the counted valid payments
+          vipPaymentTotal = vipTotal.toInt();
+          tipPaymentTotal = tipTotal.toInt();
+        });
+      }
+
+      DocumentSnapshot memberShipSnapshot = await FirebaseFirestore.instance
+          .collection("membership")
+          .doc(uid)
+          .get();
+      if (memberShipSnapshot.exists) {
+        Map<String, dynamic> memberShipData =
+            memberShipSnapshot.data() as Map<String, dynamic>;
+
+        setState(() {
+          membershipLevel = memberShipData['membershipLevel'] ?? 1;
+        });
+      }
+    } catch (e) {
+      print(e);
     }
+    
+
+
   }
 
   @override
@@ -43,7 +197,7 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
     super.initState();
     fetchUserData();
   }
-
+  final vipPaymentController = Get.put(VipReportController());
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -75,8 +229,8 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                     const SizedBox(
                       height: 20,
                     ),
-                    const ReportBox(
-                      text: 'Vip Member : ',
+                    ReportBox(
+                      text: 'Vip Member : Level $membershipLevel',
                     ),
                     ReportBox(
                       text: 'Username : $userName',
@@ -202,80 +356,131 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                       text: 'Email : $email',
                       subText: 'Bcc : ',
                     ),
-                    const ReportBox(
-                      text: 'Date From : ',
-                      subText: 'To : ',
+              
+
+                    ReportBox(
+                      text: 'Total Transactions : $totalTransactions ',
                     ),
-                    const ReportBox(
-                      text: 'Time : ',
-                      subText: 'To Time : ',
+                    ReportBox(
+                      text:
+                          'Total Amount(\$) : ${vipPaymentTotal + tipPaymentTotal} ',
                     ),
-                    const ReportBox(
-                      text: 'Total Transactions : ',
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Custom Search',
+                          style: TextStyle(color: kTextColor),
+                        ),
+                        Checkbox(
+                            activeColor: kPrimaryColor,
+                            value: isCustomSearchActive,
+                            onChanged: customSearchHandler),
+                      ],
                     ),
-                    const ReportBox(
-                      text: 'Total \$ Amount : ',
-                    ),
+                    isCustomSearchActive
+                        ? DateAndTimeRangePickerForm(
+                            fetchDataCallback: fetchUserData,
+                          )
+                        : Container(),
                     const SizedBox(
                       height: 30,
                     ),
-                    Column(
-                      children: [
-                        const Row(
-                          children: [
-                            Text(
-                              'Transaction',
-                              style: TextStyle(
-                                  color: kTextColor,
-                                  fontSize: 26,
-                                  fontWeight: FontWeight.bold),
+                    Obx(
+                      () => Column(
+                        children: [
+                          const Row(
+                            children: [
+                              Text(
+                                'Transaction',
+                                style: TextStyle(
+                                    color: kTextColor,
+                                    fontSize: 26,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                    
+                          ReportRow(
+                            text: 'From',
+                            subText: vipPaymentController.isCustomSearch.value
+                                ? vipPaymentController.startDate
+                                    .toString()
+                                    .substring(0, 16)
+                                : 'All the time',
+                            textColor: kTextColor,
+                          ),
+                          ReportRow(
+                            text: 'To',
+                            subText: vipPaymentController.isCustomSearch.value
+                                ? vipPaymentController.endDate
+                                    .toString()
+                                    .substring(0, 16)
+                                : 'All the time',
+                            textColor: kTextColor,
+                          ),
+                          ReportRow(
+                            text: 'Song Duration(min)',
+                            subText: formatDuration(totalDurationSeconds),
+                            textColor: kTextColor,
+                          ),
+                          ReportRow(
+                            text: 'Vip\$',
+                            subText: '\$ $vipPaymentTotal',
+                            textColor: kTextColor,
+                          ),
+                          ReportRow(
+                            text: 'Tip\$',
+                            subText: '\$ $tipPaymentTotal',
+                            textColor: kTextColor,
+                          ),
+                          ReportRow(
+                            text: 'Total \$',
+                            subText: '\$ ${vipPaymentTotal + tipPaymentTotal}',
+                            textColor: kPrimaryColor,
+                          ),
+                          ReportRow(
+                            text: 'Total Songs',
+                            textColor: kPrimaryColor,
+                            subText: '$totalSongs',
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Visibility(
+                            visible: !isCustomSearchActive,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    kPrimaryColor, // Make sure kPrimaryColor is defined somewhere
+                                textStyle: const TextStyle(
+                                    color: Colors
+                                        .white), // This may not be necessary if your button text is already styled
+                              ),
+                              child: const Text(
+                                'Generate',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              onPressed: () {
+                                fetchUserData();
+                                vipPaymentController.isCustomSearch.value =
+                                    false;
+                              },
                             ),
-                          ],
-                        ),
-                        ReportRow(
-                          text: 'Date',
-                          subText: '${today.month}/${today.day}/${today.year}',
-                          textColor: kTextColor,
-                        ),
-                        const ReportRow(
-                          text: 'Time',
-                          subText: '00:00:00',
-                          textColor: kTextColor,
-                        ),
-                        const ReportRow(
-                          text: 'Duration',
-                          subText: 'xx/xx/xx',
-                          textColor: kTextColor,
-                        ),
-                        const ReportRow(
-                          text: 'Vip\$',
-                          subText: '\$ 10',
-                          textColor: kTextColor,
-                        ),
-                        const ReportRow(
-                          text: 'Tip\$',
-                          subText: '\$ 10',
-                          textColor: kTextColor,
-                        ),
-                        const ReportRow(
-                          text: 'Total \$amount',
-                          subText: '\$ 89',
-                          textColor: kPrimaryColor,
-                        ),
-                        const ReportRow(
-                          text: 'Total Songs',
-                          textColor: kPrimaryColor,
-                          subText: '3',
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        )
-                      ],
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
     );
+  }
+
+  void customSearchHandler(bool? value) {
+    setState(() {
+      isCustomSearchActive = value ?? false;
+    });
   }
 }
