@@ -1,6 +1,8 @@
 import 'package:candela_maker/src/common_widgets/primary_button.dart';
 import 'package:candela_maker/src/constants/constants.dart';
 import 'package:candela_maker/src/features/vip_report/widgets/date_time_range.dart';
+import 'package:candela_maker/src/features/vip_report/widgets/song_details_box.dart';
+import 'package:candela_maker/src/features/vip_report/widgets/transaction_details_box.dart';
 import 'package:candela_maker/src/features/vip_report/widgets/vip_payment_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -32,6 +34,8 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
   int tipPaymentTotal = 0;
   int totalSongs = 0;
   double totalDurationSeconds = 0;
+  List<dynamic> songData = [];
+  List<dynamic> transactionData = [];
 
   String formatDuration(double totalSeconds) {
     final int hours = totalSeconds ~/ 3600;
@@ -53,6 +57,8 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
     String? uid = _auth.currentUser!.uid;
     final DateTime startDate = vipPaymentController.getStartDate;
     final DateTime endDate = vipPaymentController.getEndDate;
+    final filterdSongData = [];
+    final filterdTransactionData = [];
     try {
       QuerySnapshot songSnapshot = await FirebaseFirestore.instance
           .collection("songs")
@@ -68,7 +74,10 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
 
           if (vipPaymentController.isCustomSearch.value) {
             if (songDate.isAfter(startDate) && songDate.isBefore(endDate)) {
+              filterdSongData.add(doc.data());
+              print(filterdSongData.length);
               songCounter++;
+              
               final durationStr =
                   (doc.data() as Map<String, dynamic>)['duration'] as String? ??
                       "00:00.00";
@@ -80,18 +89,27 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
               return 0.0; // Skip this song by contributing 0 to the sum
             }
           } else {
-            songCounter++;
-            final durationStr =
-                (doc.data() as Map<String, dynamic>)['duration'] as String? ??
-                    "00:00.00";
-            final parts = durationStr.split(':');
-            final minutes = int.parse(parts[0]);
-            final seconds = double.parse(parts[1]);
-            return minutes * 60 + seconds;
+            if (songDate.isAfter(
+                    DateTime.now().subtract(const Duration(days: 2))) &&
+                songDate.isBefore(DateTime.now())) {
+              filterdSongData.add(doc.data());
+              print(filterdSongData.length);
+              songCounter++;
+              final durationStr =
+                  (doc.data() as Map<String, dynamic>)['duration'] as String? ??
+                      "00:00.00";
+              final parts = durationStr.split(':');
+              final minutes = int.parse(parts[0]);
+              final seconds = double.parse(parts[1]);
+              return minutes * 60 + seconds; // Convert to total seconds
+            } else {
+              return 0.0; // Skip this song by contributing 0 to the sum
+            }
           }
         }).reduce((a, b) => a + b); // Sum up all durations in seconds
 
         setState(() {
+          songData = filterdSongData;
           totalSongs = songCounter;
           totalDurationSeconds =
               totalSongDurationSeconds; // Store the total duration in seconds
@@ -128,6 +146,7 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
           if (vipPaymentController.isCustomSearch.value) {
             if (paymentDate.isAfter(startDate) &&
                 paymentDate.isBefore(endDate)) {
+              filterdTransactionData.add(doc.data());
               validPaymentsCount++; // Increment for each valid payment within the date range
               return (doc.data() as Map<String, dynamic>)['vipPayment']
                       as num? ??
@@ -136,9 +155,17 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
               return 0; // Skip this payment by contributing 0 to the sum
             }
           } else {
-            validPaymentsCount++;
-            return (doc.data() as Map<String, dynamic>)['vipPayment'] as num? ??
-                0;
+            if (paymentDate.isAfter(
+                    DateTime.now().subtract(const Duration(days: 2))) &&
+                paymentDate.isBefore(DateTime.now())) {
+              filterdTransactionData.add(doc.data());
+              validPaymentsCount++; // Increment for each valid payment within the date range
+              return (doc.data() as Map<String, dynamic>)['vipPayment']
+                      as num? ??
+                  0;
+            } else {
+              return 0; // Skip this payment by contributing 0 to the sum
+            }
           }
         }).reduce((a, b) => a + b);
 
@@ -163,6 +190,7 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
         }).reduce((a, b) => a + b);
 
         setState(() {
+          transactionData = filterdTransactionData;
           totalTransactions =
               validPaymentsCount; // Use the counted valid payments
           vipPaymentTotal = vipTotal.toInt();
@@ -386,7 +414,7 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                           const Row(
                             children: [
                               Text(
-                                'Transaction',
+                                'Transaction Summary',
                                 style: TextStyle(
                                     color: kTextColor,
                                     fontSize: 26,
@@ -400,7 +428,10 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                                 ? vipPaymentController.startDate
                                     .toString()
                                     .substring(0, 16)
-                                : 'All the time',
+                                : DateTime.now()
+                                    .subtract(const Duration(days: 2))
+                                    .toString()
+                                    .substring(0, 16),
                             textColor: kTextColor,
                           ),
                           ReportRow(
@@ -409,7 +440,7 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                                 ? vipPaymentController.endDate
                                     .toString()
                                     .substring(0, 16)
-                                : 'All the time',
+                                : DateTime.now().toString().substring(0, 16),
                             textColor: kTextColor,
                           ),
                           ReportRow(
@@ -428,7 +459,7 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                             textColor: kTextColor,
                           ),
                           ReportRow(
-                            text: 'Total \$',
+                            text: 'Total Amount ',
                             subText: '\$ ${vipPaymentTotal + tipPaymentTotal}',
                             textColor: kPrimaryColor,
                           ),
@@ -454,6 +485,60 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                           const SizedBox(
                             height: 20,
                           ),
+                          const Text(
+                            'Songs and Transaction Details',
+                            style: TextStyle(
+                                color: kTextColor,
+                                fontSize: 26,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.75,
+                            child: DefaultTabController(
+                              length: 2,
+                              child: Column(
+                                children: [
+                                  const TabBar(
+                                    tabs: [
+                                      Tab(text: "Songs"),
+                                      Tab(text: "Transactions"),
+                                    ],
+                                  ),
+                                  Expanded(
+                                    child: TabBarView(
+                                      children: [
+                                        // Your first tab content here
+                                        SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.75,
+                                          child: ListView.builder(
+                                            physics:
+                                                const AlwaysScrollableScrollPhysics(),
+                                            itemCount: songData.length,
+                                            itemBuilder: (context, index) =>
+                                                SongDetailsBox(
+                                                    song: songData[index]),
+                                          ),
+                                        ),
+                                        // Your second tab content here
+                                        ListView.builder(
+                                          itemCount: transactionData.length,
+                                          itemBuilder: (context, index) =>
+                                              TransactionDetailsBox(
+                                                  index: index,
+                                                  transctions:
+                                                      transactionData[index]),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          
                         ],
                       ),
                     ),
