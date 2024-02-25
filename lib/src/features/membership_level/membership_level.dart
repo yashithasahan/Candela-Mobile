@@ -118,7 +118,7 @@ class _MembershipLevelState extends State<MembershipLevel> {
 
   @override
   Widget build(BuildContext context) {
-    user = Provider.of<UserModel?>(context) ?? UserModel(id: '');
+    final user = Provider.of<UserModel?>(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: kBgColor,
@@ -249,9 +249,16 @@ class _MembershipLevelState extends State<MembershipLevel> {
                     )
                   ],
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 40),
                 Visibility(
-                  visible: membershipLevel != level,
+                  visible: membershipLevel != level && user != null,
+                  replacement: PrimaryButton(
+                    text: 'Back',
+                    press: () async {
+                      Get.back();
+                    },
+                    width: 0.4,
+                  ),
                   child: isLoading
                       ? const Center(
                           child: CircularProgressIndicator(
@@ -268,7 +275,7 @@ class _MembershipLevelState extends State<MembershipLevel> {
                             } else {
                               membershipCost = calculateMembershipCost(level);
                               await initPaymentSheet(context,
-                                  email: '${user.email}',
+                                  email: '${user?.email}',
                                   amount: membershipCost * 100);
                             }
                             setState(() {
