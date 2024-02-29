@@ -58,7 +58,7 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
       ));
       await Stripe.instance.presentPaymentSheet();
       savePaymentData();
-      Fluttertoast.showToast(msg: 'Payment Successful');
+      Fluttertoast.showToast(msg: 'payment-success'.tr);
     } catch (e) {
       if (e is StripeException) {
         Fluttertoast.showToast(
@@ -94,9 +94,9 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
         automaticallyImplyLeading: false,
         centerTitle: true,
         foregroundColor: kTextColor,
-        title: const Text(
-          'VIP PAYMENT',
-          style: TextStyle(
+        title: Text(
+          'vip-payment'.tr,
+          style: const TextStyle(
               fontFamily: "Roboto",
               color: kPrimaryColor,
               fontWeight: FontWeight.w700,
@@ -109,9 +109,9 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
             const SizedBox(
               height: 20,
             ),
-            const Text(
-              'Total Payment',
-              style: TextStyle(color: kTextColor, fontSize: 26),
+            Text(
+              'total-payment'.tr,
+              style: const TextStyle(color: kTextColor, fontSize: 26),
             ),
             const SizedBox(
               height: 20,
@@ -125,7 +125,7 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
               height: 40,
             ),
             PaymentBox(
-              text: 'VIP Dances',
+              text: 'dances'.tr,
               subText: '\$ ${vipDances.toString()}',
             ),
             Padding(
@@ -141,9 +141,9 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Tip',
-                        style: TextStyle(
+                      Text(
+                        'tip'.tr,
+                        style: const TextStyle(
                             color: kTextColor, fontWeight: FontWeight.bold),
                       ),
                       Container(
@@ -188,7 +188,7 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
                                     actions: <Widget>[
                                       Center(
                                         child: PrimaryButton(
-                                            text: 'YES',
+                                            text: 'yes'.tr,
                                             press: () {
                                               Get.back();
                                               setState(() {
@@ -202,9 +202,9 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
                                     ],
                                   ),
                                 ),
-                            child: const Text(
-                              'Add',
-                              style: TextStyle(color: kBlackColor),
+                            child: Text(
+                              'add'.tr,
+                              style: const TextStyle(color: kBlackColor),
                             )),
                       ),
                     ],
@@ -221,11 +221,11 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
                     color: kPrimaryColor,
                   ))
                 : PrimaryButton(
-                    text: 'Pay Vip Now',
+                    text: 'pay-vip-now'.tr,
                     press: () async {
                       if (totalPayment == 0) {
                         Fluttertoast.showToast(
-                            msg: 'Please add payment to proceed');
+                            msg: 'payment-process'.tr);
                       } else {
                         if (!ispaymentDone) {
                           savePaymentData();
@@ -233,7 +233,7 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
                           //     email: '${user.email}', amount: totalPayment * 100);
                         } else {
                           Fluttertoast.showToast(
-                            msg: 'Payment was already done. Thank you!',
+                            msg: 'payment-done'.tr,
                           );
                         }
                       }
@@ -242,7 +242,6 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
           ],
         ),
       ),
-
     );
   }
 
@@ -264,7 +263,7 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
         );
 
         await FireStoreService().addPayments(payments, user);
-        Fluttertoast.showToast(msg: "Payment Data Saved");
+        Fluttertoast.showToast(msg: "payment-data-save-alert".tr);
         timerController.numberOfSongs.value = 0;
         timerController.totalAmout.value = 0;
         timerController.time.value = '00:00';

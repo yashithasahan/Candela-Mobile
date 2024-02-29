@@ -2,6 +2,7 @@ import 'package:candela_maker/src/constants/constants.dart';
 import 'package:candela_maker/src/features/home/widgets/song_timer.dart';
 import 'package:candela_maker/src/features/home/widgets/songs_list.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class TimerScreen extends StatelessWidget {
   const TimerScreen({super.key});
@@ -14,9 +15,9 @@ class TimerScreen extends StatelessWidget {
         automaticallyImplyLeading: false,
         centerTitle: true,
         foregroundColor: kTextColor,
-        title: const Text(
-          'VIP DANCES',
-          style: TextStyle(
+        title: Text(
+          'vip-dances'.tr,
+          style: const TextStyle(
               fontFamily: "Roboto",
               color: kPrimaryColor,
               fontWeight: FontWeight.w700,

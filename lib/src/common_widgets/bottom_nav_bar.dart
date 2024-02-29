@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../constants/constants.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -29,7 +30,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             'assets/icons/home.png',
             width: imageWidth,
           ),
-          label: 'Home',
+          label: 'home'.tr,
         ),
         BottomNavigationBarItem(
           backgroundColor: kSecondaryColor,
@@ -37,7 +38,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             'assets/icons/stopwatch.png',
             width: imageWidth,
           ),
-          label: 'Dance',
+          label: 'dance'.tr,
         ),
         BottomNavigationBarItem(
           backgroundColor: kSecondaryColor,
@@ -45,7 +46,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             'assets/icons/Reports.png',
             width: imageWidth,
           ),
-          label: 'Pay',
+          label: 'pay'.tr,
         ),
         BottomNavigationBarItem(
           backgroundColor: kSecondaryColor,
@@ -53,7 +54,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             'assets/icons/payment.png',
             width: imageWidth,
           ),
-          label: 'Report',
+          label: 'report'.tr,
         ),
         BottomNavigationBarItem(
           backgroundColor: kSecondaryColor,
@@ -61,7 +62,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             'assets/icons/arrowFront.png',
             width: imageWidth,
           ),
-          label: 'Back',
+          label: 'back'.tr,
         ),
         BottomNavigationBarItem(
           backgroundColor: kSecondaryColor,
@@ -69,7 +70,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             'assets/icons/arrowBack.png',
             width: imageWidth,
           ),
-          label: 'Forward',
+          label: 'forward'.tr,
         ),
       ],
       currentIndex: widget.currentIndex,

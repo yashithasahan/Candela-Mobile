@@ -22,7 +22,6 @@ class TransactionDetailsBox extends StatelessWidget {
     Timestamp timestamp = transctions['paymentDate'] as Timestamp? ??
         Timestamp.now(); // Using a fallback to 'now' if null
     DateTime songDate = timestamp.toDate();
-    String userId = transctions['userId'] ?? 'Unknown';
     TextStyle textStyle = const TextStyle(
       color: kTextColor,
     );

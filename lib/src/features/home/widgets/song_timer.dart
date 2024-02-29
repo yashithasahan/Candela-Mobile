@@ -36,7 +36,7 @@ class _SongTimerState extends State<SongTimer> {
         isTap = true;
       });
     } else {
-      Fluttertoast.showToast(msg: "Timer is already running");
+      Fluttertoast.showToast(msg: "timer-running-alert".tr);
     }
   }
 
@@ -50,10 +50,10 @@ class _SongTimerState extends State<SongTimer> {
           backgroundColor: kBlackColor,
           contentPadding: const EdgeInsets.all(20),
           actionsPadding: const EdgeInsets.only(bottom: 20, right: 20),
-          content: const Text(
-            'Are you sure you want to stop the timer?',
+          content: Text(
+            'stop-timer-alert'.tr,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
                 color: kTextColor, fontWeight: FontWeight.bold, fontSize: 16),
           ),
           actions: <Widget>[
@@ -64,7 +64,7 @@ class _SongTimerState extends State<SongTimer> {
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(kPrimaryColor),
               ),
-              child: const Text('No', style: TextStyle(color: kBlackColor)),
+              child: Text('no'.tr, style: const TextStyle(color: kBlackColor)),
             ),
             TextButton(
               onPressed: () {
@@ -85,13 +85,13 @@ class _SongTimerState extends State<SongTimer> {
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(kPrimaryColor),
               ),
-              child: const Text('Yes', style: TextStyle(color: kBlackColor)),
+              child: Text('yes'.tr, style: const TextStyle(color: kBlackColor)),
             ),
           ],
         ),
       );
     } else {
-      Fluttertoast.showToast(msg: "Please start the timer first");
+      Fluttertoast.showToast(msg: "start-timer-alert".tr);
     }
   }
 
@@ -105,8 +105,8 @@ class _SongTimerState extends State<SongTimer> {
           backgroundColor: kBlackColor,
           contentPadding: const EdgeInsets.all(20),
           actionsPadding: const EdgeInsets.only(bottom: 20, right: 20),
-          content: const Text('Would you like to checkout?',
-              style: TextStyle(color: kTextColor, fontSize: 16)),
+          content: Text('to-checkout'.tr,
+              style: const TextStyle(color: kTextColor, fontSize: 16)),
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -115,16 +115,17 @@ class _SongTimerState extends State<SongTimer> {
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(kPrimaryColor),
               ),
-              child: const Text('No', style: TextStyle(color: kBlackColor)),
+              child: Text('no'.tr, style: const TextStyle(color: kBlackColor)),
             ),
             TextButton(
-              onPressed: () {   Get.back();
+              onPressed: () {
+                Get.back();
                 Get.to(() => const VIPPaymentScreen());
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(kPrimaryColor),
               ),
-              child: const Text('Yes', style: TextStyle(color: kBlackColor)),
+              child: Text('yes'.tr, style: const TextStyle(color: kBlackColor)),
             ),
           ],
         );
@@ -160,17 +161,18 @@ class _SongTimerState extends State<SongTimer> {
               mainAxisSize: MainAxisSize
                   .min, // Make the column only as tall as its children
               children: <Widget>[
-                const Text("Enter Price",
-                    style: TextStyle(color: Colors.white)),
+                Text("price".tr, style: const TextStyle(color: Colors.white)),
+                const SizedBox(height: 20),
                 TextInputField(
                   value: timerController.amout.value.toString(),
                   name: "price",
                   keyboard: const TextInputType.numberWithOptions(),
                 ),
+                const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: PrimaryButton(
-                    text: "Save",
+                    text: "save".tr,
                     press: () {
                       onPriceSave(int.parse(
                           formKey.currentState!.fields['price']!.value));
@@ -327,7 +329,7 @@ class _SongTimerState extends State<SongTimer> {
       );
 
       await FireStoreService().addSongs(songs, user);
-      Fluttertoast.showToast(msg: "Song Data Saved");
+      Fluttertoast.showToast(msg: "song-data-save-alert".tr);
     } catch (e) {
       if (kDebugMode) {
         print(e);
@@ -362,5 +364,3 @@ class _SongTimerState extends State<SongTimer> {
     );
   }
 }
-
-// SvgPicture.asset(

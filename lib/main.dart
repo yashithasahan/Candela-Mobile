@@ -1,3 +1,4 @@
+import 'package:candela_maker/src/Locale/locale_string.dart';
 import 'package:candela_maker/src/features/welcome_screen/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -26,9 +27,11 @@ class MainApp extends StatelessWidget {
     return StreamProvider<UserModel?>.value(
       value: AuthService().user,
       initialData: UserModel(id: null),
-      child: const GetMaterialApp(
+      child: GetMaterialApp(
+        translations: LocalString(),
+        locale: const Locale('en', 'US'),
         debugShowCheckedModeBanner: false,
-        home: WelcomeScreen(),
+        home: const WelcomeScreen(),
       ),
     );
   }

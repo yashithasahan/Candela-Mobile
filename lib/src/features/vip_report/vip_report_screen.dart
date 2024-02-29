@@ -77,7 +77,7 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
               filterdSongData.add(doc.data());
               print(filterdSongData.length);
               songCounter++;
-              
+
               final durationStr =
                   (doc.data() as Map<String, dynamic>)['duration'] as String? ??
                       "00:00.00";
@@ -231,9 +231,9 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
         forceMaterialTransparency: true,
         centerTitle: true,
         foregroundColor: kPrimaryColor,
-        title: const Text(
-          'VIP REPORT',
-          style: TextStyle(
+        title: Text(
+          'vip-report'.tr,
+          style: const TextStyle(
               fontFamily: "Roboto",
               color: kPrimaryColor,
               fontWeight: FontWeight.w700,
@@ -267,9 +267,9 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                       children: [
                         SizedBox(
                           width: size.width * 0.2,
-                          child: const Text(
-                            'Onscreen',
-                            style: TextStyle(color: kTextColor),
+                          child: Text(
+                            'onscreen'.tr,
+                            style: const TextStyle(color: kTextColor),
                           ),
                         ),
                         SizedBox(
@@ -288,9 +288,9 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                                   isOnScreenSelected = !isOnScreenSelected;
                                 });
                               },
-                              child: const Text(
-                                'Yes',
-                                style: TextStyle(color: kBlackColor),
+                              child: Text(
+                                'yes'.tr,
+                                style: const TextStyle(color: kBlackColor),
                               )),
                         ),
                         const SizedBox(
@@ -309,9 +309,9 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                                   isOnScreenSelected = !isOnScreenSelected;
                                 });
                               },
-                              child: const Text(
-                                'No',
-                                style: TextStyle(color: kBlackColor),
+                              child: Text(
+                                'no'.tr,
+                                style: const TextStyle(color: kBlackColor),
                               )),
                         ),
                       ],
@@ -324,9 +324,9 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                       children: [
                         SizedBox(
                           width: size.width * 0.2,
-                          child: const Text(
-                            'Email',
-                            style: TextStyle(color: kTextColor),
+                          child: Text(
+                            'email'.tr,
+                            style: const TextStyle(color: kTextColor),
                           ),
                         ),
                         SizedBox(
@@ -345,9 +345,9 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                                   isEmailSelected = !isEmailSelected;
                                 });
                               },
-                              child: const Text(
-                                'Yes',
-                                style: TextStyle(color: kBlackColor),
+                              child: Text(
+                                'yes'.tr,
+                                style: const TextStyle(color: kBlackColor),
                               )),
                         ),
                         const SizedBox(
@@ -366,9 +366,9 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                                   isEmailSelected = !isEmailSelected;
                                 });
                               },
-                              child: const Text(
-                                'No',
-                                style: TextStyle(color: kBlackColor),
+                              child: Text(
+                                'no'.tr,
+                                style: const TextStyle(color: kBlackColor),
                               )),
                         ),
                       ],
@@ -390,9 +390,9 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Custom Search',
-                          style: TextStyle(color: kTextColor),
+                        Text(
+                          'custom-search'.tr,
+                          style: const TextStyle(color: kTextColor),
                         ),
                         Checkbox(
                             activeColor: kPrimaryColor,
@@ -411,11 +411,11 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                     Obx(
                       () => Column(
                         children: [
-                          const Row(
+                          Row(
                             children: [
                               Text(
-                                'Transaction Summary',
-                                style: TextStyle(
+                                'transaction-summery'.tr,
+                                style: const TextStyle(
                                     color: kTextColor,
                                     fontSize: 26,
                                     fontWeight: FontWeight.bold),
@@ -423,7 +423,7 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                             ],
                           ),
                           ReportRow(
-                            text: 'From',
+                            text: 'from'.tr,
                             subText: vipPaymentController.isCustomSearch.value
                                 ? vipPaymentController.startDate
                                     .toString()
@@ -435,7 +435,7 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                             textColor: kTextColor,
                           ),
                           ReportRow(
-                            text: 'To',
+                            text: 'to'.tr,
                             subText: vipPaymentController.isCustomSearch.value
                                 ? vipPaymentController.endDate
                                     .toString()
@@ -444,27 +444,27 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                             textColor: kTextColor,
                           ),
                           ReportRow(
-                            text: 'Song Duration(min)',
+                            text: 'song-duration'.tr,
                             subText: formatDuration(totalDurationSeconds),
                             textColor: kTextColor,
                           ),
                           ReportRow(
-                            text: 'Vip\$',
+                            text: 'vip\$'.tr,
                             subText: '\$ $vipPaymentTotal',
                             textColor: kTextColor,
                           ),
                           ReportRow(
-                            text: 'Tip\$',
+                            text: 'tip\$'.tr,
                             subText: '\$ $tipPaymentTotal',
                             textColor: kTextColor,
                           ),
                           ReportRow(
-                            text: 'Total Amount ',
+                            text: 'total-amount'.tr,
                             subText: '\$ ${vipPaymentTotal + tipPaymentTotal}',
                             textColor: kPrimaryColor,
                           ),
                           ReportRow(
-                            text: 'Total Songs',
+                            text: 'total-songs'.tr,
                             textColor: kPrimaryColor,
                             subText: '$totalSongs',
                           ),
@@ -474,7 +474,7 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                           Visibility(
                             visible: !isCustomSearchActive,
                             child: PrimaryButton(
-                                text: 'Generate',
+                                text: 'generate'.tr,
                                 press: () {
                                   fetchUserData();
                                   vipPaymentController.isCustomSearch.value =
@@ -485,9 +485,9 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                           const SizedBox(
                             height: 20,
                           ),
-                          const Text(
-                            'Songs and Transaction Details',
-                            style: TextStyle(
+                          Text(
+                            'Song & transaction details'.tr,
+                            style: const TextStyle(
                                 color: kTextColor,
                                 fontSize: 26,
                                 fontWeight: FontWeight.bold),
@@ -498,10 +498,10 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                               length: 2,
                               child: Column(
                                 children: [
-                                  const TabBar(
+                                  TabBar(
                                     tabs: [
-                                      Tab(text: "Songs"),
-                                      Tab(text: "Transactions"),
+                                      Tab(text: "songs".tr),
+                                      Tab(text: "transactions".tr),
                                     ],
                                   ),
                                   Expanded(
@@ -538,7 +538,6 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                               ),
                             ),
                           ),
-                          
                         ],
                       ),
                     ),

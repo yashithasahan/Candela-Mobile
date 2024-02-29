@@ -25,9 +25,9 @@ class _VIPReportAccessState extends State<VIPReportAccess> {
         automaticallyImplyLeading: false,
         centerTitle: true,
         foregroundColor: kTextColor,
-        title: const Text(
-          'VIP REPORT',
-          style: TextStyle(
+        title: Text(
+          'vip-report'.tr,
+          style: const TextStyle(
               fontFamily: "Roboto",
               color: kPrimaryColor,
               fontWeight: FontWeight.w700,
@@ -38,18 +38,18 @@ class _VIPReportAccessState extends State<VIPReportAccess> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            const Text(
-              'Level 2-4 Required for Reports',
-              style: TextStyle(color: kTextColor, fontSize: 20),
+            Text(
+              'report-alert'.tr,
+              style: const TextStyle(color: kTextColor, fontSize: 20),
             ),
             PrimaryButton(
-                text: 'Access Reports',
+                text: 'access-reports'.tr,
                 press: () {
                   if (membershipController.membershipLevel.value >= 2) {
                     Get.to(() => const VIPReportScreen());
                   } else {
                     Fluttertoast.showToast(
-                        msg: "You don't have access to this feature",
+                        msg: "no-acess-report".tr,
                         backgroundColor: Colors.red);
                   }
                 },

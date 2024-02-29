@@ -22,20 +22,21 @@ class CustomBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Container(
-      height: MediaQuery.of(context).size.height * 0.32,
-      padding: const EdgeInsets.all(10),
+      height: size.height * 0.35,
+      padding: EdgeInsets.all(size.height * 0.02),
       decoration: BoxDecoration(
         color: kSecondaryColor,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(children: [
-        const SizedBox(height: 10),
+        SizedBox(height: size.height * 0.01),
         Image.asset(
           img,
           scale: scale,
         ),
-        const SizedBox(height: 5),
+        SizedBox(height: size.height * 0.01),
         Text(
           text,
           textAlign: TextAlign.center,
@@ -49,7 +50,7 @@ class CustomBox extends StatelessWidget {
           textAlign: TextAlign.center,
           style: const TextStyle(color: kTextColor, fontSize: 12),
         ),
-        const SizedBox(height: 10),
+        SizedBox(height: size.height * 0.01),
         SecondaryButton(text: btnText, press: press, width: 0.3)
       ]),
     );

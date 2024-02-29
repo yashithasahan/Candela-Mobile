@@ -1,5 +1,6 @@
 import 'package:candela_maker/src/constants/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'widgets/custom_box.dart';
 
@@ -8,6 +9,7 @@ class VIPMoneyLinks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: kBgColor,
       appBar: AppBar(
@@ -15,9 +17,9 @@ class VIPMoneyLinks extends StatelessWidget {
         automaticallyImplyLeading: false,
         centerTitle: true,
         foregroundColor: kTextColor,
-        title: const Text(
-          'VIP MONEY LINKS',
-          style: TextStyle(
+        title: Text(
+          'vip-dance-link'.tr,
+          style: const TextStyle(
               fontFamily: "Roboto",
               color: kPrimaryColor,
               fontWeight: FontWeight.w700,
@@ -27,7 +29,7 @@ class VIPMoneyLinks extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(children: [
           Padding(
-            padding: const EdgeInsets.all(10),
+            padding: EdgeInsets.all(size.height * 0.01),
             child: Row(
               children: [
                 Expanded(
@@ -40,7 +42,7 @@ class VIPMoneyLinks extends StatelessWidget {
                     press: () {},
                   ),
                 ),
-                const SizedBox(width: 20),
+                SizedBox(width: size.width * 0.05),
                 Expanded(
                   child: CustomBox(
                     img: 'assets/images/motorcycle.png',
@@ -55,24 +57,24 @@ class VIPMoneyLinks extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(10),
+            padding: EdgeInsets.all(size.height * 0.01),
             child: Row(
               children: [
                 Expanded(
                   child: CustomBox(
                     img: 'assets/images/chaos.png',
                     scale: 1,
-                    text: 'Chaos X2',
+                    text: 'Money Cannon CHAOSX2.COM',
                     btnText: 'See More',
                     press: () {},
                   ),
                 ),
-                const SizedBox(width: 20),
+                SizedBox(width: size.width * 0.05),
                 Expanded(
                   child: CustomBox(
                     img: 'assets/images/insurance.png',
                     scale: 1,
-                    text: 'Motorcycle Race Games',
+                    text: 'Del Castillo Insurance.com',
                     subText: '+1.737.341.3947',
                     btnText: 'See More',
                     press: () {},
@@ -82,7 +84,7 @@ class VIPMoneyLinks extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            padding: EdgeInsets.all(size.height * 0.01),
             child: Container(
               width: double.infinity,
               decoration: BoxDecoration(
@@ -102,7 +104,7 @@ class VIPMoneyLinks extends StatelessWidget {
                           fontSize: 18),
                     ),
                     Text(
-                      'www.clubcandelavip.com',
+                      'WWW.CANDELAVIPSTORE.COM',
                       style: TextStyle(
                           color: Colors.blue, fontWeight: FontWeight.bold),
                     ),
@@ -112,7 +114,7 @@ class VIPMoneyLinks extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            padding: EdgeInsets.all(size.height * 0.01),
             child: Container(
               width: double.infinity,
               decoration: BoxDecoration(

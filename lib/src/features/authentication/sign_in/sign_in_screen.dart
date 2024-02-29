@@ -3,6 +3,7 @@ import 'package:candela_maker/src/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:get/get.dart';
 
 import '../../../widgets/input_field_title.dart';
 import '../../../widgets/text_input_field.dart';
@@ -31,9 +32,9 @@ class _SignInScreenState extends State<SignInScreen> {
                 automaticallyImplyLeading: false,
                 centerTitle: true,
                 foregroundColor: kTextColor,
-                title: const Text(
-                  'SIGN IN',
-                  style: TextStyle(
+                title: Text( 
+                  'signin'.tr,
+                  style: const TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.w700,
                     color: kPrimaryColor,
@@ -47,7 +48,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const InputTitle(title: "Email"),
+                      InputTitle(title: "email".tr),
                       const SizedBox(height: 9),
                       TextInputField(
                         name: "email",
@@ -56,7 +57,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             errorText: "Email can not be empty"),
                       ),
                       const SizedBox(height: 21),
-                      const InputTitle(title: "Password"),
+                      InputTitle(title: "password".tr),
                       const SizedBox(height: 9),
                       TextInputField(
                         name: "password",
@@ -71,7 +72,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               color: kPrimaryColor,
                             ))
                           : PrimaryButton(
-                              btnName: "Sign In",
+                              btnName: "login".tr,
                               press: () async {
                                 if (_formKey.currentState!.validate()) {
                                   setState(() {

@@ -25,7 +25,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   Timer? _timer = Timer.periodic(const Duration(seconds: 5), (timer) {});
   final membershipController = Get.put(MembershipController());
-
+  String language = "English";
   int _selectedIndex = 1;
 
   void _onItemTapped(int index) {
@@ -65,6 +65,23 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> fetchMembershipData() async {
     String? uid = _auth.currentUser?.uid;
+    DocumentSnapshot snapshot =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    if (snapshot.exists) {
+      Map<String, dynamic> userData = snapshot.data() as Map<String, dynamic>;
+
+      setState(() {
+        language = userData['language'];
+      });
+      if (language == "Spanish") {
+        var locale = const Locale('es', 'ES');
+        Get.updateLocale(locale);
+      } else {
+        var locale = const Locale('en', 'US');
+        Get.updateLocale(locale);
+      }
+    }
+
     DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
         .collection('membership')
         .doc(uid)
