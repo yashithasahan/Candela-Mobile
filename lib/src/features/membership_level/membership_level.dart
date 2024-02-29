@@ -77,13 +77,13 @@ class _MembershipLevelState extends State<MembershipLevel> {
                 )))),
       ));
       await Stripe.instance.presentPaymentSheet();
-      Fluttertoast.showToast(msg: 'Payment Successful');
+      Fluttertoast.showToast(msg: 'payment-success'.tr);
       saveMembershipPayment();
 
       membershipController.membershipLevel.value = level;
     } catch (e) {
       if (e is StripeException) {
-        Fluttertoast.showToast(msg: 'Payment failed');
+        Fluttertoast.showToast(msg: 'payment-failed'.tr);
       } else {
         Fluttertoast.showToast(msg: 'Error: ${e.toString()}');
         if (kDebugMode) {
@@ -127,9 +127,9 @@ class _MembershipLevelState extends State<MembershipLevel> {
           automaticallyImplyLeading: false,
           centerTitle: true,
           foregroundColor: kTextColor,
-          title: const Text(
-            "MEMBERSHIP LEVEL ",
-            style: TextStyle(
+          title: Text(
+            "membership-level".tr,
+            style: const TextStyle(
               color: kPrimaryColor,
               fontSize: 26,
               fontWeight: FontWeight.bold,
@@ -169,9 +169,8 @@ class _MembershipLevelState extends State<MembershipLevel> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    const MembershipLevelDescription(
-                        description:
-                            "\$15 per month- Timer & Song Count. You process your own payments."),
+                    MembershipLevelDescription(
+                        description: "level-1-details".tr),
                     MembershipLevelButton(
                       level: 1,
                       press: () {
@@ -190,9 +189,8 @@ class _MembershipLevelState extends State<MembershipLevel> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    const MembershipLevelDescription(
-                        description:
-                            "\$25 per month-Timer, Song Count, Realtime Onscreen / Email Report. You process your payments, we record on app transaction for you."),
+                    MembershipLevelDescription(
+                        description: "level-2-details".tr),
                     MembershipLevelButton(
                       level: 2,
                       press: () {
@@ -211,9 +209,8 @@ class _MembershipLevelState extends State<MembershipLevel> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    const MembershipLevelDescription(
-                        description:
-                            "\$35 per month-Timer, Song Count, Realtime Onscreen / Email Report. You process your payments, we record on app transaction for you."),
+                    MembershipLevelDescription(
+                        description: "level-3-details".tr),
                     MembershipLevelButton(
                       level: 3,
                       press: () {
@@ -232,9 +229,8 @@ class _MembershipLevelState extends State<MembershipLevel> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    const MembershipLevelDescription(
-                        description:
-                            "VIP MANAGER - Full Functions & Multi User Vip Manager \$500 per month for every 25 users"),
+                    MembershipLevelDescription(
+                        description: "level-4-details".tr),
                     MembershipLevelButton(
                       level: 4,
                       press: () {
@@ -253,7 +249,7 @@ class _MembershipLevelState extends State<MembershipLevel> {
                 Visibility(
                   visible: membershipLevel != level && user != null,
                   replacement: PrimaryButton(
-                    text: 'Back',
+                    text: 'back'.tr,
                     press: () async {
                       Get.back();
                     },
@@ -265,7 +261,7 @@ class _MembershipLevelState extends State<MembershipLevel> {
                           color: kPrimaryColor,
                         ))
                       : PrimaryButton(
-                          text: 'SUBSCRIBE',
+                          text: 'subscribe'.tr,
                           press: () async {
                             setState(() {
                               isLoading = true;
@@ -308,7 +304,7 @@ class _MembershipLevelState extends State<MembershipLevel> {
         );
 
         await FireStoreService().addMembershipPayments(membershipPayment, user);
-        Fluttertoast.showToast(msg: "Membership saved");
+        Fluttertoast.showToast(msg: "membership-save-alert".tr);
         Get.back();
       }
     } catch (e) {

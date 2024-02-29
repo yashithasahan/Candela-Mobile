@@ -19,7 +19,6 @@ class SongDetailsBox extends StatelessWidget {
     Timestamp timestamp = song['songdate'] as Timestamp? ??
         Timestamp.now(); // Using a fallback to 'now' if null
     DateTime songDate = timestamp.toDate();
-    String userId = song['userId'] ?? 'Unknown';
     TextStyle textStyle = const TextStyle(
       color: kTextColor,
     );

@@ -31,6 +31,7 @@ class _RegisterState extends State<Register> {
   String? imageUrl;
   late File file;
   bool isLoading = false;
+  String language = "English";
   List<String> membershipOptions = [
     'Level 0',
     'Level 1',
@@ -49,9 +50,9 @@ class _RegisterState extends State<Register> {
           automaticallyImplyLeading: false,
           centerTitle: true,
           foregroundColor: kTextColor,
-          title: const Text(
-            "REGISTER",
-            style: TextStyle(
+          title: Text(
+            "register-title".tr,
+            style: const TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.w700,
               color: kPrimaryColor,
@@ -68,7 +69,7 @@ class _RegisterState extends State<Register> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const InputTitle(title: "Full Legal Name"),
+                      InputTitle(title: "full-name".tr),
                       const SizedBox(height: 9),
                       TextInputField(
                         name: "fullname",
@@ -77,7 +78,7 @@ class _RegisterState extends State<Register> {
                             errorText: "Full name can not be empty"),
                       ),
                       const SizedBox(height: 21),
-                      const InputTitle(title: "Address"),
+                      InputTitle(title: "address".tr),
                       const SizedBox(height: 9),
                       TextInputField(
                           name: "address",
@@ -85,7 +86,7 @@ class _RegisterState extends State<Register> {
                           validator: FormBuilderValidators.required(
                               errorText: "Address can not be empty")),
                       const SizedBox(height: 21),
-                      const InputTitle(title: "Email"),
+                      InputTitle(title: "email".tr),
                       const SizedBox(height: 9),
                       TextInputField(
                           name: "email",
@@ -97,7 +98,7 @@ class _RegisterState extends State<Register> {
                                 errorText: "Please enter valid email")
                           ])),
                       const SizedBox(height: 21),
-                      const InputTitle(title: "User Name"),
+                      InputTitle(title: "username".tr),
                       const SizedBox(height: 9),
                       TextInputField(
                         name: "username",
@@ -106,7 +107,7 @@ class _RegisterState extends State<Register> {
                             errorText: "username can not be empty"),
                       ),
                       const SizedBox(height: 21),
-                      const InputTitle(title: "Password"),
+                      InputTitle(title: "password".tr),
                       const SizedBox(height: 9),
                       TextInputField(
                         name: "password",
@@ -119,7 +120,7 @@ class _RegisterState extends State<Register> {
                         ]),
                       ),
                       const SizedBox(height: 21),
-                      const InputTitle(title: "Phone Number"),
+                      InputTitle(title: "phone-number".tr),
                       const SizedBox(height: 9),
                       FormBuilderPhoneField(
                         style: const TextStyle(
@@ -222,7 +223,7 @@ class _RegisterState extends State<Register> {
                       //             "Bank account number can not be empty"),
                       //     keyboard: TextInputType.number),
                       // const SizedBox(height: 21),
-                      const InputTitle(title: "Set Price per Song"),
+                      InputTitle(title: "set-price".tr),
                       const SizedBox(height: 9),
                       TextInputField(
                           name: "songprice",
@@ -258,13 +259,22 @@ class _RegisterState extends State<Register> {
                       // const SizedBox(height: 21),
                       FormBuilderRadioGroup(
                         name: "language",
-                        initialValue: "English",
+                        initialValue: language,
                         wrapAlignment: WrapAlignment.spaceAround,
                         activeColor: const Color(0xFFE6A220),
                         decoration: const InputDecoration(
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.only(top: 0.0, left: 10.0),
                         ),
+                        onChanged: (value) {
+                          if (value == "Spanish") {
+                            var locale = const Locale('es', 'ES');
+                            Get.updateLocale(locale);
+                          } else {
+                            var locale = const Locale('en', 'US');
+                            Get.updateLocale(locale);
+                          }
+                        },
                         options: const [
                           FormBuilderChipOption(
                             value: "English",
@@ -297,7 +307,7 @@ class _RegisterState extends State<Register> {
                               color: kPrimaryColor,
                             ))
                           : PrimaryButton(
-                              btnName: "Register",
+                              btnName: "register".tr,
                               press: () async {
                                 if (_formKey.currentState!.saveAndValidate()) {
                                   createAccount();
