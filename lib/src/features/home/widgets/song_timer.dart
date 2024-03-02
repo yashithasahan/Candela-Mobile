@@ -161,7 +161,8 @@ class _SongTimerState extends State<SongTimer> {
               mainAxisSize: MainAxisSize
                   .min, // Make the column only as tall as its children
               children: <Widget>[
-                Text("price".tr, style: const TextStyle(color: Colors.white)),
+                Text("enter-price".tr,
+                    style: const TextStyle(color: Colors.white)),
                 const SizedBox(height: 20),
                 TextInputField(
                   value: timerController.amout.value.toString(),
@@ -288,8 +289,8 @@ class _SongTimerState extends State<SongTimer> {
                       size,
                       "\$ ${timerController.amout.value.toInt()}",
                       () => onPriceEdit(context, size)),
-                  outlineBox(
-                      null, size, "Timer ${timerController.time.value}", null),
+                  outlineBox(null, size,
+                      "${'timer'.tr} ${timerController.time.value}", null),
                 ],
               ),
               SizedBox(
@@ -301,10 +302,13 @@ class _SongTimerState extends State<SongTimer> {
                   outlineBox(
                       null,
                       size,
-                      "Total Songs ${timerController.numberOfSongs.value}",
+                      "${'total-songs'.tr} ${timerController.numberOfSongs.value}",
                       null),
-                  outlineBox(null, size,
-                      "Total \$ ${timerController.totalAmout.value}", null),
+                  outlineBox(
+                      null,
+                      size,
+                      "${'total'.tr} \$ ${timerController.totalAmout.value}",
+                      null),
                 ],
               ),
             ],
@@ -341,7 +345,7 @@ class _SongTimerState extends State<SongTimer> {
     return InkWell(
       onTap: onTap,
       child: Container(
-        width: size.width * 0.35,
+        width: size.width * 0.4,
         height: 28,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),

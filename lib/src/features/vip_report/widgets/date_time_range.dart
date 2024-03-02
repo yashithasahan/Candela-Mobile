@@ -48,8 +48,8 @@ class _DateAndTimeRangePickerFormState
                   name: 'date_start',
                   initialEntryMode: DatePickerEntryMode.calendar,
                   format: DateFormat('yyyy-MM-dd HH:mm'),
-                  decoration: const InputDecoration(
-                    labelText: 'Start Date and Time',
+                  decoration: InputDecoration(
+                    labelText: 'start-date'.tr,
                   ),
                   validator: FormBuilderValidators.required(
                     errorText: 'Start date and time is required',
@@ -58,15 +58,15 @@ class _DateAndTimeRangePickerFormState
                   name: 'date_end',
                   initialEntryMode: DatePickerEntryMode.calendar,
                   format: DateFormat('yyyy-MM-dd HH:mm'),
-                  decoration: const InputDecoration(
-                    labelText: 'End Date and Time',
+                  decoration: InputDecoration(
+                    labelText: 'end-date'.tr,
                   ),
                   validator: FormBuilderValidators.required(
                     errorText: 'End date and time is required',
                   )),
               const SizedBox(height: 20),
               PrimaryButton(
-                  text: 'Generate',
+                  text: 'generate'.tr,
                   press: () {
                     if (_formKey.currentState!.saveAndValidate()) {
                       // Extracting the form values
