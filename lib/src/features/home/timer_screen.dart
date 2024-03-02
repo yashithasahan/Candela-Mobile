@@ -42,7 +42,7 @@ class TimerScreen extends StatelessWidget {
               flex: 2,
               child: Container(
                 padding: const EdgeInsets.all(secondaryPadding),
-                child: const SongList(),
+                child: SongList(),
               )),
         ],
       )),

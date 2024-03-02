@@ -82,7 +82,8 @@ class LocalString extends Translations {
           'payment-process': 'Please add payment to proceed',
           'payment-done': 'Payment was already done. Thank you!',
           'payment-data-save-alert': 'Payment Data Saved',
-          'no-acess-report': 'You don\'t have access to this feature'
+          'no-acess-report': 'You don\'t have access to this feature',
+          'average-song-price': 'Average Song Price'
         },
         'es_ES': {
           'register-title': 'REGISTRO DE CASA VIP',
@@ -165,7 +166,9 @@ class LocalString extends Translations {
           'payment-process': 'Por favor agregue el pago para continuar',
           'payment-done': 'El pago ya fue realizado. ¡Gracias!',
           'payment-data-save-alert': 'Datos de pago guardados',
-          'no-acess-report': 'No tienes acceso a esta función'
+          'no-acess-report': 'No tienes acceso a esta función',
+          'average-song-price': 'Precio promedio de la cancion',
+         
         },
       };
 }

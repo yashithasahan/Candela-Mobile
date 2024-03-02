@@ -27,9 +27,11 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
   final timerController = Get.put(TimerController());
   int totalPayment = 0;
   int vipDances = 0;
+  int totalSongs = 0;
   DateTime today = DateTime.now();
   bool isLoading = false;
   bool ispaymentDone = false;
+  String totalDuration = '00:00:00';
 
   Future<void> initPaymentSheet(context,
       {required String email, required int amount}) async {
@@ -75,7 +77,9 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
     super.initState();
     tipController.text = '0';
     vipDances = timerController.totalAmout.value;
+    totalSongs = timerController.numberOfSongs.value;
     totalPayment = vipDances;
+    totalDuration = timerController.time.value;
   }
 
   @override
@@ -127,6 +131,18 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
             PaymentBox(
               text: 'dances'.tr,
               subText: '\$ ${vipDances.toString()}',
+            ),
+            PaymentBox(
+              text: 'total-songs'.tr,
+              subText: totalSongs.toString(),
+            ),
+            PaymentBox(
+              text: 'timer'.tr,
+              subText: totalDuration,
+            ),
+            PaymentBox(
+              text: 'average-song-price'.tr,
+              subText: '\$ ${(vipDances / totalSongs).toString()}',
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -260,6 +276,8 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
           tipPayment: int.parse(tipController.text),
           totalPayment: totalPayment,
           paymentDate: today,
+          totalSongs: totalSongs,
+          duration: totalDuration,
         );
 
         await FireStoreService().addPayments(payments, user);

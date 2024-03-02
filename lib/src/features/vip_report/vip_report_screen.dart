@@ -33,6 +33,8 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
   int vipPaymentTotal = 0;
   int tipPaymentTotal = 0;
   int totalSongs = 0;
+  int totalSongsInTransaction = 0;
+  String durationInTransaction = "";
   double totalDurationSeconds = 0;
   List<dynamic> songData = [];
   List<dynamic> transactionData = [];
@@ -137,57 +139,106 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
           .get();
 
       if (paymentSnapshot.docs.isNotEmpty) {
+        // int validPaymentsCount = 0; // Initialize a counter for valid payments
+        // final vipTotal = paymentSnapshot.docs.map((doc) {
+        //   final Timestamp timestamp =
+        //       (doc.data() as Map<String, dynamic>)['paymentDate'];
+        //   final DateTime paymentDate = timestamp.toDate();
+
+        //   if (vipPaymentController.isCustomSearch.value) {
+        //     if (paymentDate.isAfter(startDate) &&
+        //         paymentDate.isBefore(endDate)) {
+        //       filterdTransactionData.add(doc.data());
+        //       validPaymentsCount++; // Increment for each valid payment within the date range
+        //       return (doc.data() as Map<String, dynamic>)['vipPayment']
+        //               as num? ??
+        //           0;
+        //     } else {
+        //       return 0; // Skip this payment by contributing 0 to the sum
+        //     }
+        //   } else {
+        //     if (paymentDate.isAfter(
+        //             DateTime.now().subtract(const Duration(days: 2))) &&
+        //         paymentDate.isBefore(DateTime.now())) {
+        //       filterdTransactionData.add(doc.data());
+        //       validPaymentsCount++; // Increment for each valid payment within the date range
+        //       return (doc.data() as Map<String, dynamic>)['vipPayment']
+        //               as num? ??
+        //           0;
+        //     } else {
+        //       return 0; // Skip this payment by contributing 0 to the sum
+        //     }
+        //   }
+        // }).reduce((a, b) => a + b);
+
+        // final tipTotal = paymentSnapshot.docs.map((doc) {
+        //   final Timestamp timestamp =
+        //       (doc.data() as Map<String, dynamic>)['paymentDate'];
+        //   final DateTime paymentDate = timestamp.toDate();
+
+        //   if (vipPaymentController.isCustomSearch.value) {
+        //     if (paymentDate.isAfter(startDate) &&
+        //         paymentDate.isBefore(endDate)) {
+        //       return (doc.data() as Map<String, dynamic>)['tipPayment']
+        //               as num? ??
+        //           0;
+        //     } else {
+        //       return 0;
+        //     }
+        //   } else {
+        //     return (doc.data() as Map<String, dynamic>)['tipPayment'] as num? ??
+        //         0;
+        //   }
+        // }).reduce((a, b) => a + b);
+
+        // setState(() {
+        //   transactionData = filterdTransactionData;
+        //   totalTransactions =
+        //       validPaymentsCount; // Use the counted valid payments
+        //   vipPaymentTotal = vipTotal.toInt();
+        //   tipPaymentTotal = tipTotal.toInt();
+        // });
         int validPaymentsCount = 0; // Initialize a counter for valid payments
-        final vipTotal = paymentSnapshot.docs.map((doc) {
-          final Timestamp timestamp =
-              (doc.data() as Map<String, dynamic>)['paymentDate'];
+        num vipTotal = 0;
+        num tipTotal = 0;
+        int totalSongsInTransaction = 0;
+        String durationInTransaction = "";
+
+        for (var doc in paymentSnapshot.docs) {
+          final Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+          final Timestamp timestamp = data['paymentDate'];
           final DateTime paymentDate = timestamp.toDate();
 
+          bool isWithinRange = false;
+
           if (vipPaymentController.isCustomSearch.value) {
-            if (paymentDate.isAfter(startDate) &&
-                paymentDate.isBefore(endDate)) {
-              filterdTransactionData.add(doc.data());
-              validPaymentsCount++; // Increment for each valid payment within the date range
-              return (doc.data() as Map<String, dynamic>)['vipPayment']
-                      as num? ??
-                  0;
-            } else {
-              return 0; // Skip this payment by contributing 0 to the sum
-            }
+            isWithinRange =
+                paymentDate.isAfter(startDate) && paymentDate.isBefore(endDate);
           } else {
-            if (paymentDate.isAfter(
+            isWithinRange = paymentDate.isAfter(
                     DateTime.now().subtract(const Duration(days: 2))) &&
-                paymentDate.isBefore(DateTime.now())) {
-              filterdTransactionData.add(doc.data());
-              validPaymentsCount++; // Increment for each valid payment within the date range
-              return (doc.data() as Map<String, dynamic>)['vipPayment']
-                      as num? ??
-                  0;
-            } else {
-              return 0; // Skip this payment by contributing 0 to the sum
+                paymentDate.isBefore(DateTime.now());
+          }
+
+          if (isWithinRange) {
+            filterdTransactionData.add(data);
+            validPaymentsCount++;
+
+            vipTotal += data['vipPayment'] as num? ?? 0;
+            tipTotal += data['tipPayment'] as num? ?? 0;
+
+            // Handle totalSongs
+            if (data.containsKey('totalSongs')) {
+              totalSongsInTransaction += data['totalSongs'] as int;
+            }
+
+            // Handle duration
+            if (data.containsKey('duration')) {
+              durationInTransaction += data['duration']
+                  as String; // Or handle it according to your logic
             }
           }
-        }).reduce((a, b) => a + b);
-
-        final tipTotal = paymentSnapshot.docs.map((doc) {
-          final Timestamp timestamp =
-              (doc.data() as Map<String, dynamic>)['paymentDate'];
-          final DateTime paymentDate = timestamp.toDate();
-
-          if (vipPaymentController.isCustomSearch.value) {
-            if (paymentDate.isAfter(startDate) &&
-                paymentDate.isBefore(endDate)) {
-              return (doc.data() as Map<String, dynamic>)['tipPayment']
-                      as num? ??
-                  0;
-            } else {
-              return 0;
-            }
-          } else {
-            return (doc.data() as Map<String, dynamic>)['tipPayment'] as num? ??
-                0;
-          }
-        }).reduce((a, b) => a + b);
+        }
 
         setState(() {
           transactionData = filterdTransactionData;
@@ -195,7 +246,11 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
               validPaymentsCount; // Use the counted valid payments
           vipPaymentTotal = vipTotal.toInt();
           tipPaymentTotal = tipTotal.toInt();
+          totalSongsInTransaction = totalSongsInTransaction;
+          durationInTransaction = durationInTransaction;
+          // Add other state updates here
         });
+
       }
 
       DocumentSnapshot memberShipSnapshot = await FirebaseFirestore.instance

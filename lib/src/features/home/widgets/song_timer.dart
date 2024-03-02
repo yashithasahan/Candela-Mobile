@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:candela_maker/src/common_widgets/primary_button.dart';
 import 'package:candela_maker/src/constants/constants.dart';
 import 'package:candela_maker/src/features/home/controllers/timer_controller.dart';
@@ -25,6 +27,10 @@ class SongTimer extends StatefulWidget {
 class _SongTimerState extends State<SongTimer> {
   final timerController = Get.put(TimerController());
   final StopWatchTimer _stopWatchTimer = StopWatchTimer();
+  Timer? _periodicTimer;
+  static const int incrementDuration =
+      3 * 60 * 1000 + 3 * 1000; // 3 minutes and 30 seconds in milliseconds
+
   int stopTime = 0;
   DateTime today = DateTime.now();
   bool isTap = false;
@@ -74,13 +80,22 @@ class _SongTimerState extends State<SongTimer> {
                   stopTime += _stopWatchTimer.rawTime.value;
                   isTap = false;
                 });
-                timerController.totalAmout.value += timerController.amout.value;
-                timerController.numberOfSongs.value++;
+                
+                
                 timerController.time.value =
                     StopWatchTimer.getDisplayTime(stopTime, hours: false);
-                addSongDetails();
+                
                 Get.back();
                 _showCheckout();
+
+
+                if (timerController.isSongCountByTime.value) {
+                } else {
+                  addSongDetails();
+                  timerController.numberOfSongs.value++;
+                  timerController.totalAmout.value +=
+                      timerController.amout.value;
+                }
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(kPrimaryColor),
@@ -94,6 +109,7 @@ class _SongTimerState extends State<SongTimer> {
       Fluttertoast.showToast(msg: "start-timer-alert".tr);
     }
   }
+  
 
   Future<void> _showCheckout() async {
     return showDialog<void>(
@@ -191,16 +207,36 @@ class _SongTimerState extends State<SongTimer> {
       },
     );
   }
+  void _checkTime() {
+    int currentTime = _stopWatchTimer.rawTime.value;
+
+    // Check if the current time has crossed a multiple of 3 minutes and 30 seconds
+    if (currentTime ~/ incrementDuration >
+        timerController.numberOfSongs.value) {
+      // Update the number of songs and total amount
+      timerController.numberOfSongs.value = currentTime ~/ incrementDuration;
+      timerController.totalAmout.value =
+          timerController.numberOfSongs.value * timerController.amout.value;
+      addSongDetails();
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    _stopWatchTimer.setPresetTime(mSec: 0);
+    if (timerController.isSongCountByTime.value) {
+      _periodicTimer =
+          Timer.periodic(const Duration(seconds: 1), (Timer t) => _checkTime());
+    }
+  
   }
 
   @override
   void dispose() async {
     super.dispose();
     await _stopWatchTimer.dispose();
+    _periodicTimer?.cancel();
   }
 
   @override
@@ -315,21 +351,26 @@ class _SongTimerState extends State<SongTimer> {
   }
 
   Future<void> addSongDetails() async {
+
+   
+
     final FirebaseAuth auth = FirebaseAuth.instance;
+
     User? user = auth.currentUser;
     try {
       final songs = SongModel(
         userId: user!.uid,
-        songName: 'Lovely',
-        songArtist: 'Bille Ellish & Khalid',
+        songName: 'Song ${timerController.numberOfSongs.value}',
+        songArtist: 'Unknown',
         songPrice: timerController.amout.value,
         duration: ' ${timerController.time.value}',
         songdate: today,
-        totalSongs: ' ${timerController.numberOfSongs.value}',
+        totalSongs: '',
       );
-
+      timerController.songList.value.add(songs);
       await FireStoreService().addSongs(songs, user);
       Fluttertoast.showToast(msg: "song-data-save-alert".tr);
+      print(timerController.songList.value);
     } catch (e) {
       if (kDebugMode) {
         print(e);

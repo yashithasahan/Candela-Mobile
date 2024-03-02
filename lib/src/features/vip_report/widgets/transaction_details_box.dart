@@ -18,6 +18,8 @@ class TransactionDetailsBox extends StatelessWidget {
     // Destructuring the song data
     int tipPayment = transctions['tipPayment'] ?? 0;
     int vipPayment = transctions['vipPayment'] ?? 0;
+    int totalSOngs = transctions['totalSongs'] ?? 0;
+    String duration = transctions['duration'] ?? '00:00:00';
 
     Timestamp timestamp = transctions['paymentDate'] as Timestamp? ??
         Timestamp.now(); // Using a fallback to 'now' if null
@@ -45,6 +47,9 @@ class TransactionDetailsBox extends StatelessWidget {
           Text('Tip Payment:\$ $tipPayment', style: textStyle),
           Text('Vip Payment:\$ $vipPayment', style: textStyle),
           Text('Total Payment: \$ ${tipPayment + vipPayment}',
+              style: textStyle),
+          Text('Number of  Songs:  $totalSOngs', style: textStyle),
+          Text('Total Duration:  ${duration.substring(0, 8)}',
               style: textStyle),
           Text('Date & Time: ${songDate.toLocal().toString().substring(0, 16)}',
               style: textStyle), // Formatting the date to a local date string
