@@ -1,6 +1,7 @@
 import 'package:candela_maker/src/constants/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SongDetailsBox extends StatelessWidget {
   final Map<String, dynamic> song;
@@ -33,16 +34,18 @@ class SongDetailsBox extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Name: $songName',
+            '${'name'.tr} $songName',
             style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w900,
                 color: kPrimaryColor),
           ),
-          Text('Artist: $songArtist', style: textStyle),
-          Text('Duration: ${duration.substring(0, 6)}', style: textStyle),
-          Text('Price: \$$songPrice', style: textStyle),
-          Text('Date & Time: ${songDate.toLocal().toString().substring(0, 16)}',
+          Text('${'artist'.tr} $songArtist', style: textStyle),
+          Text('${'duration'.tr} ${duration.substring(0, 6)}',
+              style: textStyle),
+          Text('${'price'.tr} \$$songPrice', style: textStyle),
+          Text(
+              '${'date-time'.tr} ${songDate.toLocal().toString().substring(0, 16)}',
               style: textStyle), // Formatting the date to a local date string
         ],
       ),
