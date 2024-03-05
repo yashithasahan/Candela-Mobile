@@ -36,7 +36,7 @@ class _ProfileState extends State<Profile> {
               Column(
                 children: [
                   const Text(
-                    "Well Come",
+                    "Welcome",
                     style: TextStyle(
                         fontSize: 40,
                         fontWeight: FontWeight.w800,

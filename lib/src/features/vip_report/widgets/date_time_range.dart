@@ -86,7 +86,7 @@ class _DateAndTimeRangePickerFormState
                       print(_formKey.currentState!.value);
                     }
                   },
-                  width: 0.4),
+                  width: 0.6),
             ],
           ),
         ),

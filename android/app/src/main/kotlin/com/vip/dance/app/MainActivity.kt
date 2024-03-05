@@ -1,4 +1,4 @@
-package com.example.candela_maker
+package com.vip.dance.app
 
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.android.FlutterFragmentActivity

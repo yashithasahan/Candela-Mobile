@@ -367,10 +367,9 @@ class _SongTimerState extends State<SongTimer> {
         songdate: today,
         totalSongs: '',
       );
-      timerController.songList.value.add(songs);
+      timerController.songList.add(songs);
       await FireStoreService().addSongs(songs, user);
       Fluttertoast.showToast(msg: "song-data-save-alert".tr);
-      print(timerController.songList.value);
     } catch (e) {
       if (kDebugMode) {
         print(e);

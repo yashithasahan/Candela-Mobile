@@ -16,16 +16,23 @@ class _SongListState extends State<SongList> {
 
   @override
   Widget build(BuildContext context) {
-    final songList = timerController.songList.value;
+    return Obx(() {
+      final songList = timerController.songList;
 
-    return ListView.builder(
-      itemCount: songList.length,
-      itemBuilder: (context, index) {
-        return const SongCard(icon: s1);
-      },
+      if (songList.isNotEmpty) {
+        return ListView.builder(
+          itemCount: songList.length,
+          itemBuilder: (context, index) {
+            return SongCard(song: songList[index], index: index, icon: s4);
+          },
+        );
+} else {
+        return const Text(
+          "No Songs added yet",
+          style: TextStyle(color: kTextColor),
+        );
+      }
       
-    );
- 
-  
+    });
   }
 }

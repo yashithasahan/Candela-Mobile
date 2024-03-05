@@ -1,4 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:candela_maker/src/constants/constants.dart';
+import 'package:candela_maker/src/features/home/models/song_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -6,8 +8,15 @@ import 'package:get/get.dart';
 import '../controllers/timer_controller.dart';
 
 class SongCard extends StatelessWidget {
-  const SongCard({super.key, required this.icon});
+  const SongCard({
+    super.key,
+    required this.icon,
+    required this.index,
+    required this.song,
+  });
   final String icon;
+  final int index;
+  final SongModel song;
 
   @override
   Widget build(BuildContext context) {
@@ -22,24 +31,28 @@ class SongCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Image.asset(
-            icon,
-          ),
-          const Padding(
-            padding: EdgeInsets.only(left: 10),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8.0),
+            child: Image.asset(
+              icon,
+              
+            ),
+),
+          Padding(
+            padding: const EdgeInsets.only(left: 10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Lovely",
-                  style: TextStyle(
+                  "Song # ${index + 1}",
+                  style: const TextStyle(
                       fontSize: 16,
                       color: kPrimaryColor,
                       fontWeight: FontWeight.w900),
                 ),
-                Text(
-                  "Billie Eilish & Khalid",
+                const Text(
+                  "Unknown",
                   style: TextStyle(
                       fontSize: 10,
                       color: kTextColor,
@@ -56,15 +69,14 @@ class SongCard extends StatelessWidget {
               Row(
                 children: [
                   SvgPicture.asset(notes),
-                  Obx(
-                    () => Text(
-                      "\$ ${timerController.amout.value}",
+                  Text(
+                    "\$ ${song.songPrice}",
                       style: const TextStyle(
                           fontSize: 14,
                           color: kTextColor,
                           fontWeight: FontWeight.w900),
                     ),
-                  ),
+                  
                 ],
               ),
               Container(
@@ -72,10 +84,10 @@ class SongCard extends StatelessWidget {
                 height: 20,
                 decoration: BoxDecoration(
                     color: kTextColor, borderRadius: BorderRadius.circular(38)),
-                child: const Center(
+                child: Center(
                   child: Text(
-                    "00:04:52",
-                    style: TextStyle(
+                    song.duration.toString(),
+                    style: const TextStyle(
                         fontSize: 10,
                         color: kBlackColor,
                         fontWeight: FontWeight.w900),

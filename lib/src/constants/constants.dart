@@ -22,6 +22,7 @@ const mainNotes = 'assets/images/svg/main_notes.svg';
 const s1 = 'assets/images/s1.png';
 const s2 = 'assets/images/s2.png';
 const s3 = 'assets/images/s3.png';
+const s4 = 'assets/images/newdjsong image.webp';
 
 // constrains
 const mainPadding = 25.0;

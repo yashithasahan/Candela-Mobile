@@ -1,3 +1,4 @@
+import 'package:candela_maker/src/features/home/models/song_model.dart';
 import 'package:get/get.dart';
 
 class TimerController extends GetxController {
@@ -9,5 +10,5 @@ class TimerController extends GetxController {
   RxBool secondryBackgorund = false.obs;
   RxInt totalAmout = 0.obs;
   RxBool isSongCountByTime = false.obs;
-  RxList songList = [].obs;
+  RxList songList = <SongModel>[].obs;
 }

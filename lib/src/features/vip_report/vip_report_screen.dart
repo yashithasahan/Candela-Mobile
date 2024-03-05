@@ -535,7 +535,7 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                                   vipPaymentController.isCustomSearch.value =
                                       false;
                                 },
-                                width: 0.4),
+                                width: 0.6),
                           ),
                           const SizedBox(
                             height: 20,
