@@ -1,4 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+
 import 'package:candela_maker/src/common_widgets/primary_button.dart';
 import 'package:candela_maker/src/constants/constants.dart';
 import 'package:candela_maker/src/widgets/membership_level_btn.dart';
@@ -12,13 +14,18 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+
 import '../authentication/models/user_model.dart';
 import '../authentication/services/firestore_service.dart';
 import 'controller/membership_controller.dart';
 import 'model/membership_model.dart';
 
 class MembershipLevel extends StatefulWidget {
-  const MembershipLevel({super.key});
+  final bool isPopUp;
+  const MembershipLevel({
+    super.key,
+    this.isPopUp = true,
+  });
 
   @override
   State<MembershipLevel> createState() => _MembershipLevelState();
@@ -123,17 +130,38 @@ class _MembershipLevelState extends State<MembershipLevel> {
       child: Scaffold(
         backgroundColor: kBgColor,
         appBar: AppBar(
+          toolbarHeight: MediaQuery.of(context).size.width * 0.25,
           backgroundColor: kBgColor,
           automaticallyImplyLeading: false,
           centerTitle: true,
           foregroundColor: kTextColor,
-          title: Text(
-            "membership-level".tr,
-            style: const TextStyle(
-              color: kPrimaryColor,
-              fontSize: 26,
-              fontWeight: FontWeight.bold,
-            ),
+          title: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Visibility(
+                    visible: widget.isPopUp,
+                    child: IconButton(
+                        onPressed: () => Get.back(),
+                        icon: const Icon(
+                          Icons.close,
+                          color: Color.fromARGB(255, 62, 62, 62),
+                        )),
+                  )
+                ],
+              ),
+              Center(
+                child: Text(
+                  "membership-level".tr,
+                  style: const TextStyle(
+                    color: kPrimaryColor,
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
         body: Padding(

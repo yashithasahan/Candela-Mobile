@@ -5,6 +5,9 @@ class PaymentModel {
   final int? tipPayment;
   final int? totalPayment;
   final DateTime? paymentDate;
+  final int? totalSongs;
+  final String? duration;
+
 
   PaymentModel(
       {this.id,
@@ -12,7 +15,9 @@ class PaymentModel {
       this.vipPayment,
       this.tipPayment,
       this.totalPayment,
-      this.paymentDate});
+      this.paymentDate,
+      this.totalSongs,
+      this.duration});
 
   Map<String, dynamic> toJson() {
     return {
@@ -21,6 +26,8 @@ class PaymentModel {
       'tipPayment': tipPayment,
       'totalPayment': totalPayment,
       'paymentDate': paymentDate,
+      'totalSongs': totalSongs,
+      'duration': duration
     };
   }
 
@@ -31,6 +38,8 @@ class PaymentModel {
       tipPayment: json['tipPayment'],
       totalPayment: json['totalPayment'],
       paymentDate: (json['paymentDate']).toDate(),
+      totalSongs: json['totalSongs'],
+      duration: json['duration'],
     );
   }
 }
