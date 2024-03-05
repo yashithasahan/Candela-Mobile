@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MembershipLevelButton extends StatelessWidget {
   final int level;
@@ -29,7 +30,7 @@ class MembershipLevelButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(38)),
         child: Center(
           child: Text(
-            'Level $level',
+            '${'level'.tr} $level',
             style: TextStyle(
               color: textColor,
               fontSize: 14,

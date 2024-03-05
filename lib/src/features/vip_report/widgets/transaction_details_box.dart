@@ -2,6 +2,7 @@
 import 'package:candela_maker/src/constants/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class TransactionDetailsBox extends StatelessWidget {
   final Map<String, dynamic> transctions;
@@ -38,20 +39,20 @@ class TransactionDetailsBox extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Transaction No: ${index + 1}',
+            '${'transation-no'.tr} ${index + 1}',
             style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w900,
                 color: kPrimaryColor),
           ),
-          Text('Tip Payment:\$ $tipPayment', style: textStyle),
-          Text('Vip Payment:\$ $vipPayment', style: textStyle),
-          Text('Total Payment: \$ ${tipPayment + vipPayment}',
+          Text('${'tip-payment'.tr} \$ $tipPayment', style: textStyle),
+          Text('${'vip-pay'.tr} \$ $vipPayment', style: textStyle),
+          Text('${'tot-pay'.tr} \$ ${tipPayment + vipPayment}',
               style: textStyle),
           Text('Number of  Songs:  $totalSOngs', style: textStyle),
           Text('Total Duration:  ${duration.substring(0, 8)}',
               style: textStyle),
-          Text('Date & Time: ${songDate.toLocal().toString().substring(0, 16)}',
+          Text('${'date-time'.tr} ${songDate.toLocal().toString().substring(0, 16)}',
               style: textStyle), // Formatting the date to a local date string
         ],
       ),
