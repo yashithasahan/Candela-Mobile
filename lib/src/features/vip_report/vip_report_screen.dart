@@ -309,10 +309,11 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                       height: 20,
                     ),
                     ReportBox(
-                      text: 'Vip Member : Level $membershipLevel',
+                      text:
+                          '${'vip-member'.tr} : ${'level'.tr} $membershipLevel',
                     ),
                     ReportBox(
-                      text: 'Username : $userName',
+                      text: '${'username'.tr} : $userName',
                     ),
                     const SizedBox(
                       height: 15,
@@ -432,15 +433,14 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                       height: 15,
                     ),
                     ReportBox(
-                      text: 'Email : $email',
-                      subText: 'Bcc : ',
+                      text: '${'email'.tr} : $email',
                     ),
                     ReportBox(
-                      text: 'Total Transactions : $totalTransactions ',
+                      text: '${'total-transactions'.tr} : $totalTransactions ',
                     ),
                     ReportBox(
                       text:
-                          'Total Amount(\$) : ${vipPaymentTotal + tipPaymentTotal} ',
+                          '${'total-amount'.tr} : ${vipPaymentTotal + tipPaymentTotal} ',
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

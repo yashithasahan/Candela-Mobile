@@ -38,7 +38,7 @@ class VIPMoneyLinks extends StatelessWidget {
                     scale: 0.9,
                     text: 'NFTs',
                     subText: 'https://rarible.com/candelaartworks',
-                    btnText: 'See More',
+                    btnText: 'see-more'.tr,
                     press: () {},
                   ),
                 ),
@@ -47,9 +47,9 @@ class VIPMoneyLinks extends StatelessWidget {
                   child: CustomBox(
                     img: 'assets/images/motorcycle.png',
                     scale: 0.9,
-                    text: 'Motorcycle Race Games',
+                    text: 'race-games'.tr,
                     subText: 'www.supersportracers.com',
-                    btnText: 'See More',
+                    btnText: 'see-more'.tr,
                     press: () {},
                   ),
                 ),
@@ -64,8 +64,8 @@ class VIPMoneyLinks extends StatelessWidget {
                   child: CustomBox(
                     img: 'assets/images/chaos.png',
                     scale: 1,
-                    text: 'Money Cannon CHAOSX2.COM',
-                    btnText: 'See More',
+                    text: 'money-cannon'.tr,
+                    btnText: 'see-more'.tr,
                     press: () {},
                   ),
                 ),
@@ -76,7 +76,7 @@ class VIPMoneyLinks extends StatelessWidget {
                     scale: 1,
                     text: 'Del Castillo Insurance.com',
                     subText: '+1.737.341.3947',
-                    btnText: 'See More',
+                    btnText: 'see-more'.tr,
                     press: () {},
                   ),
                 ),
@@ -91,19 +91,19 @@ class VIPMoneyLinks extends StatelessWidget {
                 color: kTextColor,
                 borderRadius: BorderRadius.circular(5),
               ),
-              child: const Padding(
-                padding: EdgeInsets.fromLTRB(30, 10, 0, 10),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(30, 10, 0, 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Shirts, Posters, Artwork',
-                      style: TextStyle(
+                      'shirt-posters'.tr,
+                      style: const TextStyle(
                           color: kBlackColor,
                           fontWeight: FontWeight.bold,
                           fontSize: 18),
                     ),
-                    Text(
+                    const Text(
                       'WWW.CANDELAVIPSTORE.COM',
                       style: TextStyle(
                           color: Colors.blue, fontWeight: FontWeight.bold),
@@ -121,20 +121,20 @@ class VIPMoneyLinks extends StatelessWidget {
                 color: kSecondaryColor,
                 borderRadius: BorderRadius.circular(5),
               ),
-              child: const Padding(
-                padding: EdgeInsets.fromLTRB(30, 10, 0, 10),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(30, 10, 0, 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'VIP Money Customer Service',
-                      style: TextStyle(
+                      'vip-customer-service'.tr,
+                      style: const TextStyle(
                           color: kPrimaryColor,
                           fontWeight: FontWeight.bold,
                           fontSize: 22),
                     ),
-                    SizedBox(height: 10),
-                    Row(
+                    const SizedBox(height: 10),
+                    const Row(
                       children: [
                         Icon(
                           Icons.phone,
@@ -150,7 +150,7 @@ class VIPMoneyLinks extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Row(
+                    const Row(
                       children: [
                         Icon(
                           Icons.email,
@@ -166,7 +166,7 @@ class VIPMoneyLinks extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Row(
+                    const Row(
                       children: [
                         Icon(
                           Icons.web_rounded,

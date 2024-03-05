@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:candela_maker/src/constants/constants.dart';
-import 'package:candela_maker/src/features/authentication/register/register.dart';
 import 'package:candela_maker/src/features/home/timer_screen.dart';
 import 'package:candela_maker/src/features/profile/profile_screen.dart';
 import 'package:candela_maker/src/features/vip_payment/vip_payment_screen.dart';
@@ -46,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   final List<Widget> _widgetOptions = [
-    Profile(),
+    const Profile(),
     const TimerScreen(),
     const VIPPaymentScreen(),
     const VIPReportAccess(),

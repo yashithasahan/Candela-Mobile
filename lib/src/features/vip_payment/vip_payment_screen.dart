@@ -196,7 +196,7 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
                                     actionsPadding:
                                         const EdgeInsets.only(bottom: 40),
                                     content: Text(
-                                      '\$ ${tipController.text} amount added as tip. Are you sure?',
+                                      '\$ ${tipController.text} ${'tip-alert'.tr}',
                                       textAlign: TextAlign.center,
                                       style: const TextStyle(
                                           color: kTextColor, fontSize: 18),
@@ -229,7 +229,7 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
               ),
             ),
             const SizedBox(
-              height: 40,
+              height: 20,
             ),
             isLoading
                 ? const Center(
@@ -240,8 +240,7 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
                     text: 'pay-vip-now'.tr,
                     press: () async {
                       if (totalPayment == 0) {
-                        Fluttertoast.showToast(
-                            msg: 'payment-process'.tr);
+                        Fluttertoast.showToast(msg: 'payment-process'.tr);
                       } else {
                         if (!ispaymentDone) {
                           savePaymentData();
@@ -254,7 +253,10 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
                         }
                       }
                     },
-                    width: 0.6)
+                    width: 0.6),
+            const SizedBox(
+              height: 20,
+            ),
           ],
         ),
       ),
