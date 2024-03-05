@@ -229,7 +229,7 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
               ),
             ),
             const SizedBox(
-              height: 40,
+              height: 20,
             ),
             isLoading
                 ? const Center(
@@ -253,7 +253,10 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
                         }
                       }
                     },
-                    width: 0.6)
+                    width: 0.6),
+            const SizedBox(
+              height: 20,
+            ),
           ],
         ),
       ),

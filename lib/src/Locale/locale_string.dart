@@ -100,7 +100,14 @@ class LocalString extends Translations {
           'vip-pay': 'Vip Payment:',
           'tot-pay': 'Total Payment:',
           'start-date': 'Start Date and Time',
-          'end-date': 'End Date and Time'
+          'end-date': 'End Date and Time',
+          'total-duration': 'Total Duration:',
+          'number-of-songs': 'Number of Songs:',
+          'welcome': 'Welcome',
+          'user-preferences': 'User Preferences',
+          'set-song-count': 'Set song count by time',
+          'default-time': 'Default Time',
+          'logout': 'Logout'
         },
         'es_ES': {
           'register-title': 'REGISTRO DE CASA VIP',
@@ -201,7 +208,14 @@ class LocalString extends Translations {
           'vip-pay': 'Pago Vip:',
           'tot-pay': 'Pago total:',
           'start-date': 'Fecha y hora de inicio',
-          'end-date': 'Fecha y hora de finalización'
+          'end-date': 'Fecha y hora de finalización',
+          'total-duration': 'Duración total:',
+          'number-of-songs': 'Número de canciones:',
+          'welcome': 'Bienvenido',
+          'user-preferences': 'Preferencias del usuario',
+          'set-song-count': 'Establecer el recuento de canciones por tiempo',
+          'default-time': 'Hora predeterminada',
+          'logout': 'Cerrar sesión'
         },
       };
 }

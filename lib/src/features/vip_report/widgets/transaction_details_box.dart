@@ -49,10 +49,11 @@ class TransactionDetailsBox extends StatelessWidget {
           Text('${'vip-pay'.tr} \$ $vipPayment', style: textStyle),
           Text('${'tot-pay'.tr} \$ ${tipPayment + vipPayment}',
               style: textStyle),
-          Text('Number of  Songs:  $totalSOngs', style: textStyle),
-          Text('Total Duration:  ${duration.substring(0, 8)}',
+          Text('${'number-of-songs'.tr}  $totalSOngs', style: textStyle),
+          Text('${'total-duration'.tr}  ${duration.substring(0, 8)}',
               style: textStyle),
-          Text('${'date-time'.tr} ${songDate.toLocal().toString().substring(0, 16)}',
+          Text(
+              '${'date-time'.tr} ${songDate.toLocal().toString().substring(0, 16)}',
               style: textStyle), // Formatting the date to a local date string
         ],
       ),

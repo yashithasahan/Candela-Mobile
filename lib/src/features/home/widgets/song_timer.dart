@@ -80,14 +80,12 @@ class _SongTimerState extends State<SongTimer> {
                   stopTime += _stopWatchTimer.rawTime.value;
                   isTap = false;
                 });
-                
-                
+
                 timerController.time.value =
                     StopWatchTimer.getDisplayTime(stopTime, hours: false);
-                
+
                 Get.back();
                 _showCheckout();
-
 
                 if (timerController.isSongCountByTime.value) {
                 } else {
@@ -109,7 +107,6 @@ class _SongTimerState extends State<SongTimer> {
       Fluttertoast.showToast(msg: "start-timer-alert".tr);
     }
   }
-  
 
   Future<void> _showCheckout() async {
     return showDialog<void>(
@@ -208,6 +205,7 @@ class _SongTimerState extends State<SongTimer> {
       },
     );
   }
+
   void _checkTime() {
     int currentTime = _stopWatchTimer.rawTime.value;
 
@@ -230,7 +228,6 @@ class _SongTimerState extends State<SongTimer> {
       _periodicTimer =
           Timer.periodic(const Duration(seconds: 1), (Timer t) => _checkTime());
     }
-  
   }
 
   @override
@@ -355,9 +352,6 @@ class _SongTimerState extends State<SongTimer> {
   }
 
   Future<void> addSongDetails() async {
-
-   
-
     final FirebaseAuth auth = FirebaseAuth.instance;
 
     User? user = auth.currentUser;

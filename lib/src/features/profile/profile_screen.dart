@@ -1,9 +1,5 @@
-import 'dart:convert';
-
 import 'package:candela_maker/src/common_widgets/primary_button.dart';
 import 'package:candela_maker/src/constants/constants.dart';
-import 'package:candela_maker/src/features/authentication/models/user_model.dart';
-import 'package:candela_maker/src/features/authentication/register/register.dart';
 import 'package:candela_maker/src/features/authentication/services/auth_service.dart';
 import 'package:candela_maker/src/features/home/controllers/timer_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -35,9 +31,9 @@ class _ProfileState extends State<Profile> {
             children: [
               Column(
                 children: [
-                  const Text(
-                    "Well Come",
-                    style: TextStyle(
+                  Text(
+                    "welcome".tr,
+                    style: const TextStyle(
                         fontSize: 40,
                         fontWeight: FontWeight.w800,
                         color: kPrimaryColor),
@@ -54,27 +50,28 @@ class _ProfileState extends State<Profile> {
                       child: Image.asset("assets/images/vip-agree.png")),
                 ],
               ),
-              const Text(
-                "User Preferences",
-                style: TextStyle(fontSize: 20, color: kPrimaryColor),
+              Text(
+                "user-preferences".tr,
+                style: const TextStyle(fontSize: 20, color: kPrimaryColor),
               ),
               Obx(
                 () => Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        const Text(
-                          "Set song count by time",
-                          style: TextStyle(fontSize: 16, color: kPrimaryColor),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Expanded(
+                        child: Text(
+                          "set-song-count".tr,
+                          style: const TextStyle(
+                              fontSize: 16, color: kPrimaryColor),
                         ),
-                        Checkbox(
-                            value: _timerController.isSongCountByTime.value,
-                            onChanged: (value) {
-                              _timerController.isSongCountByTime.value = value!;
-                            })
-                      ],
+                      ),
                     ),
+                    Checkbox(
+                        value: _timerController.isSongCountByTime.value,
+                        onChanged: (value) {
+                          _timerController.isSongCountByTime.value = value!;
+                        }),
                     AnimatedContainer(
                         margin: const EdgeInsets.all(8),
                         alignment: Alignment.center,
@@ -85,15 +82,16 @@ class _ProfileState extends State<Profile> {
                             color: kSecondaryColor,
                             borderRadius: BorderRadius.circular(12)),
                         duration: const Duration(milliseconds: 200),
-                        child: const Text(
-                          "Defaut time 03:30:00",
-                          style: TextStyle(fontSize: 14, color: kPrimaryColor),
+                        child: Text(
+                          "${'default-time'.tr} 03:30:00",
+                          style: const TextStyle(
+                              fontSize: 14, color: kPrimaryColor),
                         )),
                   ],
                 ),
               ),
               PrimaryButton(
-                  text: "Logout",
+                  text: "logout".tr,
                   press: () => {AuthService().logout()},
                   width: 0.5),
               const SizedBox(
