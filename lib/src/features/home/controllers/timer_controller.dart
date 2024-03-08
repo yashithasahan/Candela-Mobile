@@ -8,6 +8,7 @@ class TimerController extends GetxController {
   RxInt amout = 25.obs;
   RxInt numberOfSongs = 0.obs;
   RxBool secondryBackgorund = false.obs;
+  RxBool secondryCardBackgorund = false.obs;
   RxInt totalAmout = 0.obs;
   RxBool isSongCountByTime = false.obs;
   RxList songList = <SongModel>[].obs;

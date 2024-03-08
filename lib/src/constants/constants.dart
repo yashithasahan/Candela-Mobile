@@ -10,8 +10,8 @@ final kShadowColor = const Color.fromARGB(17, 211, 211, 211).withOpacity(.84);
 const kDefaultPadding = EdgeInsets.symmetric(horizontal: 20);
 
 //Images
-const timerMainImage = 'assets/images/main-timer.png';
-const timerSecondImage = 'assets/images/splash-model.png';
+const timerMainImage = 'assets/images/splash-model.png';
+const timerSecondImage = 'assets/images/new-gold-square.jpg';
 
 const tapToStop = 'assets/images/svg/tap-2-stop.svg';
 const tapToStart = 'assets/images/svg/tap-2-start.svg';
@@ -22,7 +22,8 @@ const mainNotes = 'assets/images/svg/main_notes.svg';
 const s1 = 'assets/images/s1.png';
 const s2 = 'assets/images/s2.png';
 const s3 = 'assets/images/s3.png';
-const s4 = 'assets/images/newdjsong image.webp';
+const s4 = 'assets/images/new-dj.jpg';
+const s5 = 'assets/images/newdjsong image.webp';
 
 // constrains
 const mainPadding = 25.0;

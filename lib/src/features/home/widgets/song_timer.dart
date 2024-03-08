@@ -240,115 +240,123 @@ class _SongTimerState extends State<SongTimer> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Stack(
+    return Obx(() => Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            //1108 966
-            GestureDetector(
-              onTap: imageToggle,
-              child: Obx(
-                () => Center(
-                  child: Image.asset(
-                    timerController.secondryBackgorund.value
-                        ? timerMainImage
-                        : timerSecondImage,
-                    width: size.width * 0.6,
-                  ),
-                ),
-              ),
-            ),
-            StreamBuilder<int>(
-              stream: _stopWatchTimer.rawTime,
-              initialData: 0,
-              builder: (context, snap) {
-                final displayTime =
-                    StopWatchTimer.getDisplayTime(snap.data!, hours: false);
-
-                return SizedBox(
-                  height: size.width * 0.27,
+            Stack(
+              children: [
+                //1108 966
+                GestureDetector(
+                  onTap: imageToggle,
                   child: Center(
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Text(
-                          displayTime,
-                          style: TextStyle(
-                              fontSize: size.width * 0.05,
-                              color: kPrimaryColor,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
+                    child: Image.asset(
+                      timerController.secondryBackgorund.value
+                          ? timerMainImage
+                          : timerSecondImage,
+                      width: timerController.secondryBackgorund.value
+                          ? size.width * 0.6
+                          : size.width * 0.5,
                     ),
                   ),
-                );
-              },
-            ),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                InkWell(
-                  onTap: onTapStart,
-                  child: SvgPicture.asset(
-                    tapToStart,
-                    width: size.width * 0.15,
-                  ),
                 ),
-                InkWell(
-                  onTap: onTapStop,
-                  child: SvgPicture.asset(
-                    tapToStop,
-                    width: size.width * 0.15,
-                  ),
+
+                StreamBuilder<int>(
+                  stream: _stopWatchTimer.rawTime,
+                  initialData: 0,
+                  builder: (context, snap) {
+                    final displayTime =
+                        StopWatchTimer.getDisplayTime(snap.data!, hours: false);
+
+                    return SizedBox(
+                        height: size.width * 0.27,
+                        child: Obx(
+                          () => Center(
+                            child: Align(
+                              alignment: Alignment.topCenter,
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    top:
+                                        timerController.secondryBackgorund.value
+                                            ? size.height * 0.06
+                                            : size.height * 0.03),
+                                child: Text(
+                                  displayTime,
+                                  style: TextStyle(
+                                      fontSize: size.width * 0.05,
+                                      color: kPrimaryColor,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ));
+                  },
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      onTap: onTapStart,
+                      child: SvgPicture.asset(
+                        tapToStart,
+                        width: size.width * 0.15,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: onTapStop,
+                      child: SvgPicture.asset(
+                        tapToStop,
+                        width: size.width * 0.15,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            timerController.secondryBackgorund.value
+                ? const SizedBox(
+                    height: 0,
+                  )
+                : SizedBox(height: size.height * 0.05),
+            Column(
+              children: [
+                SizedBox(
+                  height: size.height * 0.01,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    outlineBox(
+                        null,
+                        size,
+                        "\$ ${timerController.amout.value.toInt()}",
+                        () => onPriceEdit(context, size)),
+                    outlineBox(null, size,
+                        "${'timer'.tr} ${timerController.time.value}", null),
+                  ],
+                ),
+                SizedBox(
+                  height: size.height * 0.03,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    outlineBox(
+                        null,
+                        size,
+                        "${'total-songs'.tr} ${timerController.numberOfSongs.value}",
+                        null),
+                    outlineBox(
+                        null,
+                        size,
+                        "${'total'.tr} \$ ${timerController.totalAmout.value}",
+                        null),
+                  ],
                 ),
               ],
             ),
           ],
-        ),
-        Obx(
-          () => Column(
-            children: [
-              SizedBox(
-                height: size.height * 0.01,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  outlineBox(
-                      null,
-                      size,
-                      "\$ ${timerController.amout.value.toInt()}",
-                      () => onPriceEdit(context, size)),
-                  outlineBox(null, size,
-                      "${'timer'.tr} ${timerController.time.value}", null),
-                ],
-              ),
-              SizedBox(
-                height: size.height * 0.03,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  outlineBox(
-                      null,
-                      size,
-                      "${'total-songs'.tr} ${timerController.numberOfSongs.value}",
-                      null),
-                  outlineBox(
-                      null,
-                      size,
-                      "${'total'.tr} \$ ${timerController.totalAmout.value}",
-                      null),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
+        ));
   }
 
   Future<void> addSongDetails() async {
