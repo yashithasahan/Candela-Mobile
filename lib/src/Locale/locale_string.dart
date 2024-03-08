@@ -107,7 +107,10 @@ class LocalString extends Translations {
           'user-preferences': 'User Preferences',
           'set-song-count': 'Set song count by time',
           'default-time': 'Default Time',
-          'logout': 'Logout'
+          'logout': 'Logout',
+          'song': 'Song',
+          'unknown': 'Unknown',
+          'no-songs': 'No songs added yet'
         },
         'es_ES': {
           'register-title': 'REGISTRO DE CASA VIP',
@@ -215,7 +218,10 @@ class LocalString extends Translations {
           'user-preferences': 'Preferencias del usuario',
           'set-song-count': 'Establecer el recuento de canciones por tiempo',
           'default-time': 'Hora predeterminada',
-          'logout': 'Cerrar sesión'
+          'logout': 'Cerrar sesión',
+          'song': 'Canción',
+          'unknown': 'Desconocido',
+          'no-songs': 'Aún no se han añadido canciones'
         },
       };
 }

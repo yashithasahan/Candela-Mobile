@@ -31,7 +31,6 @@ class AuthService {
       User? user = userCredential.user;
       return _userWithFirebaseUserUid(user);
     } on FirebaseAuthException catch (error) {
-      print(error.code);
       switch (error.code) {
         case "invalid-email":
           errorMessage = "Your email address appears to be malformed.";
@@ -77,7 +76,6 @@ class AuthService {
       Get.to(() => const HomeScreen());
       return _userWithFirebaseUserUid(user);
     } on FirebaseAuthException catch (error) {
-      print(error.code);
       switch (error.code) {
         case "invalid-email":
           errorMessage = "Your email address appears to be malformed.";

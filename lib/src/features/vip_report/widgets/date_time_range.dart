@@ -83,7 +83,6 @@ class _DateAndTimeRangePickerFormState
                       //     snackPosition: SnackPosition.BOTTOM);
                       vipPaymentController.isCustomSearch.value = true;
                       widget.fetchDataCallback();
-                      print(_formKey.currentState!.value);
                     }
                   },
                   width: 0.6),

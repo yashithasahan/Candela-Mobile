@@ -20,51 +20,50 @@ class _ProfileState extends State<Profile> {
   @override
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     final user = _auth.currentUser!.email;
     return SafeArea(
       child: Scaffold(
         backgroundColor: kBgColor,
-        body: Container(
-          alignment: Alignment.center,
+        body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                children: [
-                  Text(
-                    "welcome".tr,
-                    style: const TextStyle(
-                        fontSize: 40,
-                        fontWeight: FontWeight.w800,
-                        color: kPrimaryColor),
-                  ),
-                  Text(
-                    user.toString(),
-                    style: const TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w800,
-                        color: kPrimaryColor),
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Image.asset("assets/images/vip-agree.png")),
-                ],
+              SizedBox(height: size.height * 0.05),
+              Text(
+                "welcome".tr,
+                style: const TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.w800,
+                    color: kPrimaryColor),
               ),
+              SizedBox(height: size.height * 0.02),
+              Text(
+                user.toString(),
+                style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w800,
+                    color: kPrimaryColor),
+              ),
+              SizedBox(height: size.height * 0.05),
+              Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Image.asset("assets/images/vip-agree.png")),
+              SizedBox(height: size.height * 0.05),
               Text(
                 "user-preferences".tr,
-                style: const TextStyle(fontSize: 20, color: kPrimaryColor),
+                style: const TextStyle(fontSize: 22, color: kPrimaryColor),
               ),
+              SizedBox(height: size.height * 0.03),
               Obx(
                 () => Column(
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Expanded(
-                        child: Text(
-                          "set-song-count".tr,
-                          style: const TextStyle(
-                              fontSize: 16, color: kPrimaryColor),
-                        ),
+                      child: Text(
+                        "set-song-count".tr,
+                        style:
+                            const TextStyle(fontSize: 16, color: kPrimaryColor),
                       ),
                     ),
                     Checkbox(
@@ -90,6 +89,7 @@ class _ProfileState extends State<Profile> {
                   ],
                 ),
               ),
+              SizedBox(height: size.height * 0.05),
               PrimaryButton(
                   text: "logout".tr,
                   press: () => {AuthService().logout()},

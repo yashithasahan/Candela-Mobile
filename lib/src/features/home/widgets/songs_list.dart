@@ -26,13 +26,12 @@ class _SongListState extends State<SongList> {
             return SongCard(song: songList[index], index: index, icon: s4);
           },
         );
-} else {
-        return const Text(
-          "No Songs added yet",
-          style: TextStyle(color: kTextColor),
+      } else {
+        return Text(
+          "no-songs".tr,
+          style: const TextStyle(color: kTextColor),
         );
       }
-      
     });
   }
 }

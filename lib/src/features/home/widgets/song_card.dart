@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-import '../controllers/timer_controller.dart';
 
 class SongCard extends StatelessWidget {
   const SongCard({
@@ -20,7 +19,6 @@ class SongCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final timerController = Get.put(TimerController());
     return Container(
       padding: const EdgeInsets.all(8),
       margin: const EdgeInsets.only(bottom: mainPadding),
@@ -45,15 +43,15 @@ class SongCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Song # ${index + 1}",
+                  "${'song'.tr} # ${index + 1}",
                   style: const TextStyle(
                       fontSize: 16,
                       color: kPrimaryColor,
                       fontWeight: FontWeight.w900),
                 ),
-                const Text(
-                  "Unknown",
-                  style: TextStyle(
+         Text(
+                  "unknown".tr,
+                  style: const TextStyle(
                       fontSize: 10,
                       color: kTextColor,
                       fontWeight: FontWeight.w900),

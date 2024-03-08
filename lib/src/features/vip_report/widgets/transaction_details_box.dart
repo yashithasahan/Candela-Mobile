@@ -15,7 +15,6 @@ class TransactionDetailsBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(transctions);
     // Destructuring the song data
     int tipPayment = transctions['tipPayment'] ?? 0;
     int vipPayment = transctions['vipPayment'] ?? 0;
