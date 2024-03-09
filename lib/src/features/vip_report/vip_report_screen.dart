@@ -6,6 +6,7 @@ import 'package:candela_maker/src/features/vip_report/widgets/transaction_detail
 import 'package:candela_maker/src/features/vip_report/widgets/vip_payment_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -77,7 +78,6 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
           if (vipPaymentController.isCustomSearch.value) {
             if (songDate.isAfter(startDate) && songDate.isBefore(endDate)) {
               filterdSongData.add(doc.data());
-              print(filterdSongData.length);
               songCounter++;
 
               final durationStr =
@@ -95,7 +95,6 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                     DateTime.now().subtract(const Duration(days: 2))) &&
                 songDate.isBefore(DateTime.now())) {
               filterdSongData.add(doc.data());
-              print(filterdSongData.length);
               songCounter++;
               final durationStr =
                   (doc.data() as Map<String, dynamic>)['duration'] as String? ??
@@ -266,7 +265,9 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
         });
       }
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 

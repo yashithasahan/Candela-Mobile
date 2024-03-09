@@ -67,7 +67,6 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
             msg: 'Error from Stripe: ${e.error.localizedMessage}');
       } else {
         Fluttertoast.showToast(msg: 'Error: ${e.toString()}');
-        print(e.toString());
       }
     }
   }
@@ -106,6 +105,14 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
               fontWeight: FontWeight.w700,
               fontSize: 26),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Get.back();
+            },
+            icon: const Icon(Icons.close, color: kPrimaryColor),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(

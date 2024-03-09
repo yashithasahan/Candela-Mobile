@@ -21,7 +21,7 @@ class TimerScreen extends StatelessWidget {
               fontFamily: "Roboto",
               color: kPrimaryColor,
               fontWeight: FontWeight.w700,
-              fontSize: 18),
+              fontSize: 26),
         ),
       ),
       backgroundColor: kBgColor,

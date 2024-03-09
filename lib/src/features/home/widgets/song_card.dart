@@ -13,10 +13,12 @@ class SongCard extends StatelessWidget {
     required this.icon,
     required this.index,
     required this.song,
+    required this.onTap,
   });
   final String icon;
   final int index;
   final SongModel song;
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +33,16 @@ class SongCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8.0),
-            child: Image.asset(
-              icon,
-              
-            ),
-),
+          InkWell(
+              onTap: onTap,
+              child: Obx(
+                () => ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image.asset(
+                    timerController.secondryCardBackgorund.value ? s5 : s4,
+                  ),
+                ),
+              )),
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: Column(
@@ -45,15 +50,15 @@ class SongCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Song # ${index + 1}",
+                  "${'song'.tr} # ${index + 1}",
                   style: const TextStyle(
                       fontSize: 16,
                       color: kPrimaryColor,
                       fontWeight: FontWeight.w900),
                 ),
-                const Text(
-                  "Unknown",
-                  style: TextStyle(
+                Text(
+                  "unknown".tr,
+                  style: const TextStyle(
                       fontSize: 10,
                       color: kTextColor,
                       fontWeight: FontWeight.w900),
@@ -71,12 +76,11 @@ class SongCard extends StatelessWidget {
                   SvgPicture.asset(notes),
                   Text(
                     "\$ ${song.songPrice}",
-                      style: const TextStyle(
-                          fontSize: 14,
-                          color: kTextColor,
-                          fontWeight: FontWeight.w900),
-                    ),
-                  
+                    style: const TextStyle(
+                        fontSize: 14,
+                        color: kTextColor,
+                        fontWeight: FontWeight.w900),
+                  ),
                 ],
               ),
               Container(

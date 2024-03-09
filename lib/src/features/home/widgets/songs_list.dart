@@ -14,6 +14,11 @@ class SongList extends StatefulWidget {
 class _SongListState extends State<SongList> {
   final timerController = Get.put(TimerController());
 
+  imageToggle() {
+    timerController.secondryCardBackgorund.value =
+        !timerController.secondryCardBackgorund.value;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -23,16 +28,20 @@ class _SongListState extends State<SongList> {
         return ListView.builder(
           itemCount: songList.length,
           itemBuilder: (context, index) {
-            return SongCard(song: songList[index], index: index, icon: s4);
+            return SongCard(
+              song: songList[index],
+              index: index,
+              icon: s4,
+              onTap: imageToggle,
+            );
           },
         );
-} else {
-        return const Text(
-          "No Songs added yet",
-          style: TextStyle(color: kTextColor),
+      } else {
+        return Text(
+          "no-songs".tr,
+          style: const TextStyle(color: kTextColor),
         );
       }
-      
     });
   }
 }
