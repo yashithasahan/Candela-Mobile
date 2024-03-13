@@ -54,7 +54,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         name: "email",
                         keyboard: TextInputType.emailAddress,
                         validator: FormBuilderValidators.required(
-                            errorText: "Email can not be empty"),
+                            errorText: "email-empty".tr),
                       ),
                       const SizedBox(height: 21),
                       InputTitle(title: "password".tr),
@@ -63,7 +63,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         name: "password",
                         keyboard: TextInputType.visiblePassword,
                         validator: FormBuilderValidators.required(
-                            errorText: "Password can not be empty"),
+                            errorText: "password-empty".tr),
                       ),
                       const SizedBox(height: 25),
                       isLoading

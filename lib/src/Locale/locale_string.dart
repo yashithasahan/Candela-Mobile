@@ -110,7 +110,18 @@ class LocalString extends Translations {
           'logout': 'Logout',
           'song': 'Song',
           'unknown': 'Unknown',
-          'no-songs': 'No songs added yet'
+          'no-songs': 'No songs added yet',
+          'email-empty': 'Email cannot be empty',
+          'email-valid': 'Please enter valid email',
+          'password-empty': 'Password cannot be empty',
+          'password-valid': 'Password at least 6 characters long',
+          'username-empty': 'Username cannot be empty',
+          'full-name-empty': 'Full name can not be empty',
+          'phone-number-empty': 'Phone number can not be empty',
+          'address-empty': 'Address can not be empty',
+          'song-price-empty': 'Song price can not be empty',
+          'Account created successfully': 'Account was created successfully!',
+          'Account creation failed': 'Account creation failed!'
         },
         'es_ES': {
           'register-title': 'REGISTRO DE CASA VIP',
@@ -221,7 +232,18 @@ class LocalString extends Translations {
           'logout': 'Cerrar sesión',
           'song': 'Canción',
           'unknown': 'Desconocido',
-          'no-songs': 'Aún no se han añadido canciones'
+          'no-songs': 'Aún no se han añadido canciones',
+          'email-empty': 'El correo electrónico no puede estar vacío.',
+          'email-valid': 'Por favor introduzca un correo electrónico válido',
+          'password-empty': 'La contraseña no puede estar vacía',
+          'password-valid': 'Contraseña de al menos 6 caracteres',
+          'username-empty': 'El nombre de usuario no puede estar vacío',
+          'full-name-empty': 'El nombre completo no puede estar vacío',
+          'phone-number-empty': 'El número de teléfono no puede estar vacío.',
+          'address-empty': 'La dirección no puede estar vacía.',
+          'song-price-empty': 'El precio de la canción no puede estar vacío.',
+          'Account created successfully': '¡La cuenta fue creada exitosamente!',
+          'Account creation failed': '¡Error al crear la cuenta!'
         },
       };
 }

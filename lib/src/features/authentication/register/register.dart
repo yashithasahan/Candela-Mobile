@@ -75,7 +75,7 @@ class _RegisterState extends State<Register> {
                         name: "fullname",
                         keyboard: TextInputType.name,
                         validator: FormBuilderValidators.required(
-                            errorText: "Full name can not be empty"),
+                            errorText: "full-name-empty".tr),
                       ),
                       const SizedBox(height: 21),
                       InputTitle(title: "address".tr),
@@ -84,7 +84,7 @@ class _RegisterState extends State<Register> {
                           name: "address",
                           keyboard: TextInputType.streetAddress,
                           validator: FormBuilderValidators.required(
-                              errorText: "Address can not be empty")),
+                              errorText: "address-empty".tr)),
                       const SizedBox(height: 21),
                       InputTitle(title: "email".tr),
                       const SizedBox(height: 9),
@@ -93,9 +93,9 @@ class _RegisterState extends State<Register> {
                           keyboard: TextInputType.emailAddress,
                           validator: FormBuilderValidators.compose([
                             FormBuilderValidators.required(
-                                errorText: "email can not be empty"),
+                                errorText: "email-empty".tr),
                             FormBuilderValidators.email(
-                                errorText: "Please enter valid email")
+                                errorText: "email-valid".tr)
                           ])),
                       const SizedBox(height: 21),
                       InputTitle(title: "username".tr),
@@ -104,7 +104,7 @@ class _RegisterState extends State<Register> {
                         name: "username",
                         keyboard: TextInputType.text,
                         validator: FormBuilderValidators.required(
-                            errorText: "username can not be empty"),
+                            errorText: "username-empty".tr),
                       ),
                       const SizedBox(height: 21),
                       InputTitle(title: "password".tr),
@@ -114,9 +114,9 @@ class _RegisterState extends State<Register> {
                         keyboard: TextInputType.visiblePassword,
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(
-                              errorText: "Password can not be empty"),
+                              errorText: "password-empty".tr),
                           FormBuilderValidators.minLength(6,
-                              errorText: "Password at least 6 characters long"),
+                              errorText: "password-valid".tr),
                         ]),
                       ),
                       const SizedBox(height: 21),
@@ -130,7 +130,7 @@ class _RegisterState extends State<Register> {
                         cursorColor: Colors.white,
                         name: 'phonenumber',
                         validator: FormBuilderValidators.required(
-                            errorText: "Phone number can not be empty"),
+                            errorText: "phone-number-empty".tr),
                         backgroundColor: Colors.white,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
@@ -228,7 +228,7 @@ class _RegisterState extends State<Register> {
                       TextInputField(
                           name: "songprice",
                           validator: FormBuilderValidators.required(
-                              errorText: "Song price can not be empty"),
+                              errorText: "song-price-empty".tr),
                           keyboard: TextInputType.number),
                       const SizedBox(height: 21),
                       // Row(
@@ -387,10 +387,10 @@ class _RegisterState extends State<Register> {
         );
 
         await FireStoreService().addMembershipPayments(membershipPayment, user);
-        Fluttertoast.showToast(msg: "Account was created successfully!");
+        Fluttertoast.showToast(msg: "Account created successfully".tr);
         Get.off(() => const SignInScreen());
       } else {
-        Fluttertoast.showToast(msg: "Account creation failed!");
+        Fluttertoast.showToast(msg: "Account creation failed".tr);
       }
     });
 

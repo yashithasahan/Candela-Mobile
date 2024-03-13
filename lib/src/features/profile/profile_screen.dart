@@ -89,7 +89,7 @@ class _ProfileState extends State<Profile> {
                   ],
                 ),
               ),
-              SizedBox(height: size.height * 0.05),
+              SizedBox(height: size.height * 0.03),
               PrimaryButton(
                   text: "logout".tr,
                   press: () => {AuthService().logout()},
