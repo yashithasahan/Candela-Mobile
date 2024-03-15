@@ -32,7 +32,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 automaticallyImplyLeading: false,
                 centerTitle: true,
                 foregroundColor: kTextColor,
-                title: Text( 
+                title: Text(
                   'signin'.tr,
                   style: const TextStyle(
                     fontSize: 32,
@@ -79,11 +79,14 @@ class _SignInScreenState extends State<SignInScreen> {
                                     isLoading = true;
                                   });
                                   final email = _formKey
-                                      .currentState!.fields['email']!.value
-                                      .toString();
+                                      .currentState!.fields['email']?.value
+                                      ?.replaceAll(RegExp(r"\s"), "")
+                                      ?.trim();
+
                                   final password = _formKey
                                       .currentState!.fields['password']!.value
-                                      .toString();
+                                      .trim();
+
                                   await AuthService()
                                       .login(email, password, context);
 

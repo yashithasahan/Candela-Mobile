@@ -335,8 +335,8 @@ class _RegisterState extends State<Register> {
         .ref()
         .child('image/$userId')
         .putFile(file)
-        .whenComplete(() => 
-            Fluttertoast.showToast(msg: "Image uploaded successfully"));
+        .whenComplete(
+            () => Fluttertoast.showToast(msg: "Image uploaded successfully"));
 
     String downloadUrl = await snapshot.ref.getDownloadURL();
     setState(() {
@@ -350,9 +350,8 @@ class _RegisterState extends State<Register> {
     });
 
     final FirebaseAuth auth = FirebaseAuth.instance;
-    final email = _formKey.currentState!.fields['email']!.value.toString();
-    final password =
-        _formKey.currentState!.fields['password']!.value.toString();
+    final email = _formKey.currentState!.fields['email']!.value.trim();
+    final password = _formKey.currentState!.fields['password']!.value.trim();
     await AuthService().register(email, password).then((uid) async {
       if (uid != null) {
         User? user = auth.currentUser;
@@ -360,11 +359,11 @@ class _RegisterState extends State<Register> {
         final usermodel = UserModel(
           id: user!.uid,
           email: user.email,
-          fullName: _formKey.currentState!.fields['fullname']!.value.toString(),
-          address: _formKey.currentState!.fields['address']!.value.toString(),
-          userName: _formKey.currentState!.fields['username']!.value.toString(),
+          fullName: _formKey.currentState!.fields['fullname']!.value.trim(),
+          address: _formKey.currentState!.fields['address']!.value.trim(),
+          userName: _formKey.currentState!.fields['username']!.value.trim(),
           phoneNumber:
-              _formKey.currentState!.fields['phonenumber']!.value.toString(),
+              _formKey.currentState!.fields['phonenumber']!.value.trim(),
           // membershipLevel: _formKey
           //     .currentState!.fields['membershiplevel']!.value
           //     .toString(),
@@ -376,9 +375,8 @@ class _RegisterState extends State<Register> {
           //     .currentState!.fields['bankaccountnumber']!.value
           //     .toString(),
           // photoUrl: imageUrl ?? '',
-          language: _formKey.currentState!.fields['language']!.value.toString(),
-          songPrice:
-              _formKey.currentState!.fields['songprice']!.value.toString(),
+          language: _formKey.currentState!.fields['language']!.value.trim(),
+          songPrice: _formKey.currentState!.fields['songprice']!.value.trim(),
         );
         await FireStoreService().createUser(usermodel, user);
         final membershipPayment = MembershipModel(
