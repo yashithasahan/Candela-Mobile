@@ -21,7 +21,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final user = _auth.currentUser!.email;
+    final user = _auth.currentUser?.email;
     return SafeArea(
       child: Scaffold(
         backgroundColor: kBgColor,
