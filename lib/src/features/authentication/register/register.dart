@@ -335,8 +335,8 @@ class _RegisterState extends State<Register> {
         .ref()
         .child('image/$userId')
         .putFile(file)
-        .whenComplete(() => 
-            Fluttertoast.showToast(msg: "Image uploaded successfully"));
+        .whenComplete(
+            () => Fluttertoast.showToast(msg: "Image uploaded successfully"));
 
     String downloadUrl = await snapshot.ref.getDownloadURL();
     setState(() {
