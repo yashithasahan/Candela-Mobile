@@ -32,7 +32,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 automaticallyImplyLeading: false,
                 centerTitle: true,
                 foregroundColor: kTextColor,
-                title: Text( 
+                title: Text(
                   'signin'.tr,
                   style: const TextStyle(
                     fontSize: 32,
@@ -54,7 +54,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         name: "email",
                         keyboard: TextInputType.emailAddress,
                         validator: FormBuilderValidators.required(
-                            errorText: "Email can not be empty"),
+                            errorText: "email-empty".tr),
                       ),
                       const SizedBox(height: 21),
                       InputTitle(title: "password".tr),
@@ -63,7 +63,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         name: "password",
                         keyboard: TextInputType.visiblePassword,
                         validator: FormBuilderValidators.required(
-                            errorText: "Password can not be empty"),
+                            errorText: "password-empty".tr),
                       ),
                       const SizedBox(height: 25),
                       isLoading
@@ -79,11 +79,14 @@ class _SignInScreenState extends State<SignInScreen> {
                                     isLoading = true;
                                   });
                                   final email = _formKey
-                                      .currentState!.fields['email']!.value
-                                      .toString();
+                                      .currentState!.fields['email']?.value
+                                      ?.replaceAll(RegExp(r"\s"), "")
+                                      ?.trim();
+
                                   final password = _formKey
                                       .currentState!.fields['password']!.value
-                                      .toString();
+                                      .trim();
+
                                   await AuthService()
                                       .login(email, password, context);
 

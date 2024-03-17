@@ -21,7 +21,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final user = _auth.currentUser!.email;
+    final user = _auth.currentUser?.email;
     return SafeArea(
       child: Scaffold(
         backgroundColor: kBgColor,
@@ -89,7 +89,7 @@ class _ProfileState extends State<Profile> {
                   ],
                 ),
               ),
-              SizedBox(height: size.height * 0.05),
+              SizedBox(height: size.height * 0.03),
               PrimaryButton(
                   text: "logout".tr,
                   press: () => {AuthService().logout()},
