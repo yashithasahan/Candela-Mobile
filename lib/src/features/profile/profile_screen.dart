@@ -1,9 +1,11 @@
 import 'package:candela_maker/src/common_widgets/primary_button.dart';
 import 'package:candela_maker/src/constants/constants.dart';
+import 'package:candela_maker/src/features/authentication/register/register.dart';
 import 'package:candela_maker/src/features/authentication/services/auth_service.dart';
 import 'package:candela_maker/src/features/home/controllers/timer_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class Profile extends StatefulWidget {
@@ -96,11 +98,67 @@ class _ProfileState extends State<Profile> {
                   width: 0.5),
               const SizedBox(
                 height: 5,
-              )
+              ),
+              GestureDetector(
+                onTap: () {
+                  handleAccountDeletion();
+                },
+                child: Text(
+                  "Account deletion".tr,
+                  style: const TextStyle(color: kPrimaryColor),
+                ),
+              ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  void handleAccountDeletion() async {
+    // Get.defaultDialog(
+    //     title: "Account Deletion",
+    //     middleText: "Are you sure you want to delete your account?",
+    //     textConfirm: "Yes",
+    //     textCancel: "No",
+    //     onConfirm: () {
+    //       AuthService().deleteAccount();
+    //     });
+
+    return showDialog<void>(
+      barrierColor: kSecondaryColor.withOpacity(0.7),
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: kBlackColor,
+          contentPadding: const EdgeInsets.all(20),
+          actionsPadding: const EdgeInsets.only(bottom: 20, right: 20),
+          content: Text('to-checkout'.tr,
+              style: const TextStyle(color: kTextColor, fontSize: 16)),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(kPrimaryColor),
+              ),
+              child: Text('no'.tr, style: const TextStyle(color: kBlackColor)),
+            ),
+            TextButton(
+              onPressed: () {
+                AuthService().deleteAccount();
+
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(kPrimaryColor),
+              ),
+              child: Text('yes'.tr, style: const TextStyle(color: kBlackColor)),
+            ),
+          ],
+        );
+      },
     );
   }
 }

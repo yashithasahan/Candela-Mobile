@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:candela_maker/src/constants/constants.dart';
+import 'package:candela_maker/src/features/authentication/services/auth_service.dart';
 import 'package:candela_maker/src/features/home/timer_screen.dart';
 import 'package:candela_maker/src/features/profile/profile_screen.dart';
 import 'package:candela_maker/src/features/vip_payment/vip_payment_screen.dart';
@@ -82,6 +83,9 @@ class _HomeScreenState extends State<HomeScreen> {
         var locale = const Locale('en', 'US');
         Get.updateLocale(locale);
       }
+    } else {
+      print('User document does not exist');
+      AuthService().logout();
     }
 
     DocumentSnapshot userSnapshot = await FirebaseFirestore.instance

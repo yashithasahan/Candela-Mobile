@@ -1,3 +1,4 @@
+import 'package:candela_maker/src/features/authentication/register/register.dart';
 import 'package:candela_maker/src/features/authentication/services/session_service.dart';
 import 'package:candela_maker/src/features/home/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -121,5 +122,12 @@ class AuthService {
         print(e);
       }
     }
+  }
+
+  void deleteAccount() {
+    logout();
+    _auth.currentUser!
+        .delete()
+        .then((value) => Get.offAll(() => const Register()));
   }
 }
