@@ -3,7 +3,7 @@ import 'package:candela_maker/src/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
-import '../home/home_screen.dart';
+import '../home/screens/home_screen.dart';
 
 class VIPAgreementAgree extends StatefulWidget {
   const VIPAgreementAgree({super.key});

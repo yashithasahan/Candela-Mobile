@@ -1,4 +1,4 @@
-import 'package:candela_maker/src/features/home/home_screen.dart';
+import 'package:candela_maker/src/features/home/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../authentication/models/user_model.dart';

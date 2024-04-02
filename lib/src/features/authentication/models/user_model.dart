@@ -5,7 +5,7 @@ class UserModel {
   final String? email;
   final String? userName;
   final String? phoneNumber;
-  final String? membershipLevel;
+  // final String? membershipLevel;
   // final String? bankName;
   // final String? bankRoutingNumber;
   // final String? bankAccNumber;
@@ -21,7 +21,7 @@ class UserModel {
     this.email,
     this.userName,
     this.phoneNumber,
-    this.membershipLevel,
+    // this.membershipLevel,
     // this.bankName,
     // this.bankRoutingNumber,
     // this.bankAccNumber,
@@ -38,7 +38,7 @@ class UserModel {
       email: json['email'],
       userName: json['userName'],
       phoneNumber: json['phoneNumber'],
-      membershipLevel: json['membershipLevel'],
+      // membershipLevel: json['membershipLevel'],
       // bankName: json['bankName'],
       // bankRoutingNumber: json['bankRoutingNumber'],
       // bankAccNumber: json['bankAccNumber'],
@@ -56,7 +56,7 @@ class UserModel {
       'email': email,
       'userName': userName,
       'phoneNumber': phoneNumber,
-      'membershipLevel': membershipLevel,
+      // 'membershipLevel': membershipLevel,
       // 'bankName': bankName,
       // 'bankRoutingNumber': bankRoutingNumber,
       // 'bankAccNumber': bankAccNumber,

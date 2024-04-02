@@ -6,7 +6,7 @@ import 'package:get/route_manager.dart';
 
 import '../authentication/register/register.dart';
 import '../authentication/services/session_service.dart';
-import '../home/home_screen.dart';
+import '../home/screens/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

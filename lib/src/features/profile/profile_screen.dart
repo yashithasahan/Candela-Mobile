@@ -1,11 +1,9 @@
 import 'package:candela_maker/src/common_widgets/primary_button.dart';
 import 'package:candela_maker/src/constants/constants.dart';
-import 'package:candela_maker/src/features/authentication/register/register.dart';
 import 'package:candela_maker/src/features/authentication/services/auth_service.dart';
 import 'package:candela_maker/src/features/home/controllers/timer_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class Profile extends StatefulWidget {
@@ -97,14 +95,14 @@ class _ProfileState extends State<Profile> {
                   press: () => {AuthService().logout()},
                   width: 0.5),
               const SizedBox(
-                height: 5,
+                height: 20,
               ),
               GestureDetector(
                 onTap: () {
                   handleAccountDeletion();
                 },
-                child: Text(
-                  "Account deletion".tr,
+                child:  Text(
+                  "Delete Account".tr,
                   style: const TextStyle(color: kPrimaryColor),
                 ),
               ),
@@ -134,7 +132,7 @@ class _ProfileState extends State<Profile> {
           backgroundColor: kBlackColor,
           contentPadding: const EdgeInsets.all(20),
           actionsPadding: const EdgeInsets.only(bottom: 20, right: 20),
-          content: Text('to-checkout'.tr,
+          content:  Text('Are you sure you want to delete your account?'.tr,
               style: const TextStyle(color: kTextColor, fontSize: 16)),
           actions: <Widget>[
             TextButton(
@@ -149,7 +147,6 @@ class _ProfileState extends State<Profile> {
             TextButton(
               onPressed: () {
                 AuthService().deleteAccount();
-
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(kPrimaryColor),

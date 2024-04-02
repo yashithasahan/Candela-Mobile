@@ -379,12 +379,18 @@ class _RegisterState extends State<Register> {
           songPrice: _formKey.currentState!.fields['songprice']!.value.trim(),
         );
         await FireStoreService().createUser(usermodel, user);
-        final membershipPayment = MembershipModel(
-          membershipLevel: 0,
-          membershipCost: 0,
-        );
 
+        final membershipPayment = MembershipModel(
+          membershipLevel: 1,
+          membershipCost: 0,
+          trialEndDate: DateTime.now().add(const Duration(days: 30)),
+          paymentDate: DateTime.now(),
+          expiryDate: DateTime.now().add(const Duration(days: 30)),
+          isTrail: true,
+          isLogin: false,
+        );
         await FireStoreService().addMembershipPayments(membershipPayment, user);
+
         Fluttertoast.showToast(msg: "Account created successfully".tr);
         Get.off(() => const SignInScreen());
       } else {

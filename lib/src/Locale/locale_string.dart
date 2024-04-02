@@ -89,7 +89,7 @@ class LocalString extends Translations {
           'race-games': 'Motorcycle Race Games',
           'money-cannon': 'Money Cannon',
           'shirt-posters': 'Shirts, Posters, Artwork',
-          'vip-customer-service': 'VIP Money Customer Service',
+          'vip-customer-service': 'VIP DANCE APP Customer Service',
           'name': 'Name:',
           'artist': 'Artist:',
           'duration': 'Duration:',
@@ -121,7 +121,11 @@ class LocalString extends Translations {
           'address-empty': 'Address can not be empty',
           'song-price-empty': 'Song price can not be empty',
           'Account created successfully': 'Account was created successfully!',
-          'Account creation failed': 'Account creation failed!'
+          'Account creation failed': 'Account creation failed!',
+          'Video Games': 'Video Games',
+          'Delete Account': 'Delete Account',
+          'Are you sure you want to delete your account?':
+              'Are you sure you want to delete your account?'
         },
         'es_ES': {
           'register-title': 'REGISTRO DE CASA VIP',
@@ -209,9 +213,10 @@ class LocalString extends Translations {
           'see-more': 'Ver más',
           'nft': 'NFTs',
           'race-games': 'Juegos de carreras de motos',
-          'money-cannon': 'Cañón de dinero CHAOSX2.COM',
+          'money-cannon': 'Cañón de dinero',
           'shirt-posters': 'Camisas, carteles, obras de arte',
-          'vip-customer-service': 'Servicio al cliente de dinero VIP',
+          'vip-customer-service':
+              'Atención al cliente de la aplicación VIP DANCE',
           'name': 'Nombre:',
           'artist': 'Artista:',
           'duration': 'Duración:',
@@ -243,7 +248,11 @@ class LocalString extends Translations {
           'address-empty': 'La dirección no puede estar vacía.',
           'song-price-empty': 'El precio de la canción no puede estar vacío.',
           'Account created successfully': '¡La cuenta fue creada exitosamente!',
-          'Account creation failed': '¡Error al crear la cuenta!'
+          'Account creation failed': '¡Error al crear la cuenta!',
+          'Video Games': 'Juegos de vídeo',
+          'Delete Account': 'Borrar cuenta',
+          'Are you sure you want to delete your account?':
+              '¿Estás segura de que quieres eliminar tu cuenta?'
         },
       };
 }
