@@ -141,7 +141,10 @@ class _MembershipLevelState extends State<MembershipLevel> {
                   Visibility(
                     visible: widget.isPopUp,
                     child: IconButton(
-                        onPressed: () => Get.back(),
+                        onPressed: () {
+                          membershipController.isDialogOpen.value = true;
+                          Get.offAll(() => const HomeScreen());
+                        },
                         icon: const Icon(
                           Icons.close,
                           color: Color.fromARGB(255, 62, 62, 62),
@@ -277,7 +280,8 @@ class _MembershipLevelState extends State<MembershipLevel> {
                   replacement: PrimaryButton(
                     text: 'back'.tr,
                     press: () async {
-                      Get.back();
+                      membershipController.isDialogOpen.value = true;
+                      Get.offAll(() => const HomeScreen());
                     },
                     width: 0.4,
                   ),
@@ -330,7 +334,7 @@ class _MembershipLevelState extends State<MembershipLevel> {
           'membershipLevel': level,
           'paymentDate': DateTime.now(),
           'expiryDate': DateTime.now().add(const Duration(days: 30)),
-          'isTrail': false,
+          'status': 'Paid',
         });
         Fluttertoast.showToast(msg: "membership-save-alert".tr);
         Get.offAll(() => const HomeScreen());

@@ -5,8 +5,7 @@ class MembershipModel {
   final DateTime? trialEndDate;
   final DateTime? paymentDate;
   final DateTime? expiryDate;
-  final bool? isTrail;
-  final bool? isLogin;
+  final String? status;
 
   MembershipModel(
       {this.id,
@@ -15,9 +14,7 @@ class MembershipModel {
       this.trialEndDate,
       this.paymentDate,
       this.expiryDate,
-      this.isTrail,
-      this.isLogin
-      });
+      this.status});
 
   Map<String, dynamic> toJson() {
     return {
@@ -26,20 +23,17 @@ class MembershipModel {
       'trialEndDate': trialEndDate,
       'paymentDate': paymentDate,
       'expiryDate': expiryDate,
-      'isTrail': isTrail,
-      'isLogin': isLogin
+      'status': status
     };
   }
 
   factory MembershipModel.fromJson(Map<String, dynamic> json) {
     return MembershipModel(
-      membershipLevel: json['membershipLevel'],
-      membershipCost: json['membershipCost'],
-      trialEndDate: (json['trialEndDate']).toDate(),
-      paymentDate: (json['paymentDate']).toDate(),
-      expiryDate: (json['expiryDate']).toDate(),
-      isTrail: json['isTrail'],
-      isLogin: json['isLogin'],
-    );
+        membershipLevel: json['membershipLevel'],
+        membershipCost: json['membershipCost'],
+        trialEndDate: (json['trialEndDate']).toDate(),
+        paymentDate: (json['paymentDate']).toDate(),
+        expiryDate: (json['expiryDate']).toDate(),
+        status: json['status']);
   }
 }

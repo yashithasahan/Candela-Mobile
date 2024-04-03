@@ -125,7 +125,17 @@ class LocalString extends Translations {
           'Video Games': 'Video Games',
           'Delete Account': 'Delete Account',
           'Are you sure you want to delete your account?':
-              'Are you sure you want to delete your account?'
+              'Are you sure you want to delete your account?',
+          'Here’s 1 month free trial just for you.':
+              'Here’s 1 month free trial just for you.',
+          'You have to subscribe to get access. After the one-month trial is canceled.':
+              'You have to subscribe to get access. After the one-month trial is canceled.',
+          'Get 1 Month Free': 'Get 1 Month Free',
+          'Free Trial Expired. Please Subscribe':
+              'Free Trial Expired. Please Subscribe',
+          ' Subscription Expired. Please Subscribe':
+              ' Subscription Expired. Please Subscribe',
+          'Subscribe': 'Subscribe',
         },
         'es_ES': {
           'register-title': 'REGISTRO DE CASA VIP',
@@ -252,7 +262,17 @@ class LocalString extends Translations {
           'Video Games': 'Juegos de vídeo',
           'Delete Account': 'Borrar cuenta',
           'Are you sure you want to delete your account?':
-              '¿Estás segura de que quieres eliminar tu cuenta?'
+              '¿Estás segura de que quieres eliminar tu cuenta?',
+          'Here’s 1 month free trial just for you.':
+              'Aquí tienes 1 mes de prueba gratuita solo para ti.',
+          'You have to subscribe to get access. After the one-month trial is canceled.':
+              'Tienes que suscribirte para obtener acceso. Después de que se cancele la prueba de un mes.',
+          'Get 1 Month Free': 'Obtenga 1 mes gratis',
+          'Free Trial Expired. Please Subscribe':
+              'La prueba gratuita expiró. Por favor, suscríbete',
+          ' Subscription Expired. Please Subscribe':
+              ' Subscripcion vencida. Por favor, suscríbete',
+          'Subscribe': 'Suscribir',
         },
       };
 }

@@ -382,12 +382,10 @@ class _RegisterState extends State<Register> {
 
         final membershipPayment = MembershipModel(
           membershipLevel: 1,
-          membershipCost: 0,
+          membershipCost: 15,
           trialEndDate: DateTime.now().add(const Duration(days: 30)),
           paymentDate: DateTime.now(),
-          expiryDate: DateTime.now().add(const Duration(days: 30)),
-          isTrail: true,
-          isLogin: false,
+          status: 'Active',
         );
         await FireStoreService().addMembershipPayments(membershipPayment, user);
 

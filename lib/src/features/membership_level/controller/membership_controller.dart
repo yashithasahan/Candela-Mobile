@@ -1,8 +1,9 @@
 import 'package:get/get.dart';
 
-class MembershipController extends GetxController{
+class MembershipController extends GetxController {
   static MembershipController get find => Get.find();
 
   RxInt membershipLevel = 0.obs;
-
+  RxString membershipStatus = ''.obs;
+  RxBool isDialogOpen = true.obs;
 }

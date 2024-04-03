@@ -59,9 +59,6 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isLoading = true;
   DateTime? subscriptionExpiryDate;
   String? uid;
-  bool isTrial = false;
-  bool isLogin = true;
-  bool isDialogOpen = false;
 
   @override
   void initState() {
@@ -100,35 +97,52 @@ class _HomeScreenState extends State<HomeScreen> {
           userSnapshot.data() as Map<String, dynamic>;
 
       DateTime trailEndDate = userData['trialEndDate']?.toDate();
-      DateTime expiryDate = userData['expiryDate']?.toDate();
+      DateTime expiryDate = userData['expiryDate']?.toDate() ?? DateTime.now();
 
       setState(() {
         membershipController.membershipLevel.value =
-            userData['membershipLevel'] ?? 0;
-        isTrial = userData['isTrial']?? true;
-        isLogin = userData['isLogin'];
+            userData['membershipLevel'];
+        membershipController.membershipStatus.value = userData['status'];
         isLoading = false;
       });
 
-      if (!isLogin) {
-        trialAlert();
-      } else if (DateTime.now().isAfter(trailEndDate) && isTrial) {
-        await FirebaseFirestore.instance
-            .collection('membership')
-            .doc(uid)
-            .update({
-          'membershipLevel': 0,
-        });
-        membershipAlert();
-      } else if (DateTime.now().isAfter(expiryDate) && !isTrial) {
+      if (DateTime.now().isAfter(trailEndDate) &&
+          membershipController.membershipStatus.value == 'Trial') {
         await FirebaseFirestore.instance
             .collection('membership')
             .doc(uid)
             .update({
           'membershipLevel': 0,
           'membershipCost': 0,
+          'status': 'TrialExpired',
         });
-        membershipAlert();
+        Get.off(() => const HomeScreen());
+      } else if (DateTime.now().isAfter(expiryDate) &&
+          membershipController.membershipStatus.value == 'Paid') {
+        await FirebaseFirestore.instance
+            .collection('membership')
+            .doc(uid)
+            .update({
+          'membershipLevel': 0,
+          'membershipCost': 0,
+          'status': 'SubcriptionExpired',
+        });
+        Get.off(() => const HomeScreen());
+      }
+
+      switch (membershipController.membershipStatus.value) {
+        case 'Active':
+          trialAlert();
+        case 'Trial':
+          break;
+        case 'TrialExpired':
+          membershipAlert();
+        case 'Paid':
+          break;
+        case 'SubcriptionExpired':
+          membershipAlert();
+        default:
+          break;
       }
     }
   }
@@ -138,34 +152,33 @@ class _HomeScreenState extends State<HomeScreen> {
       barrierColor: kSecondaryColor.withOpacity(0.7),
       context: context,
       builder: (BuildContext context) {
-        isDialogOpen = true;
         return AlertDialog(
           backgroundColor: kBlackColor,
           contentPadding: const EdgeInsets.fromLTRB(40, 20, 40, 20),
           actionsPadding: const EdgeInsets.only(bottom: 40),
-          title: const Text(
-            "Here’s 1 month free trial just for you.",
+          title:  Text(
+            "Here’s 1 month free trial just for you.".tr,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
                 color: kPrimaryColor,
-                fontSize: 22,
+                fontSize: 20,
                 fontWeight: FontWeight.w600),
           ),
-          content: const Text(
-            "You have to subscribe to get access. After the one-month trial is canceled.",
+          content: Text(
+            "You have to subscribe to get access. After the one-month trial is canceled.".tr,
             textAlign: TextAlign.center,
-            style: TextStyle(color: kTextColor, fontSize: 14),
+            style: const TextStyle(color: kTextColor, fontSize: 14),
           ),
           actions: <Widget>[
             Center(
               child: PrimaryButton(
-                  text: 'Get 1 Month Free',
+                  text: 'Get 1 Month Free'.tr,
                   press: () async {
                     await FirebaseFirestore.instance
                         .collection('membership')
                         .doc(uid)
                         .update({
-                      'isLogin': true,
+                      'status': 'Trial',
                     });
                     Get.back();
                   },
@@ -177,45 +190,52 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void membershipAlert() {
-    _timer = Timer.periodic(const Duration(seconds: 10), (timer) {
-      if (!isDialogOpen) {
-        showDialog<String>(
-          barrierDismissible: false,
-          barrierColor: kSecondaryColor.withOpacity(0.7),
-          context: context,
-          builder: (BuildContext context) {
-            isDialogOpen = true;
-            return AlertDialog(
-              backgroundColor: kBlackColor,
-              contentPadding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
-              actionsPadding: const EdgeInsets.only(bottom: 40),
-              content: Text(
-                isTrial
-                    ? 'Free Trial Expired. Please Subscribe'
-                    : 'Subscription Expired. Please Subscribe',
-                textAlign: TextAlign.center,
-                style: const TextStyle(color: kTextColor, fontSize: 18),
+void membershipAlert() {
+  _timer = Timer.periodic(const Duration(seconds: 20), (timer) {
+    if (!membershipController.isDialogOpen.value) {
+      showDialog<String>(
+        barrierDismissible: false,
+        barrierColor: kSecondaryColor.withOpacity(0.7),
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: kBlackColor,
+            contentPadding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
+            actionsPadding: const EdgeInsets.only(bottom: 40),
+            content: Text(
+              membershipController.membershipStatus.value == 'TrialExpired'
+                  ? 'Free Trial Expired. Please Subscribe'.tr
+                  : 'Subscription Expired. Please Subscribe'.tr,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: kTextColor, fontSize: 18),
+            ),
+            actions: <Widget>[
+              Center(
+                child: PrimaryButton(
+                  text: 'Subscribe'.tr,
+                  press: () {
+                    setState(() {
+                      _timer?.cancel();
+                      Get.back();
+                      Get.to(() => const MembershipLevel());
+                      membershipController.isDialogOpen.value = false;
+                    });
+                  },
+                  width: 0.5,
+                ),
               ),
-              actions: <Widget>[
-                Center(
-                  child: PrimaryButton(
-                      text: 'Subscribe',
-                      press: () {
-                        _timer?.cancel();
-                        Get.back();
-                        Get.to(() => const MembershipLevel());
-                        isDialogOpen = false;
-                      },
-                      width: 0.5),
-                )
-              ],
-            );
-          },
-        );
-      }
-    });
-  }
+            ],
+          );
+        },
+      );
+      membershipController.isDialogOpen.value = true;
+    } else {
+      Get.back();
+      membershipController.isDialogOpen.value = false;
+    }
+  });
+}
+
 
   @override
   void dispose() {
