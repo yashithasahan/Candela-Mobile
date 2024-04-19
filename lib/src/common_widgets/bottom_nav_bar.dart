@@ -43,7 +43,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         BottomNavigationBarItem(
           backgroundColor: kSecondaryColor,
           icon: Image.asset(
-            'assets/icons/Reports.png',
+            'assets/icons/payment.png',
             width: imageWidth,
           ),
           label: 'pay'.tr,
@@ -51,7 +51,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         BottomNavigationBarItem(
           backgroundColor: kSecondaryColor,
           icon: Image.asset(
-            'assets/icons/payment.png',
+            'assets/icons/Reports.png',
             width: imageWidth,
           ),
           label: 'report'.tr,

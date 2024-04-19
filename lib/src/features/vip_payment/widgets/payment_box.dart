@@ -5,10 +5,12 @@ import '../../../constants/constants.dart';
 class PaymentBox extends StatelessWidget {
   final String text;
   final String? subText;
+  final Widget icon;
   const PaymentBox({
     super.key,
     required this.text,
     this.subText,
+    required this.icon,
   });
 
   @override
@@ -26,10 +28,16 @@ class PaymentBox extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                text,
-                style: const TextStyle(
-                    color: kTextColor, fontWeight: FontWeight.bold),
+              Row(
+                children: [
+                  Text(
+                    text,
+                    style: const TextStyle(
+                        color: kTextColor, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(width: 5),
+                  icon,
+                ],
               ),
               Text(
                 subText ?? '',

@@ -4,11 +4,13 @@ class ReportRow extends StatelessWidget {
   final String text;
   final String subText;
   final Color textColor;
+  final Widget icon;
   const ReportRow({
     super.key,
     required this.text,
     required this.subText,
     required this.textColor,
+    required this.icon
   });
 
   @override
@@ -16,9 +18,15 @@ class ReportRow extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          text,
-          style: TextStyle(color: textColor, fontSize: 20),
+        Row(
+          children: [
+            Text(
+              text,
+              style: TextStyle(color: textColor, fontSize: 20),
+            ),
+            const SizedBox(width: 5),
+            icon
+          ],
         ),
         Text(
           subText,

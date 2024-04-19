@@ -11,8 +11,7 @@ class UserModel {
   // final String? bankAccNumber;
   // final String? photoUrl;
   final String? language;
-  final String? songPrice;
-
+  final int? songPrice;
 
   UserModel({
     this.id,
@@ -45,7 +44,6 @@ class UserModel {
       // photoUrl: json['photoUrl'],
       language: json['language'],
       songPrice: json['songPrice'],
-    
     );
   }
 

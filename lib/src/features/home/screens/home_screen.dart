@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:candela_maker/src/constants/constants.dart';
+import 'package:candela_maker/src/features/home/controllers/timer_controller.dart';
 import 'package:candela_maker/src/features/home/screens/timer_screen.dart';
 import 'package:candela_maker/src/features/profile/profile_screen.dart';
 import 'package:candela_maker/src/features/vip_payment/vip_payment_screen.dart';
@@ -25,6 +26,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   Timer? _timer = Timer.periodic(const Duration(seconds: 5), (timer) {});
   final membershipController = Get.put(MembershipController());
+  final timerController = Get.put(TimerController());
   String language = "English";
   int _selectedIndex = 1;
 
@@ -74,6 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
       setState(() {
         language = userData['language'];
+        timerController.amout.value = userData['songPrice'];
       });
 
       var locale = language == "Spanish"
@@ -103,6 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
         membershipController.membershipLevel.value =
             userData['membershipLevel'];
         membershipController.membershipStatus.value = userData['status'];
+
         isLoading = false;
       });
 
@@ -156,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: kBlackColor,
           contentPadding: const EdgeInsets.fromLTRB(40, 20, 40, 20),
           actionsPadding: const EdgeInsets.only(bottom: 40),
-          title:  Text(
+          title: Text(
             "Here’s 1 month free trial just for you.".tr,
             textAlign: TextAlign.center,
             style: const TextStyle(
@@ -165,7 +169,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 fontWeight: FontWeight.w600),
           ),
           content: Text(
-            "You have to subscribe to get access. After the one-month trial is canceled.".tr,
+            "You have to subscribe to get access. After the one-month trial is canceled."
+                .tr,
             textAlign: TextAlign.center,
             style: const TextStyle(color: kTextColor, fontSize: 14),
           ),
@@ -190,52 +195,51 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-void membershipAlert() {
-  _timer = Timer.periodic(const Duration(seconds: 20), (timer) {
-    if (!membershipController.isDialogOpen.value) {
-      showDialog<String>(
-        barrierDismissible: false,
-        barrierColor: kSecondaryColor.withOpacity(0.7),
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: kBlackColor,
-            contentPadding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
-            actionsPadding: const EdgeInsets.only(bottom: 40),
-            content: Text(
-              membershipController.membershipStatus.value == 'TrialExpired'
-                  ? 'Free Trial Expired. Please Subscribe'.tr
-                  : 'Subscription Expired. Please Subscribe'.tr,
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: kTextColor, fontSize: 18),
-            ),
-            actions: <Widget>[
-              Center(
-                child: PrimaryButton(
-                  text: 'Subscribe'.tr,
-                  press: () {
-                    setState(() {
-                      _timer?.cancel();
-                      Get.back();
-                      Get.to(() => const MembershipLevel());
-                      membershipController.isDialogOpen.value = false;
-                    });
-                  },
-                  width: 0.5,
-                ),
+  void membershipAlert() {
+    _timer = Timer.periodic(const Duration(seconds: 20), (timer) {
+      if (!membershipController.isDialogOpen.value) {
+        showDialog<String>(
+          barrierDismissible: false,
+          barrierColor: kSecondaryColor.withOpacity(0.7),
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              backgroundColor: kBlackColor,
+              contentPadding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
+              actionsPadding: const EdgeInsets.only(bottom: 40),
+              content: Text(
+                membershipController.membershipStatus.value == 'TrialExpired'
+                    ? 'Free Trial Expired. Please Subscribe'.tr
+                    : 'Subscription Expired. Please Subscribe'.tr,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: kTextColor, fontSize: 18),
               ),
-            ],
-          );
-        },
-      );
-      membershipController.isDialogOpen.value = true;
-    } else {
-      Get.back();
-      membershipController.isDialogOpen.value = false;
-    }
-  });
-}
-
+              actions: <Widget>[
+                Center(
+                  child: PrimaryButton(
+                    text: 'Subscribe'.tr,
+                    press: () {
+                      setState(() {
+                        _timer?.cancel();
+                        Get.back();
+                        Get.to(() => const MembershipLevel());
+                        membershipController.isDialogOpen.value = false;
+                      });
+                    },
+                    width: 0.5,
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+        membershipController.isDialogOpen.value = true;
+      } else {
+        Get.back();
+        membershipController.isDialogOpen.value = false;
+      }
+    });
+  }
 
   @override
   void dispose() {

@@ -9,7 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
 import 'widgets/report_box.dart';
 import 'widgets/report_row.dart';
 
@@ -124,7 +124,7 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
             userSnapshot.data() as Map<String, dynamic>;
 
         setState(() {
-          userName = userData['userName'] ?? '';
+          // userName = userData['userName'] ?? '';
           email = userData['email'] ?? '';
 
           isLoading = false;
@@ -249,7 +249,6 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
           durationInTransaction = durationInTransaction;
           // Add other state updates here
         });
-
       }
 
       DocumentSnapshot memberShipSnapshot = await FirebaseFirestore.instance
@@ -313,9 +312,9 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                       text:
                           '${'vip-member'.tr} : ${'level'.tr} $membershipLevel',
                     ),
-                    ReportBox(
-                      text: '${'username'.tr} : $userName',
-                    ),
+                    // ReportBox(
+                    //   text: '${'username'.tr} : $userName',
+                    // ),
                     const SizedBox(
                       height: 15,
                     ),
@@ -489,6 +488,7 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                                     .toString()
                                     .substring(0, 16),
                             textColor: kTextColor,
+                            icon: Container(),
                           ),
                           ReportRow(
                             text: 'to'.tr,
@@ -498,31 +498,37 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                                     .substring(0, 16)
                                 : DateTime.now().toString().substring(0, 16),
                             textColor: kTextColor,
+                            icon: Container(),
                           ),
                           ReportRow(
                             text: 'song-duration'.tr,
                             subText: formatDuration(totalDurationSeconds),
                             textColor: kTextColor,
+                            icon: Container(),
                           ),
                           ReportRow(
                             text: 'vip\$'.tr,
                             subText: '\$ $vipPaymentTotal',
                             textColor: kTextColor,
+                            icon: Container(),
                           ),
                           ReportRow(
                             text: 'tip\$'.tr,
                             subText: '\$ $tipPaymentTotal',
                             textColor: kTextColor,
+                            icon: Container(),
                           ),
                           ReportRow(
                             text: 'total-amount'.tr,
                             subText: '\$ ${vipPaymentTotal + tipPaymentTotal}',
                             textColor: kPrimaryColor,
+                            icon: Container(),
                           ),
                           ReportRow(
                             text: 'total-songs'.tr,
                             textColor: kPrimaryColor,
                             subText: '$totalSongs',
+                            icon: SvgPicture.asset(notes),
                           ),
                           const SizedBox(
                             height: 20,

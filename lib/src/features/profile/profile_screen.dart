@@ -81,10 +81,38 @@ class _ProfileState extends State<Profile> {
                             color: kSecondaryColor,
                             borderRadius: BorderRadius.circular(12)),
                         duration: const Duration(milliseconds: 200),
-                        child: Text(
-                          "${'default-time'.tr} 03:30:00",
-                          style: const TextStyle(
-                              fontSize: 14, color: kPrimaryColor),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'default-time'.tr,
+                              style: const TextStyle(
+                                  fontSize: 14, color: kPrimaryColor),
+                            ),
+                            SizedBox(
+                              width: 100,
+                              child: TextFormField(
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  color: kPrimaryColor,
+                                ),
+                                decoration: InputDecoration(
+                                  hintText: _timerController.songTime.value,
+                                  hintStyle: const TextStyle(
+                                    fontSize: 16,
+                                    color: kPrimaryColor,
+                                  ),
+                                  contentPadding: const EdgeInsets.all(8),
+                                  border: InputBorder.none,
+                                ),
+                                onChanged: (value) {
+                                  _timerController.songTime.value = value;
+                                },
+                              ),
+                            ),
+                          ],
                         )),
                   ],
                 ),
@@ -101,7 +129,7 @@ class _ProfileState extends State<Profile> {
                 onTap: () {
                   handleAccountDeletion();
                 },
-                child:  Text(
+                child: Text(
                   "Delete Account".tr,
                   style: const TextStyle(color: kPrimaryColor),
                 ),
@@ -132,7 +160,7 @@ class _ProfileState extends State<Profile> {
           backgroundColor: kBlackColor,
           contentPadding: const EdgeInsets.all(20),
           actionsPadding: const EdgeInsets.only(bottom: 20, right: 20),
-          content:  Text('Are you sure you want to delete your account?'.tr,
+          content: Text('Are you sure you want to delete your account?'.tr,
               style: const TextStyle(color: kTextColor, fontSize: 16)),
           actions: <Widget>[
             TextButton(
