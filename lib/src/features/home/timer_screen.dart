@@ -29,7 +29,7 @@ class TimerScreen extends StatelessWidget {
           child: Column(
         children: [
           Flexible(
-              flex: 3,
+              flex: 5,
               child: Container(
                 padding: const EdgeInsets.all(mainPadding),
                 child: const Column(
