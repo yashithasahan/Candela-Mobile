@@ -4,6 +4,7 @@ import 'package:candela_maker/src/features/authentication/services/auth_service.
 import 'package:candela_maker/src/features/home/controllers/timer_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class Profile extends StatefulWidget {
@@ -120,7 +121,10 @@ class _ProfileState extends State<Profile> {
               SizedBox(height: size.height * 0.03),
               PrimaryButton(
                   text: "logout".tr,
-                  press: () => {AuthService().logout()},
+                  press: () {
+                    AuthService().logout().then((value) =>
+                        Fluttertoast.showToast(msg: "Logout Successfully".tr));
+                  },
                   width: 0.5),
               const SizedBox(
                 height: 20,
