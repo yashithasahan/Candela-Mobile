@@ -6,6 +6,7 @@ import 'package:candela_maker/src/features/home/controllers/timer_controller.dar
 import 'package:candela_maker/src/features/home/models/song_model.dart';
 import 'package:candela_maker/src/features/vip_payment/vip_payment_screen.dart';
 import 'package:candela_maker/src/widgets/text_input_field.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -30,10 +31,11 @@ class _SongTimerState extends State<SongTimer> {
   Timer? _periodicTimer;
   static const int incrementDuration =
       3 * 60 * 1000 + 3 * 1000; // 3 minutes and 30 seconds in milliseconds
-
+  final _auth = FirebaseAuth.instance;
   int stopTime = 0;
   DateTime today = DateTime.now();
   bool isTap = false;
+  late Size size;
 
   onTapStart() {
     if (isTap == false) {
@@ -160,50 +162,100 @@ class _SongTimerState extends State<SongTimer> {
 
   onPriceEdit(BuildContext context, Size size) {
     final formKey = GlobalKey<FormBuilderState>();
-
-    showModalBottomSheet(
+    showDialog<String>(
+      barrierColor: kSecondaryColor.withOpacity(0.7),
       context: context,
-      backgroundColor: Colors.black, // Set the background color to black
-      builder: (BuildContext context) {
-        // Return the widget that will be displayed in the bottom sheet
-        return Container(
-          padding: const EdgeInsets.all(20),
-          child: FormBuilder(
-            key: formKey,
+      builder: (BuildContext context) => AlertDialog(
+        backgroundColor: kBlackColor,
+        contentPadding: const EdgeInsets.all(10),
+        content: FormBuilder(
+          key: formKey,
+          child: Padding(
+            padding: const EdgeInsets.all(20),
             child: Column(
-              mainAxisSize: MainAxisSize
-                  .min, // Make the column only as tall as its children
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text("enter-price".tr,
                     style: const TextStyle(color: Colors.white)),
-                const SizedBox(height: 20),
+                SizedBox(height: size.height * 0.02),
                 TextInputField(
                   value: timerController.amout.value.toString(),
                   name: "price",
                   keyboard: const TextInputType.numberWithOptions(),
                 ),
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: PrimaryButton(
-                    text: "save".tr,
-                    press: () {
-                      onPriceSave(int.parse(
-                          formKey.currentState!.fields['price']!.value));
-                      Navigator.pop(context);
-                    },
-                    width: 0.5,
-                  ),
-                ),
-                const SizedBox(
-                  height: 200,
-                )
               ],
             ),
           ),
-        );
-      },
+        ),
+        actions: <Widget>[
+          Center(
+            child: PrimaryButton(
+              text: "save".tr,
+              press: () async {
+                onPriceSave(
+                    int.parse(formKey.currentState!.fields['price']!.value));
+                await FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(_auth.currentUser!.uid)
+                    .update({
+                  'songPrice':
+                      int.parse(formKey.currentState!.fields['price']!.value),
+                });
+                Get.back();
+              },
+              width: 0.5,
+            ),
+          ),
+        ],
+      ),
     );
+    // showModalBottomSheet(
+    //   context: context,
+    //   backgroundColor: Colors.black, // Set the background color to black
+    //   builder: (BuildContext context) {
+    //     // Return the widget that will be displayed in the bottom sheet
+    //     return FormBuilder(
+    //       key: formKey,
+    //       child: Padding(
+    //         padding: const EdgeInsets.all(20),
+    //         child: Column(
+    //           mainAxisSize: MainAxisSize.max,
+    //           children: <Widget>[
+    //             Text("enter-price".tr,
+    //                 style: const TextStyle(color: Colors.white)),
+    //             SizedBox(height: size.height * 0.02),
+    //             TextInputField(
+    //               value: timerController.amout.value.toString(),
+    //               name: "price",
+    //               keyboard: const TextInputType.numberWithOptions(),
+    //             ),
+    //             SizedBox(height: size.height * 0.02),
+    //             Padding(
+    //               padding: const EdgeInsets.all(8.0),
+    //               child: PrimaryButton(
+    //                 text: "save".tr,
+    //                 press: () async {
+    //                   onPriceSave(int.parse(
+    //                       formKey.currentState!.fields['price']!.value));
+    //                   await FirebaseFirestore.instance
+    //                       .collection('users')
+    //                       .doc(_auth.currentUser!.uid)
+    //                       .update({
+    //                     'songPrice': int.parse(
+    //                         formKey.currentState!.fields['price']!.value),
+    //                   });
+    //                   Get.back();
+    //                 },
+    //                 width: 0.5,
+    //               ),
+    //             ),
+    //             SizedBox(height: size.height * 0.03),
+    //           ],
+    //         ),
+    //       ),
+    //     );
+    //   },
+    // );
   }
 
   void _checkTime() {
@@ -239,123 +291,126 @@ class _SongTimerState extends State<SongTimer> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Obx(() => Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Stack(
-              children: [
-                //1108 966
-                GestureDetector(
-                  onTap: imageToggle,
-                  child: Center(
-                    child: Image.asset(
-                      timerController.secondryBackgorund.value
-                          ? timerMainImage
-                          : timerSecondImage,
-                      width: timerController.secondryBackgorund.value
-                          ? size.width * 0.6
-                          : size.width * 0.5,
+    size = MediaQuery.of(context).size;
+    return Obx(() => SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Stack(
+                children: [
+                  //1108 966
+                  GestureDetector(
+                    onTap: imageToggle,
+                    child: Center(
+                      child: Image.asset(
+                        timerController.secondryBackgorund.value
+                            ? timerMainImage
+                            : timerSecondImage,
+                        width: timerController.secondryBackgorund.value
+                            ? size.width * 0.6
+                            : size.width * 0.5,
+                      ),
                     ),
                   ),
-                ),
 
-                StreamBuilder<int>(
-                  stream: _stopWatchTimer.rawTime,
-                  initialData: 0,
-                  builder: (context, snap) {
-                    final displayTime =
-                        StopWatchTimer.getDisplayTime(snap.data!, hours: false);
+                  StreamBuilder<int>(
+                    stream: _stopWatchTimer.rawTime,
+                    initialData: 0,
+                    builder: (context, snap) {
+                      final displayTime = StopWatchTimer.getDisplayTime(
+                          snap.data!,
+                          hours: false);
 
-                    return SizedBox(
-                        height: size.width * 0.27,
-                        child: Obx(
-                          () => Center(
-                            child: Align(
-                              alignment: Alignment.topCenter,
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    top:
-                                        timerController.secondryBackgorund.value
-                                            ? size.height * 0.06
-                                            : size.height * 0.03),
-                                child: Text(
-                                  displayTime,
-                                  style: TextStyle(
-                                      fontSize: size.width * 0.05,
-                                      color: kPrimaryColor,
-                                      fontWeight: FontWeight.bold),
+                      return SizedBox(
+                          height: size.width * 0.27,
+                          child: Obx(
+                            () => Center(
+                              child: Align(
+                                alignment: Alignment.topCenter,
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      top: timerController
+                                              .secondryBackgorund.value
+                                          ? size.height * 0.06
+                                          : size.height * 0.03),
+                                  child: Text(
+                                    displayTime,
+                                    style: TextStyle(
+                                        fontSize: size.width * 0.05,
+                                        color: kPrimaryColor,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ));
-                  },
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InkWell(
-                      onTap: onTapStart,
-                      child: SvgPicture.asset(
-                        tapToStart,
-                        width: size.width * 0.15,
+                          ));
+                    },
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InkWell(
+                        onTap: onTapStart,
+                        child: SvgPicture.asset(
+                          tapToStart,
+                          width: size.width * 0.15,
+                        ),
                       ),
-                    ),
-                    InkWell(
-                      onTap: onTapStop,
-                      child: SvgPicture.asset(
-                        tapToStop,
-                        width: size.width * 0.15,
+                      InkWell(
+                        onTap: onTapStop,
+                        child: SvgPicture.asset(
+                          tapToStop,
+                          width: size.width * 0.15,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            timerController.secondryBackgorund.value
-                ? const SizedBox(
-                    height: 0,
-                  )
-                : SizedBox(height: size.height * 0.05),
-            Column(
-              children: [
-                SizedBox(
-                  height: size.height * 0.01,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    outlineBox(
-                        null,
-                        size,
-                        "\$ ${timerController.amout.value.toInt()}",
-                        () => onPriceEdit(context, size)),
-                    outlineBox(null, size,
-                        "${'timer'.tr} ${timerController.time.value}", null),
-                  ],
-                ),
-                SizedBox(
-                  height: size.height * 0.03,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    outlineBox(
-                        null,
-                        size,
-                        "${'total-songs'.tr} ${timerController.numberOfSongs.value}",
-                        null),
-                    outlineBox(
-                        null,
-                        size,
-                        "${'total'.tr} \$ ${timerController.totalAmout.value}",
-                        null),
-                  ],
-                ),
-              ],
-            ),
-          ],
+                    ],
+                  ),
+                ],
+              ),
+              timerController.secondryBackgorund.value
+                  ? const SizedBox(
+                      height: 0,
+                    )
+                  : SizedBox(height: size.height * 0.05),
+              Column(
+                children: [
+                  SizedBox(
+                    height: size.height * 0.01,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      outlineBox(
+                          null,
+                          size,
+                          "\$ ${timerController.amout.value.toInt()}",
+                          () => onPriceEdit(context, size)),
+                      outlineBox(null, size,
+                          "${'timer'.tr} ${timerController.time.value}", null),
+                    ],
+                  ),
+                  SizedBox(
+                    height: size.height * 0.03,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      outlineBox(
+                          notes,
+                          size,
+                          "${'total-songs'.tr} ${timerController.numberOfSongs.value}",
+                          null),
+                      outlineBox(
+                          null,
+                          size,
+                          "${'total'.tr} \$ ${timerController.totalAmout.value}",
+                          null),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         ));
   }
 
@@ -398,7 +453,6 @@ class _SongTimerState extends State<SongTimer> {
           icon != null
               ? SvgPicture.asset(
                   icon,
-                  width: size.width * 0.15,
                 )
               : Container(),
           Text(

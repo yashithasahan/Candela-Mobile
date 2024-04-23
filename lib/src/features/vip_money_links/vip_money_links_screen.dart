@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'widgets/custom_box.dart';
+import 'widgets/custom_box_large.dart';
 
 class VIPMoneyLinks extends StatelessWidget {
   const VIPMoneyLinks({super.key});
@@ -33,24 +34,10 @@ class VIPMoneyLinks extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: CustomBox(
-                    img: 'assets/images/nft.png',
-                    scale: 0.9,
-                    text: 'NFTs',
-                    subText: 'https://rarible.com/candelaartworks',
-                    btnText: 'see-more'.tr,
-                    press: () {},
-                  ),
-                ),
-                SizedBox(width: size.width * 0.05),
-                Expanded(
-                  child: CustomBox(
-                    img: 'assets/images/motorcycle.png',
-                    scale: 0.9,
-                    text: 'race-games'.tr,
-                    subText: 'www.supersportracers.com',
-                    btnText: 'see-more'.tr,
-                    press: () {},
+                  child: CustomBoxLarge(
+                    img: 'assets/images/gif/money-cannon.gif',
+                    text: 'money-cannon'.tr,
+                    subText: 'WWW.CHAOSX2.COM\n VIP GAMES and APPS.COM',
                   ),
                 ),
               ],
@@ -62,22 +49,19 @@ class VIPMoneyLinks extends StatelessWidget {
               children: [
                 Expanded(
                   child: CustomBox(
-                    img: 'assets/images/chaos.png',
-                    scale: 1,
-                    text: 'money-cannon'.tr,
-                    btnText: 'see-more'.tr,
-                    press: () {},
+                    img: 'assets/images/gif/video-games.gif',
+                    text: 'Video Games'.tr,
+                    subText:
+                        'SuperSportRacers.com\nUnispies.com\nCandelaDanceClub.com',
                   ),
                 ),
                 SizedBox(width: size.width * 0.05),
-                Expanded(
+                const Expanded(
                   child: CustomBox(
                     img: 'assets/images/insurance.png',
                     scale: 1,
                     text: 'Del Castillo Insurance.com',
                     subText: '+1.737.341.3947',
-                    btnText: 'see-more'.tr,
-                    press: () {},
                   ),
                 ),
               ],
@@ -131,7 +115,7 @@ class VIPMoneyLinks extends StatelessWidget {
                       style: const TextStyle(
                           color: kPrimaryColor,
                           fontWeight: FontWeight.bold,
-                          fontSize: 22),
+                          fontSize: 16),
                     ),
                     const SizedBox(height: 10),
                     const Row(
@@ -146,7 +130,7 @@ class VIPMoneyLinks extends StatelessWidget {
                           style: TextStyle(
                               color: kTextColor,
                               fontWeight: FontWeight.bold,
-                              fontSize: 20),
+                              fontSize: 14),
                         ),
                       ],
                     ),
@@ -158,11 +142,11 @@ class VIPMoneyLinks extends StatelessWidget {
                         ),
                         SizedBox(width: 20),
                         Text(
-                          'Vipmoneyapp@gmail.com',
+                          'VIPGAMESANDAPPS@GMAIL.COM',
                           style: TextStyle(
                               color: kTextColor,
                               fontWeight: FontWeight.bold,
-                              fontSize: 20),
+                              fontSize: 14),
                         ),
                       ],
                     ),
@@ -174,11 +158,11 @@ class VIPMoneyLinks extends StatelessWidget {
                         ),
                         SizedBox(width: 20),
                         Text(
-                          'www.vipmoney.app',
+                          'WWW.VIPGAMESANDAPPS.COM',
                           style: TextStyle(
                               color: kTextColor,
                               fontWeight: FontWeight.bold,
-                              fontSize: 20),
+                              fontSize: 14),
                         ),
                       ],
                     )

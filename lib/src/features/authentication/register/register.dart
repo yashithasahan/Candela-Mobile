@@ -98,15 +98,15 @@ class _RegisterState extends State<Register> {
                                 errorText: "email-valid".tr)
                           ])),
                       const SizedBox(height: 21),
-                      InputTitle(title: "username".tr),
-                      const SizedBox(height: 9),
-                      TextInputField(
-                        name: "username",
-                        keyboard: TextInputType.text,
-                        validator: FormBuilderValidators.required(
-                            errorText: "username-empty".tr),
-                      ),
-                      const SizedBox(height: 21),
+                      // InputTitle(title: "username".tr),
+                      // const SizedBox(height: 9),
+                      // TextInputField(
+                      //   name: "username",
+                      //   keyboard: TextInputType.text,
+                      //   validator: FormBuilderValidators.required(
+                      //       errorText: "username-empty".tr),
+                      // ),
+                      // const SizedBox(height: 21),
                       InputTitle(title: "password".tr),
                       const SizedBox(height: 9),
                       TextInputField(
@@ -361,30 +361,23 @@ class _RegisterState extends State<Register> {
           email: user.email,
           fullName: _formKey.currentState!.fields['fullname']!.value.trim(),
           address: _formKey.currentState!.fields['address']!.value.trim(),
-          userName: _formKey.currentState!.fields['username']!.value.trim(),
           phoneNumber:
               _formKey.currentState!.fields['phonenumber']!.value.trim(),
-          // membershipLevel: _formKey
-          //     .currentState!.fields['membershiplevel']!.value
-          //     .toString(),
-          // bankName: _formKey.currentState!.fields['bankname']!.value.toString(),
-          // bankRoutingNumber: _formKey
-          //     .currentState!.fields['bankroutingnumber']!.value
-          //     .toString(),
-          // bankAccNumber: _formKey
-          //     .currentState!.fields['bankaccountnumber']!.value
-          //     .toString(),
-          // photoUrl: imageUrl ?? '',
           language: _formKey.currentState!.fields['language']!.value.trim(),
-          songPrice: _formKey.currentState!.fields['songprice']!.value.trim(),
+          songPrice: int.parse(
+              _formKey.currentState!.fields['songprice']!.value.trim()),
         );
         await FireStoreService().createUser(usermodel, user);
-        final membershipPayment = MembershipModel(
-          membershipLevel: 0,
-          membershipCost: 0,
-        );
 
+        final membershipPayment = MembershipModel(
+          membershipLevel: 1,
+          membershipCost: 15,
+          trialEndDate: DateTime.now().add(const Duration(days: 30)),
+          paymentDate: DateTime.now(),
+          status: 'Active',
+        );
         await FireStoreService().addMembershipPayments(membershipPayment, user);
+
         Fluttertoast.showToast(msg: "Account created successfully".tr);
         Get.off(() => const SignInScreen());
       } else {

@@ -1,6 +1,6 @@
 import 'package:candela_maker/src/features/authentication/register/register.dart';
 import 'package:candela_maker/src/features/authentication/services/session_service.dart';
-import 'package:candela_maker/src/features/home/home_screen.dart';
+import 'package:candela_maker/src/features/home/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

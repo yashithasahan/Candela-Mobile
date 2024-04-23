@@ -14,6 +14,7 @@ import 'model/payment_model.dart';
 import 'widgets/payment_box.dart';
 import 'widgets/total_box.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_svg/flutter_svg.dart';
 
 class VIPPaymentScreen extends StatefulWidget {
   const VIPPaymentScreen({super.key});
@@ -138,18 +139,21 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
             PaymentBox(
               text: 'dances'.tr,
               subText: '\$ ${vipDances.toString()}',
+              icon: Container(),
             ),
             PaymentBox(
-              text: 'total-songs'.tr,
-              subText: totalSongs.toString(),
-            ),
+                text: 'total-songs'.tr,
+                subText: totalSongs.toString(),
+                icon: SvgPicture.asset(notes)),
             PaymentBox(
               text: 'timer'.tr,
               subText: totalDuration,
+              icon: Container(),
             ),
             PaymentBox(
               text: 'average-song-price'.tr,
               subText: '\$ ${(vipDances / totalSongs).toString()}',
+              icon: Container(),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -293,7 +297,6 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
         Fluttertoast.showToast(msg: "payment-data-save-alert".tr);
         timerController.numberOfSongs.value = 0;
         timerController.totalAmout.value = 0;
-        timerController.time.value = '00:00';
       }
       setState(() {
         isLoading = false;

@@ -1,7 +1,7 @@
 name: candela_maker
 description: "A new Flutter project."
 publish_to: "none"
-version: 0.1.5+5
+version: 0.2.2+8
 
 environment:
   sdk: ">=3.2.0 <4.0.0"
@@ -47,6 +47,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/gif/
     - assets/images/svg/
     - assets/icons/
 
