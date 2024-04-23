@@ -76,42 +76,50 @@ class _ProfileState extends State<Profile> {
                         margin: const EdgeInsets.all(8),
                         alignment: Alignment.center,
                         height:
-                            _timerController.isSongCountByTime.value ? 50 : 0,
+                            _timerController.isSongCountByTime.value ? 100 : 0,
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
                             color: kSecondaryColor,
                             borderRadius: BorderRadius.circular(12)),
                         duration: const Duration(milliseconds: 200),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                        child: Column(
                           children: [
-                            Text(
-                              'default-time'.tr,
-                              style: const TextStyle(
-                                  fontSize: 14, color: kPrimaryColor),
-                            ),
-                            SizedBox(
-                              width: 100,
-                              child: TextFormField(
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  color: kPrimaryColor,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'default-time'.tr,
+                                  style: const TextStyle(
+                                      fontSize: 14, color: kPrimaryColor),
                                 ),
-                                decoration: InputDecoration(
-                                  hintText: _timerController.songTime.value,
-                                  hintStyle: const TextStyle(
-                                    fontSize: 16,
-                                    color: kPrimaryColor,
+                                SizedBox(
+                                  width: 100,
+                                  child: TextFormField(
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      color: kPrimaryColor,
+                                    ),
+                                    decoration: InputDecoration(
+                                      hintText: _timerController.songTime.value,
+                                      hintStyle: const TextStyle(
+                                        fontSize: 16,
+                                        color: kPrimaryColor,
+                                      ),
+                                      contentPadding: const EdgeInsets.all(8),
+                                      border: InputBorder.none,
+                                    ),
+                                    onChanged: (value) {
+                                      _timerController.songTime.value = value;
+                                    },
                                   ),
-                                  contentPadding: const EdgeInsets.all(8),
-                                  border: InputBorder.none,
                                 ),
-                                onChanged: (value) {
-                                  _timerController.songTime.value = value;
-                                },
-                              ),
+                              ],
+                            ),
+                            Text(
+                              "average-time".tr,
+                              style: const TextStyle(color: kPrimaryColor),
                             ),
                           ],
                         )),

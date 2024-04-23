@@ -12,7 +12,6 @@ class PrimaryButton extends StatelessWidget {
   final String text;
   final double width;
 
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -27,7 +26,11 @@ class PrimaryButton extends StatelessWidget {
         child: Text(
           text,
           style: const TextStyle(
-              fontSize: 16, color: kBlackColor, fontWeight: FontWeight.w600),
+            fontSize: 16,
+            color: kBlackColor,
+            fontWeight: FontWeight.w600,
+          ),
+          textAlign: TextAlign.center,
         ),
       ),
     );
