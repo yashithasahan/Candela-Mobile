@@ -57,73 +57,78 @@ class _ProfileState extends State<Profile> {
               ),
               SizedBox(height: size.height * 0.03),
               Obx(
-                () => Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Text(
-                        "set-song-count".tr,
-                        style:
-                            const TextStyle(fontSize: 16, color: kPrimaryColor),
+                () => SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Text(
+                          "set-song-count".tr,
+                          style: const TextStyle(
+                              fontSize: 16, color: kPrimaryColor),
+                        ),
                       ),
-                    ),
-                    Checkbox(
-                        value: _timerController.isSongCountByTime.value,
-                        onChanged: (value) {
-                          _timerController.isSongCountByTime.value = value!;
-                        }),
-                    AnimatedContainer(
-                        margin: const EdgeInsets.all(8),
-                        alignment: Alignment.center,
-                        height:
-                            _timerController.isSongCountByTime.value ? 100 : 0,
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                            color: kSecondaryColor,
-                            borderRadius: BorderRadius.circular(12)),
-                        duration: const Duration(milliseconds: 200),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'default-time'.tr,
-                                  style: const TextStyle(
-                                      fontSize: 14, color: kPrimaryColor),
-                                ),
-                                SizedBox(
-                                  width: 100,
-                                  child: TextFormField(
-                                    textAlign: TextAlign.center,
+                      Checkbox(
+                          value: _timerController.isSongCountByTime.value,
+                          onChanged: (value) {
+                            _timerController.isSongCountByTime.value = value!;
+                          }),
+                      AnimatedContainer(
+                          margin: const EdgeInsets.all(8),
+                          alignment: Alignment.center,
+                          height: _timerController.isSongCountByTime.value
+                              ? size.height * 0.14
+                              : 0,
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                              color: kSecondaryColor,
+                              borderRadius: BorderRadius.circular(12)),
+                          duration: const Duration(milliseconds: 200),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'default-time'.tr,
                                     style: const TextStyle(
-                                      fontSize: 16,
-                                      color: kPrimaryColor,
-                                    ),
-                                    decoration: InputDecoration(
-                                      hintText: _timerController.songTime.value,
-                                      hintStyle: const TextStyle(
+                                        fontSize: 14, color: kPrimaryColor),
+                                  ),
+                                  SizedBox(
+                                    width: 100,
+                                    child: TextFormField(
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
                                         fontSize: 16,
                                         color: kPrimaryColor,
                                       ),
-                                      contentPadding: const EdgeInsets.all(8),
-                                      border: InputBorder.none,
+                                      decoration: InputDecoration(
+                                        hintText:
+                                            _timerController.songTime.value,
+                                        hintStyle: const TextStyle(
+                                          fontSize: 16,
+                                          color: kPrimaryColor,
+                                        ),
+                                        contentPadding: const EdgeInsets.all(8),
+                                        border: InputBorder.none,
+                                      ),
+                                      onChanged: (value) {
+                                        _timerController.songTime.value = value;
+                                      },
                                     ),
-                                    onChanged: (value) {
-                                      _timerController.songTime.value = value;
-                                    },
                                   ),
-                                ),
-                              ],
-                            ),
-                            Text(
-                              "average-time".tr,
-                              style: const TextStyle(color: kPrimaryColor),
-                            ),
-                          ],
-                        )),
-                  ],
+                                ],
+                              ),
+                              Text(
+                                "average-time".tr,
+                                style: const TextStyle(color: kPrimaryColor),
+                              ),
+                            ],
+                          )),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(height: size.height * 0.03),

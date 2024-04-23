@@ -30,7 +30,7 @@ class _SongTimerState extends State<SongTimer> {
   final StopWatchTimer _stopWatchTimer = StopWatchTimer();
   Timer? _periodicTimer;
   static const int incrementDuration =
-      3 * 60 * 1000 + 3 * 1000; // 3 minutes and 30 seconds in milliseconds
+      3 * 60 * 1000 + 30 * 1000; // 3 minutes and 30 seconds in milliseconds
   final _auth = FirebaseAuth.instance;
   int stopTime = 0;
   DateTime today = DateTime.now();

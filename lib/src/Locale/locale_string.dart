@@ -137,7 +137,7 @@ class LocalString extends Translations {
               ' Subscription Expired. Please Subscribe',
           'Subscribe': 'Subscribe',
           'Logout Successfully': 'Logout Successfully',
-          'average-time':'*IMPORTANT : Ask DJ average length',
+          'average-time': '*IMPORTANT : Ask DJ average length',
         },
         'es_ES': {
           'register-title': 'REGISTRO DE CASA VIP',
@@ -276,7 +276,7 @@ class LocalString extends Translations {
           'Subscribe': 'Suscribir',
           'Logout Successfully': 'Cerrar sesión exitosamente',
           'average-time':
-              '*IMPORTANTE: Preguntar el DJ cuanto dura canciones',
+              '*IMPORTANTE: Preguntar el DJ cuanto dura \ncanciones',
         },
       };
 }
