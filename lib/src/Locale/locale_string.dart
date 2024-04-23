@@ -136,6 +136,7 @@ class LocalString extends Translations {
           ' Subscription Expired. Please Subscribe':
               ' Subscription Expired. Please Subscribe',
           'Subscribe': 'Subscribe',
+          'Logout Successfully': 'Logout Successfully',
         },
         'es_ES': {
           'register-title': 'REGISTRO DE CASA VIP',
@@ -272,6 +273,7 @@ class LocalString extends Translations {
           ' Subscription Expired. Please Subscribe':
               ' Subscripcion vencida. Por favor, suscríbete',
           'Subscribe': 'Suscribir',
+          'Logout Successfully': 'Cerrar sesión exitosamente',
         },
       };
 }

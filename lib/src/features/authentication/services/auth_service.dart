@@ -114,9 +114,9 @@ class AuthService {
   //logout user
   Future logout() async {
     try {
-      return await _auth
-          .signOut()
-          .then((value) => SessionManagerService.clearSession());
+      return await _auth.signOut().then((value) {
+        SessionManagerService.clearSession();
+      });
     } catch (e) {
       if (kDebugMode) {
         print(e);

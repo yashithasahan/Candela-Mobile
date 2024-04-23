@@ -27,7 +27,7 @@ class PrimaryButton extends StatelessWidget {
         child: Text(
           text,
           style: const TextStyle(
-              fontSize: 18, color: kBlackColor, fontWeight: FontWeight.w600),
+              fontSize: 16, color: kBlackColor, fontWeight: FontWeight.w600),
         ),
       ),
     );
