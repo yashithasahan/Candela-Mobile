@@ -4,6 +4,7 @@ import 'package:candela_maker/src/features/authentication/services/auth_service.
 import 'package:candela_maker/src/features/home/controllers/timer_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
@@ -46,11 +47,11 @@ class _ProfileState extends State<Profile> {
                     fontWeight: FontWeight.w800,
                     color: kPrimaryColor),
               ),
-              SizedBox(height: size.height * 0.05),
+              SizedBox(height: size.height * 0.01),
               Padding(
                   padding: const EdgeInsets.all(8),
                   child: Image.asset("assets/images/vip-agree.png")),
-              SizedBox(height: size.height * 0.05),
+              SizedBox(height: size.height * 0.03),
               Text(
                 "user-preferences".tr,
                 style: const TextStyle(fontSize: 22, color: kPrimaryColor),
@@ -132,6 +133,51 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
               SizedBox(height: size.height * 0.03),
+              FormBuilderRadioGroup(
+                name: "language",
+                initialValue:
+                    Get.locale?.languageCode == "es" ? "Spanish" : "English",
+                wrapAlignment: WrapAlignment.spaceAround,
+                activeColor: const Color(0xFFE6A220),
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.only(top: 0.0, left: 10.0),
+                ),
+                onChanged: (value) {
+                  if (value == "Spanish") {
+                    var locale = const Locale('es', 'ES');
+
+                    Get.updateLocale(locale);
+                  } else {
+                    var locale = const Locale('en', 'US');
+                    Get.updateLocale(locale);
+                  }
+                },
+                options: const [
+                  FormBuilderChipOption(
+                    value: "English",
+                    child: Text(
+                      "English",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  FormBuilderChipOption(
+                    value: "Spanish",
+                    child: Text(
+                      "Spanish",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               PrimaryButton(
                   text: "logout".tr,
                   press: () {

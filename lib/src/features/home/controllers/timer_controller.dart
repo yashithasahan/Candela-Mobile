@@ -11,6 +11,6 @@ class TimerController extends GetxController {
   RxBool secondryBackgorund = false.obs;
   RxBool secondryCardBackgorund = false.obs;
   RxInt totalAmout = 0.obs;
-  RxBool isSongCountByTime = false.obs;
+  RxBool isSongCountByTime = true.obs;
   RxList songList = <SongModel>[].obs;
 }
