@@ -296,6 +296,9 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
         await FireStoreService().addPayments(payments, user);
         Fluttertoast.showToast(msg: "payment-data-save-alert".tr);
         timerController.numberOfSongs.value = 0;
+        timerController.songList.clear();
+        timerController.time.value = '00:00';
+        print("Setting number of songs 0");
         timerController.totalAmout.value = 0;
       }
       setState(() {
