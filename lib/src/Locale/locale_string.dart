@@ -64,9 +64,9 @@ class LocalString extends Translations {
           'level-1-details':
               '\$15 per month- Timer & Song Count. You process your own payments.',
           'level-2-details':
-              '\$25 per month-Timer, Song Count, Realtime Onscreen / Email Report. You process your payments, we record on app transaction for you.',
+              '\$25 per month-Timer, Song Count,+ Realtime Onscreen Report. You process your payments, we record on app transaction for you.',
           'level-3-details':
-              '\$35 per month-Timer, Song Count, Realtime Onscreen / Email Report. You process your payments, we record on app transaction for you.',
+              '\$35 per month-Timer, Song Count, Realtime Onscreen + Email Report. You process your payments, we record on app transaction for you.',
           'level-4-details':
               'VIP MANAGER - Full Functions & Multi User Vip Manager \$500 per month for every 25 users',
           'subscribe': 'SUBSCRIBE',
@@ -201,9 +201,9 @@ class LocalString extends Translations {
           'level-1-details':
               '\$15 por mes: Tiempo y recuento de canciones. Procesas tus propios pagos.',
           'level-2-details':
-              '\$25 por mes: Tiempo, recuento de canciones, informe en pantalla/correo electrónico en tiempo real. Usted procesa sus pagos, nosotros registramos la transacción de la aplicación por usted.',
+              '\$25 por mes: Tiempo, recuento de canciones,+ informe en pantalla electrónico en tiempo real. Usted procesa sus pagos, nosotros registramos la transacción de la aplicación por usted.',
           'level-3-details':
-              '\$35 por mes: Tiempo, recuento de canciones, informe en pantalla/correo electrónico en tiempo real. Usted procesa sus pagos, nosotros registramos la transacción de la aplicación por usted.',
+              '\$35 por mes: Tiempo, recuento de canciones, informe en pantalla + correo electrónico en tiempo real. Usted procesa sus pagos, nosotros registramos la transacción de la aplicación por usted.',
           'level-4-details':
               'VIP MANAGER: funciones completas y administrador Vip multiusuario \$500 por mes por cada 25 usuarios',
           'subscribe': 'SUSCRIBIR',

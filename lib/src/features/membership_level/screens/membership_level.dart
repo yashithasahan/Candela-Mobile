@@ -255,25 +255,25 @@ class _MembershipLevelState extends State<MembershipLevel> {
                   ],
                 ),
                 const SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    MembershipLevelDescription(
-                        description: "level-4-details".tr),
-                    MembershipLevelButton(
-                      level: 4,
-                      press: () {
-                        setState(() {
-                          level = 4;
-                        });
-                      },
-                      textColor: level == 4 ? kBgColor : Colors.white,
-                      btnColor: level == 4
-                          ? [const Color(0xFFDEA72C), const Color(0xFFF59C0D)]
-                          : [Colors.grey, Colors.grey],
-                    )
-                  ],
-                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                //   children: [
+                //     MembershipLevelDescription(
+                //         description: "level-4-details".tr),
+                //     MembershipLevelButton(
+                //       level: 4,
+                //       press: () {
+                //         setState(() {
+                //           level = 4;
+                //         });
+                //       },
+                //       textColor: level == 4 ? kBgColor : Colors.white,
+                //       btnColor: level == 4
+                //           ? [const Color(0xFFDEA72C), const Color(0xFFF59C0D)]
+                //           : [Colors.grey, Colors.grey],
+                //     )
+                //   ],
+                // ),
                 const SizedBox(height: 40),
                 Visibility(
                   visible: membershipLevel != level && user != null,

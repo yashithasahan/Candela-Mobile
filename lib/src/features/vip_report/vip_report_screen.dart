@@ -1,5 +1,6 @@
 import 'package:candela_maker/src/common_widgets/primary_button.dart';
 import 'package:candela_maker/src/constants/constants.dart';
+import 'package:candela_maker/src/features/membership_level/controller/membership_controller.dart';
 import 'package:candela_maker/src/features/vip_report/widgets/date_time_range.dart';
 import 'package:candela_maker/src/features/vip_report/widgets/song_details_box.dart';
 import 'package:candela_maker/src/features/vip_report/widgets/transaction_details_box.dart';
@@ -8,8 +9,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'widgets/report_box.dart';
 import 'widgets/report_row.dart';
 
@@ -21,6 +24,7 @@ class VIPReportScreen extends StatefulWidget {
 }
 
 class _VIPReportScreenState extends State<VIPReportScreen> {
+  final membershipController = Get.put(MembershipController());
   final FirebaseAuth _auth = FirebaseAuth.instance;
   DateTime today = DateTime.now();
   bool isOnScreenSelected = true;
@@ -375,59 +379,64 @@ class _VIPReportScreenState extends State<VIPReportScreen> {
                     const SizedBox(
                       height: 15,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          width: size.width * 0.2,
-                          child: Text(
-                            'email'.tr,
-                            style: const TextStyle(color: kTextColor),
-                          ),
-                        ),
-                        SizedBox(
-                          width: size.width * 0.25,
-                        ),
-                        SizedBox(
-                          height: 25,
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: isEmailSelected
-                                    ? kPrimaryColor
-                                    : kTextColor,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  isEmailSelected = !isEmailSelected;
-                                });
-                              },
+                    Obx(
+                      () => Visibility(
+                        visible: membershipController.membershipLevel.value > 2,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: size.width * 0.2,
                               child: Text(
-                                'yes'.tr,
-                                style: const TextStyle(color: kBlackColor),
-                              )),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        SizedBox(
-                          height: 25,
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: isEmailSelected
-                                    ? kTextColor
-                                    : kPrimaryColor,
+                                'email'.tr,
+                                style: const TextStyle(color: kTextColor),
                               ),
-                              onPressed: () {
-                                setState(() {
-                                  isEmailSelected = !isEmailSelected;
-                                });
-                              },
-                              child: Text(
-                                'no'.tr,
-                                style: const TextStyle(color: kBlackColor),
-                              )),
+                            ),
+                            SizedBox(
+                              width: size.width * 0.25,
+                            ),
+                            SizedBox(
+                              height: 25,
+                              child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: isEmailSelected
+                                        ? kPrimaryColor
+                                        : kTextColor,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      isEmailSelected = !isEmailSelected;
+                                    });
+                                  },
+                                  child: Text(
+                                    'yes'.tr,
+                                    style: const TextStyle(color: kBlackColor),
+                                  )),
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            SizedBox(
+                              height: 25,
+                              child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: isEmailSelected
+                                        ? kTextColor
+                                        : kPrimaryColor,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      isEmailSelected = !isEmailSelected;
+                                    });
+                                  },
+                                  child: Text(
+                                    'no'.tr,
+                                    style: const TextStyle(color: kBlackColor),
+                                  )),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                     const SizedBox(
                       height: 15,
