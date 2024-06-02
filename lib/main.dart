@@ -8,11 +8,13 @@ import 'package:provider/provider.dart';
 import 'src/features/authentication/models/user_model.dart';
 import 'src/features/authentication/services/auth_service.dart';
 import 'src/features/membership_level/controller/membership_controller.dart';
-import '.env';
+// import '.env';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Stripe.publishableKey = stripePublishableKey;
+  Stripe.publishableKey =
+      "pk_test_5198YnZLyzyaAisXWe4lapZBMXoFpZtM6pVw4E8xung4T2vbBkkAbk2miS3htp4PMavmx62kBntakaCj1L7xJ9H3X00FQRSFgMe";
+  // Stripe.publishableKey = stripePublishableKey;
   await Stripe.instance.applySettings();
   await Firebase.initializeApp();
   runApp(const MainApp());

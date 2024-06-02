@@ -77,14 +77,14 @@ class _RegisterState extends State<Register> {
                         validator: FormBuilderValidators.required(
                             errorText: "full-name-empty".tr),
                       ),
-                      const SizedBox(height: 21),
-                      InputTitle(title: "address".tr),
-                      const SizedBox(height: 9),
-                      TextInputField(
-                          name: "address",
-                          keyboard: TextInputType.streetAddress,
-                          validator: FormBuilderValidators.required(
-                              errorText: "address-empty".tr)),
+                      // const SizedBox(height: 21),
+                      // InputTitle(title: "address".tr),
+                      // const SizedBox(height: 9),
+                      // TextInputField(
+                      //     name: "address",
+                      //     keyboard: TextInputType.streetAddress,
+                      //     validator: FormBuilderValidators.required(
+                      //         errorText: "address-empty".tr)),
                       const SizedBox(height: 21),
                       InputTitle(title: "email".tr),
                       const SizedBox(height: 9),
@@ -120,34 +120,34 @@ class _RegisterState extends State<Register> {
                         ]),
                       ),
                       const SizedBox(height: 21),
-                      InputTitle(title: "phone-number".tr),
-                      const SizedBox(height: 9),
-                      FormBuilderPhoneField(
-                        style: const TextStyle(
-                            color: kTextColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500),
-                        cursorColor: Colors.white,
-                        name: 'phonenumber',
-                        validator: FormBuilderValidators.required(
-                            errorText: "phone-number-empty".tr),
-                        backgroundColor: Colors.white,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          contentPadding:
-                              const EdgeInsets.only(top: 0.0, left: 10.0),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                            borderSide: const BorderSide(
-                              color: Colors.white,
-                              width: 1.0,
-                            ),
-                          ),
-                        ),
-                      ),
+                      // InputTitle(title: "phone-number".tr),
+                      // const SizedBox(height: 9),
+                      // FormBuilderPhoneField(
+                      //   style: const TextStyle(
+                      //       color: kTextColor,
+                      //       fontSize: 14,
+                      //       fontWeight: FontWeight.w500),
+                      //   cursorColor: Colors.white,
+                      //   name: 'phonenumber',
+                      //   validator: FormBuilderValidators.required(
+                      //       errorText: "phone-number-empty".tr),
+                      //   backgroundColor: Colors.white,
+                      //   keyboardType: TextInputType.number,
+                      //   decoration: InputDecoration(
+                      //     contentPadding:
+                      //         const EdgeInsets.only(top: 0.0, left: 10.0),
+                      //     border: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.circular(5.0),
+                      //     ),
+                      //     focusedBorder: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.circular(5.0),
+                      //       borderSide: const BorderSide(
+                      //         color: Colors.white,
+                      //         width: 1.0,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       // const SizedBox(height: 21),
                       // Row(
                       //   children: [
@@ -360,9 +360,11 @@ class _RegisterState extends State<Register> {
           id: user!.uid,
           email: user.email,
           fullName: _formKey.currentState!.fields['fullname']!.value.trim(),
-          address: _formKey.currentState!.fields['address']!.value.trim(),
-          phoneNumber:
-              _formKey.currentState!.fields['phonenumber']!.value.trim(),
+          address: "",
+          // address: _formKey.currentState!.fields['address']!.value.trim(),
+          phoneNumber: "",
+          // phoneNumber:
+          //     _formKey.currentState!.fields['phonenumber']!.value.trim(),
           language: _formKey.currentState!.fields['language']!.value.trim(),
           songPrice: int.parse(
               _formKey.currentState!.fields['songprice']!.value.trim()),
