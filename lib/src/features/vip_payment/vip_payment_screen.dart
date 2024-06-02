@@ -34,43 +34,43 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
   bool ispaymentDone = false;
   String totalDuration = '00:00:00';
 
-  Future<void> initPaymentSheet(context,
-      {required String email, required int amount}) async {
-    try {
-      final response = await http.post(
-          Uri.parse(
-              'https://us-central1-candela-maker.cloudfunctions.net/stripePaymentIntentRequest'),
-          body: {'email': email, 'amount': amount.toString()});
+  // Future<void> initPaymentSheet(context,
+  //     {required String email, required int amount}) async {
+  //   try {
+  //     final response = await http.post(
+  //         Uri.parse(
+  //             'https://us-central1-candela-maker.cloudfunctions.net/stripePaymentIntentRequest'),
+  //         body: {'email': email, 'amount': amount.toString()});
 
-      final jsonResponse = jsonDecode(response.body);
+  //     final jsonResponse = jsonDecode(response.body);
 
-      await Stripe.instance.initPaymentSheet(
-          paymentSheetParameters: SetupPaymentSheetParameters(
-        paymentIntentClientSecret: jsonResponse['paymentIntent'],
-        customerId: jsonResponse['customer'],
-        customerEphemeralKeySecret: jsonResponse['ephemeralKey'],
-        merchantDisplayName: 'Flutter Stripe',
-        appearance: const PaymentSheetAppearance(
-            primaryButton: PaymentSheetPrimaryButtonAppearance(
-                shapes: PaymentSheetPrimaryButtonShape(blurRadius: 8),
-                colors: PaymentSheetPrimaryButtonTheme(
-                    light: PaymentSheetPrimaryButtonThemeColors(
-                  background: kPrimaryColor,
-                  text: Colors.black,
-                )))),
-      ));
-      await Stripe.instance.presentPaymentSheet();
-      savePaymentData();
-      Fluttertoast.showToast(msg: 'payment-success'.tr);
-    } catch (e) {
-      if (e is StripeException) {
-        Fluttertoast.showToast(
-            msg: 'Error from Stripe: ${e.error.localizedMessage}');
-      } else {
-        Fluttertoast.showToast(msg: 'Error: ${e.toString()}');
-      }
-    }
-  }
+  //     await Stripe.instance.initPaymentSheet(
+  //         paymentSheetParameters: SetupPaymentSheetParameters(
+  //       paymentIntentClientSecret: jsonResponse['paymentIntent'],
+  //       customerId: jsonResponse['customer'],
+  //       customerEphemeralKeySecret: jsonResponse['ephemeralKey'],
+  //       merchantDisplayName: 'Flutter Stripe',
+  //       appearance: const PaymentSheetAppearance(
+  //           primaryButton: PaymentSheetPrimaryButtonAppearance(
+  //               shapes: PaymentSheetPrimaryButtonShape(blurRadius: 8),
+  //               colors: PaymentSheetPrimaryButtonTheme(
+  //                   light: PaymentSheetPrimaryButtonThemeColors(
+  //                 background: kPrimaryColor,
+  //                 text: Colors.black,
+  //               )))),
+  //     ));
+  //     await Stripe.instance.presentPaymentSheet();
+  //     savePaymentData();
+  //     Fluttertoast.showToast(msg: 'payment-success'.tr);
+  //   } catch (e) {
+  //     if (e is StripeException) {
+  //       Fluttertoast.showToast(
+  //           msg: 'Error from Stripe: ${e.error.localizedMessage}');
+  //     } else {
+  //       Fluttertoast.showToast(msg: 'Error: ${e.toString()}');
+  //     }
+  //   }
+  // }
 
   @override
   void initState() {

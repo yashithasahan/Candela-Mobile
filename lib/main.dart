@@ -2,7 +2,6 @@ import 'package:candela_maker/src/Locale/locale_string.dart';
 import 'package:candela_maker/src/features/welcome_screen/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'src/features/authentication/models/user_model.dart';
@@ -12,10 +11,10 @@ import 'src/features/membership_level/controller/membership_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Stripe.publishableKey =
-      "pk_test_5198YnZLyzyaAisXWe4lapZBMXoFpZtM6pVw4E8xung4T2vbBkkAbk2miS3htp4PMavmx62kBntakaCj1L7xJ9H3X00FQRSFgMe";
+  // Stripe.publishableKey =
+  //     "pk_test_5198YnZLyzyaAisXWe4lapZBMXoFpZtM6pVw4E8xung4T2vbBkkAbk2miS3htp4PMavmx62kBntakaCj1L7xJ9H3X00FQRSFgMe";
   // Stripe.publishableKey = stripePublishableKey;
-  await Stripe.instance.applySettings();
+  // await Stripe.instance.applySettings();
   await Firebase.initializeApp();
   runApp(const MainApp());
 }

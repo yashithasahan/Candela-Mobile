@@ -56,47 +56,47 @@ class _MembershipLevelState extends State<MembershipLevel> {
     }
   }
 
-  Future<void> initPaymentSheet(context,
-      {required String email, required int amount}) async {
-    try {
-      final response = await http.post(
-          Uri.parse(
-              'https://us-central1-candela-maker.cloudfunctions.net/stripePaymentIntentRequest'),
-          body: {'email': email, 'amount': amount.toString()});
+  // Future<void> initPaymentSheet(context,
+  //     {required String email, required int amount}) async {
+  //   try {
+  //     final response = await http.post(
+  //         Uri.parse(
+  //             'https://us-central1-candela-maker.cloudfunctions.net/stripePaymentIntentRequest'),
+  //         body: {'email': email, 'amount': amount.toString()});
 
-      final jsonResponse = jsonDecode(response.body);
+  //     final jsonResponse = jsonDecode(response.body);
 
-      await Stripe.instance.initPaymentSheet(
-          paymentSheetParameters: SetupPaymentSheetParameters(
-        paymentIntentClientSecret: jsonResponse['paymentIntent'],
-        customerId: jsonResponse['customer'],
-        customerEphemeralKeySecret: jsonResponse['ephemeralKey'],
-        merchantDisplayName: 'Flutter Stripe',
-        appearance: const PaymentSheetAppearance(
-            primaryButton: PaymentSheetPrimaryButtonAppearance(
-                shapes: PaymentSheetPrimaryButtonShape(blurRadius: 8),
-                colors: PaymentSheetPrimaryButtonTheme(
-                    light: PaymentSheetPrimaryButtonThemeColors(
-                  background: kPrimaryColor,
-                  text: Colors.black,
-                )))),
-      ));
-      await Stripe.instance.presentPaymentSheet();
-      Fluttertoast.showToast(msg: 'payment-success'.tr);
-      saveMembershipPayment();
+  //     await Stripe.instance.initPaymentSheet(
+  //         paymentSheetParameters: SetupPaymentSheetParameters(
+  //       paymentIntentClientSecret: jsonResponse['paymentIntent'],
+  //       customerId: jsonResponse['customer'],
+  //       customerEphemeralKeySecret: jsonResponse['ephemeralKey'],
+  //       merchantDisplayName: 'Flutter Stripe',
+  //       appearance: const PaymentSheetAppearance(
+  //           primaryButton: PaymentSheetPrimaryButtonAppearance(
+  //               shapes: PaymentSheetPrimaryButtonShape(blurRadius: 8),
+  //               colors: PaymentSheetPrimaryButtonTheme(
+  //                   light: PaymentSheetPrimaryButtonThemeColors(
+  //                 background: kPrimaryColor,
+  //                 text: Colors.black,
+  //               )))),
+  //     ));
+  //     await Stripe.instance.presentPaymentSheet();
+  //     Fluttertoast.showToast(msg: 'payment-success'.tr);
+  //     saveMembershipPayment();
 
-      membershipController.membershipLevel.value = level;
-    } catch (e) {
-      if (e is StripeException) {
-        Fluttertoast.showToast(msg: 'payment-failed'.tr);
-      } else {
-        Fluttertoast.showToast(msg: 'Error: ${e.toString()}');
-        if (kDebugMode) {
-          print(e.toString());
-        }
-      }
-    }
-  }
+  //     membershipController.membershipLevel.value = level;
+  //   } catch (e) {
+  //     if (e is StripeException) {
+  //       Fluttertoast.showToast(msg: 'payment-failed'.tr);
+  //     } else {
+  //       Fluttertoast.showToast(msg: 'Error: ${e.toString()}');
+  //       if (kDebugMode) {
+  //         print(e.toString());
+  //       }
+  //     }
+  //   }
+  // }
 
   Future<void> fetchMembershipData() async {
     String? uid = _auth.currentUser?.uid;
@@ -300,9 +300,9 @@ class _MembershipLevelState extends State<MembershipLevel> {
                               saveMembershipPayment();
                             } else {
                               membershipCost = calculateMembershipCost(level);
-                              await initPaymentSheet(context,
-                                  email: '${user?.email}',
-                                  amount: membershipCost * 100);
+                              // await initPaymentSheet(context,
+                              //     email: '${user?.email}',
+                              //     amount: membershipCost * 100);
                             }
                             setState(() {
                               isLoading = false;
