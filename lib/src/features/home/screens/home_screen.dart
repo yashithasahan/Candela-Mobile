@@ -31,19 +31,21 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 1;
 
   void _onItemTapped(int index) {
+    print("index $index");
     setState(() {
       if (index == 4) {
         if (_selectedIndex > 0) {
           _selectedIndex -= 1;
         }
       } else if (index == 5) {
-        if (_selectedIndex < 5) {
+        if (_selectedIndex < 4) {
           _selectedIndex += 1;
         }
       } else {
         _selectedIndex = index;
       }
     });
+    print("selected index $_selectedIndex");
   }
 
   final List<Widget> _widgetOptions = [
@@ -51,9 +53,9 @@ class _HomeScreenState extends State<HomeScreen> {
     const TimerScreen(),
     const VIPPaymentScreen(),
     const VIPReportAccess(),
-    const MembershipLevel(
-      isPopUp: false,
-    ),
+    // const MembershipLevel(
+    //   isPopUp: false,
+    // ),
     const VIPMoneyLinks(),
   ];
 
@@ -136,15 +138,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
       switch (membershipController.membershipStatus.value) {
         case 'Active':
-          trialAlert();
+        // trialAlert();
         case 'Trial':
           break;
         case 'TrialExpired':
-          membershipAlert();
+        // membershipAlert();
         case 'Paid':
           break;
         case 'SubcriptionExpired':
-          membershipAlert();
+        // membershipAlert();
         default:
           break;
       }

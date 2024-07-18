@@ -200,18 +200,18 @@ class _MembershipLevelState extends State<MembershipLevel> {
                   children: [
                     MembershipLevelDescription(
                         description: "level-1-details".tr),
-                    MembershipLevelButton(
-                      level: 1,
-                      press: () {
-                        setState(() {
-                          level = 1;
-                        });
-                      },
-                      textColor: level == 1 ? kBgColor : Colors.white,
-                      btnColor: level == 1
-                          ? [const Color(0xFFDEA72C), const Color(0xFFF59C0D)]
-                          : [Colors.grey, Colors.grey],
-                    )
+                    // MembershipLevelButton(
+                    //   level: 1,
+                    //   press: () {
+                    //     setState(() {
+                    //       level = 1;
+                    //     });
+                    //   },
+                    //   textColor: level == 1 ? kBgColor : Colors.white,
+                    //   btnColor: level == 1
+                    //       ? [const Color(0xFFDEA72C), const Color(0xFFF59C0D)]
+                    //       : [Colors.grey, Colors.grey],
+                    // )
                   ],
                 ),
                 const SizedBox(height: 15),
@@ -220,18 +220,18 @@ class _MembershipLevelState extends State<MembershipLevel> {
                   children: [
                     MembershipLevelDescription(
                         description: "level-2-details".tr),
-                    MembershipLevelButton(
-                      level: 2,
-                      press: () {
-                        setState(() {
-                          level = 2;
-                        });
-                      },
-                      textColor: level == 2 ? kBgColor : Colors.white,
-                      btnColor: level == 2
-                          ? [const Color(0xFFDEA72C), const Color(0xFFF59C0D)]
-                          : [Colors.grey, Colors.grey],
-                    )
+                    // MembershipLevelButton(
+                    //   level: 2,
+                    //   press: () {
+                    //     setState(() {
+                    //       level = 2;
+                    //     });
+                    //   },
+                    //   textColor: level == 2 ? kBgColor : Colors.white,
+                    //   btnColor: level == 2
+                    //       ? [const Color(0xFFDEA72C), const Color(0xFFF59C0D)]
+                    //       : [Colors.grey, Colors.grey],
+                    // )
                   ],
                 ),
                 const SizedBox(height: 15),
@@ -240,18 +240,18 @@ class _MembershipLevelState extends State<MembershipLevel> {
                   children: [
                     MembershipLevelDescription(
                         description: "level-3-details".tr),
-                    MembershipLevelButton(
-                      level: 3,
-                      press: () {
-                        setState(() {
-                          level = 3;
-                        });
-                      },
-                      textColor: level == 3 ? kBgColor : Colors.white,
-                      btnColor: level == 3
-                          ? [const Color(0xFFDEA72C), const Color(0xFFF59C0D)]
-                          : [Colors.grey, Colors.grey],
-                    )
+                    // MembershipLevelButton(
+                    //   level: 3,
+                    //   press: () {
+                    //     setState(() {
+                    //       level = 3;
+                    //     });
+                    //   },
+                    //   textColor: level == 3 ? kBgColor : Colors.white,
+                    //   btnColor: level == 3
+                    //       ? [const Color(0xFFDEA72C), const Color(0xFFF59C0D)]
+                    //       : [Colors.grey, Colors.grey],
+                    // )
                   ],
                 ),
                 const SizedBox(height: 15),
@@ -293,24 +293,24 @@ class _MembershipLevelState extends State<MembershipLevel> {
                       : PrimaryButton(
                           text: 'subscribe'.tr,
                           press: () async {
-                            setState(() {
-                              isLoading = true;
-                            });
-                            if (level == 0) {
-                              saveMembershipPayment();
-                            } else {
-                              membershipCost = calculateMembershipCost(level);
-                              // await initPaymentSheet(context,
-                              //     email: '${user?.email}',
-                              //     amount: membershipCost * 100);
-                            }
-                            setState(() {
-                              isLoading = false;
-                            });
+                            // setState(() {
+                            //   isLoading = true;
+                            // });
+                            // if (level == 0) {
+                            //   saveMembershipPayment();
+                            // } else {
+                            //   membershipCost = calculateMembershipCost(level);
+                            //   // await initPaymentSheet(context,
+                            //   //     email: '${user?.email}',
+                            //   //     amount: membershipCost * 100);
+                            // }
+                            // setState(() {
+                            //   isLoading = false;
+                            // });
 
                             Get.back();
                           },
-                          width: 0.5),
+                          width: 0.8),
                 ),
                 const SizedBox(height: 20)
               ],

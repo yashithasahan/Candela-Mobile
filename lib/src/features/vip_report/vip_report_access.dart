@@ -45,12 +45,12 @@ class _VIPReportAccessState extends State<VIPReportAccess> {
             PrimaryButton(
                 text: 'access-reports'.tr,
                 press: () {
-                  if (membershipController.membershipLevel.value >= 2) {
+                  if (membershipController.membershipLevel.value >= 2 ||
+                      membershipController.membershipStatus.value == 'Trial') {
                     Get.to(() => const VIPReportScreen());
                   } else {
                     Fluttertoast.showToast(
-                        msg: "no-acess-report".tr,
-                        backgroundColor: Colors.red);
+                        msg: "no-acess-report".tr, backgroundColor: Colors.red);
                   }
                 },
                 width: 0.6)
