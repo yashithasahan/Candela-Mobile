@@ -247,24 +247,25 @@ class _VIPPaymentScreenState extends State<VIPPaymentScreen> {
                     child: CircularProgressIndicator(
                     color: kPrimaryColor,
                   ))
-                : PrimaryButton(
-                    text: 'pay-vip-now'.tr,
-                    press: () async {
-                      if (totalPayment == 0) {
-                        Fluttertoast.showToast(msg: 'payment-process'.tr);
-                      } else {
-                        if (!ispaymentDone) {
-                          savePaymentData();
-                          // await initPaymentSheet(context,
-                          //     email: '${user.email}', amount: totalPayment * 100);
-                        } else {
-                          Fluttertoast.showToast(
-                            msg: 'payment-done'.tr,
-                          );
-                        }
-                      }
-                    },
-                    width: 0.6),
+                : Container(),
+            PrimaryButton(
+                text: 'Save',
+                press: () async {
+                  if (totalPayment == 0) {
+                    Fluttertoast.showToast(msg: 'payment-process'.tr);
+                  } else {
+                    if (!ispaymentDone) {
+                      savePaymentData();
+                      // await initPaymentSheet(context,
+                      //     email: '${user.email}', amount: totalPayment * 100);
+                    } else {
+                      Fluttertoast.showToast(
+                        msg: 'payment-done'.tr,
+                      );
+                    }
+                  }
+                },
+                width: 0.6),
             const SizedBox(
               height: 20,
             ),

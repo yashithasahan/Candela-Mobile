@@ -38,20 +38,21 @@ class _VIPReportAccessState extends State<VIPReportAccess> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text(
-              'report-alert'.tr,
-              style: const TextStyle(color: kTextColor, fontSize: 20),
-            ),
+            // Text(
+            //   'report-alert'.tr,
+            //   style: const TextStyle(color: kTextColor, fontSize: 20),
+            // ),
             PrimaryButton(
                 text: 'access-reports'.tr,
                 press: () {
-                  if (membershipController.membershipLevel.value >= 2 ||
-                      membershipController.membershipStatus.value == 'Trial') {
-                    Get.to(() => const VIPReportScreen());
-                  } else {
-                    Fluttertoast.showToast(
-                        msg: "no-acess-report".tr, backgroundColor: Colors.red);
-                  }
+                  Get.to(() => const VIPReportScreen());
+
+                  // if (membershipController.membershipLevel.value >= 2 ||
+                  //     membershipController.membershipStatus.value == 'Trial') {
+                  // } else {
+                  //   Fluttertoast.showToast(
+                  //       msg: "no-acess-report".tr, backgroundColor: Colors.red);
+                  // }
                 },
                 width: 0.6)
           ],
