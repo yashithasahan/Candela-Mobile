@@ -52,7 +52,7 @@ android {
     defaultConfig {
 
         applicationId "com.vip.dance.app"
-        minSdkVersion 21
+        minSdkVersion 30
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
